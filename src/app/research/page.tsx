@@ -1,10 +1,11 @@
-export default function Page() {
+import site from "@/lib/site";
+import CardGrid from "@/components/CardGrid";
+export default function Research() {
   return (
-    <main className="max-w-4xl mx-auto px-6 py-20">
-      <h1 className="text-4xl font-bold">research</h1>
-      <p className="mt-6 text-zinc-400">
-        research section — curated research artifacts, systems, and work.
-      </p>
+    <main className="mx-auto max-w-5xl px-6 py-16">
+      <h1 className="text-4xl font-bold">Research</h1>
+      <p className="mt-6 text-zinc-400">High-signal research artifacts and frameworks.</p>
+      <div className="mt-8"><CardGrid items={site.research} /></div>
     </main>
   );
 }

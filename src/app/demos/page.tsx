@@ -1,10 +1,11 @@
-export default function Page() {
+import site from "@/lib/site";
+import CardGrid from "@/components/CardGrid";
+export default function Demos() {
   return (
-    <main className="max-w-4xl mx-auto px-6 py-20">
-      <h1 className="text-4xl font-bold">demos</h1>
-      <p className="mt-6 text-zinc-400">
-        demos section — curated research artifacts, systems, and work.
-      </p>
+    <main className="mx-auto max-w-5xl px-6 py-16">
+      <h1 className="text-4xl font-bold">Demos</h1>
+      <p className="mt-6 text-zinc-400">Interactive demos and visualizations.</p>
+      <div className="mt-8"><CardGrid items={site.demos} /></div>
     </main>
   );
 }

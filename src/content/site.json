@@ -1,0 +1,68 @@
+{
+  "name": "Spencer K. Cottrell",
+  "tagline": "AI systems + research artifacts: papers, models, demos, and engineering work — built for reproducibility, clarity, and signal.",
+  "links": {
+    "github": "https://github.com/colonel1223",
+    "linkedin": "https://www.linkedin.com/in/spencercottrell/",
+    "x": "https://x.com/colonel_1223",
+    "email": "mailto:spencerkcottrell@gmail.com"
+  },
+  "about": {
+    "headline": "Research hub + technical portfolio",
+    "body": "I build and document AI systems with an emphasis on reproducibility, clarity, and high-signal artifacts. This site curates papers, models, demos, and infrastructure work—so reviewers can quickly understand what I built, why it matters, and how to reproduce it."
+  },
+  "research": [
+    {
+      "title": "Magnum Opus — Probabilistic Models",
+      "year": "2026",
+      "summary": "Interactive infographic + visual transmutation analysis + mathematical paper (attach later).",
+      "tags": ["probability", "risk", "systems"],
+      "href": "#"
+    }
+  ],
+  "papers": [
+    {
+      "title": "Probabilistic Models (Whitepaper)",
+      "year": "2026",
+      "summary": "Formal write-up: assumptions, derivations, and implications (PDF/DOCX link later).",
+      "tags": ["math", "theory", "risk"],
+      "href": "#"
+    }
+  ],
+  "models": [
+    {
+      "title": "Model Release (Placeholder)",
+      "year": "2026",
+      "summary": "Model card + weights link (Hugging Face) will be linked here.",
+      "tags": ["pytorch", "hf"],
+      "href": "#"
+    }
+  ],
+  "demos": [
+    {
+      "title": "Matrix Visualization (Interactive)",
+      "year": "2026",
+      "summary": "Interactive visualization + narrative interface (link later).",
+      "tags": ["viz", "web", "interactive"],
+      "href": "#"
+    }
+  ],
+  "infrastructure": [
+    {
+      "title": "Research Website Infrastructure",
+      "year": "2026",
+      "summary": "Next.js + CI/CD + static export + GitHub Pages + custom domain.",
+      "tags": ["next.js", "ci/cd", "web"],
+      "href": "#"
+    }
+  ],
+  "philosophy": [
+    {
+      "title": "Modern Alchemy (Systems Lens)",
+      "year": "2026",
+      "summary": "A systems-first framing for capability growth, constraints, and real-world deployment tradeoffs.",
+      "tags": ["systems", "governance", "economics"],
+      "href": "#"
+    }
+  ]
+}

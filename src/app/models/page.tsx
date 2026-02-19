@@ -1,10 +1,11 @@
-export default function Page() {
+import site from "@/lib/site";
+import CardGrid from "@/components/CardGrid";
+export default function Models() {
   return (
-    <main className="max-w-4xl mx-auto px-6 py-20">
-      <h1 className="text-4xl font-bold">models</h1>
-      <p className="mt-6 text-zinc-400">
-        models section — curated research artifacts, systems, and work.
-      </p>
+    <main className="mx-auto max-w-5xl px-6 py-16">
+      <h1 className="text-4xl font-bold">Models</h1>
+      <p className="mt-6 text-zinc-400">Model releases, cards, benchmarks, and system notes.</p>
+      <div className="mt-8"><CardGrid items={site.models} /></div>
     </main>
   );
 }
