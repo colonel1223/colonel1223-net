@@ -588,5 +588,30 @@
       setLang(cur === "ja" ? "en" : "ja");
     });
   </script>
+<script id="clock-script">
+(function(){
+  const el = document.getElementById("clockbar");
+  if(!el) return;
+  const tz = "America/Los_Angeles";
+
+  function fmt(){
+    const now = new Date();
+    const parts = new Intl.DateTimeFormat("en-US",{
+      timeZone: tz,
+      year:"numeric", month:"2-digit", day:"2-digit",
+      hour:"2-digit", minute:"2-digit", second:"2-digit",
+      hour12:false
+    }).formatToParts(now);
+    const get = t => (parts.find(p=>p.type===t)||{value:"00"}).value;
+    return `${get("month")}/${get("day")}/${get("year")} ${get("hour")}:${get("minute")}:${get("second")} PST`;
+  }
+
+  function tick(){ el.textContent = fmt(); }
+  tick();
+
+  const msToNext = 1000 - (new Date().getMilliseconds() % 1000);
+  setTimeout(()=>{ tick(); setInterval(tick, 1000); }, msToNext);
+})();
+</script>
 </body>
 </html>
