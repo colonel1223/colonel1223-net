@@ -19,17 +19,10 @@
 body{
 font-family:Inter,"Noto Sans JP",-apple-system,BlinkMacSystemFont,sans-serif;
 }
-.jp{
-font-family:"Noto Sans JP",Inter,sans-serif;
-letter-spacing:.02em;
-}
-.bilingual{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:24px;
-}
+
+
 @media(max-width:900px){
-.bilingual{grid-template-columns:1fr;}
+
 }
 </style>
 
@@ -38,17 +31,10 @@ gap:24px;
 body{
 font-family:Inter,"Noto Sans JP",-apple-system,BlinkMacSystemFont,sans-serif;
 }
-.jp{
-font-family:"Noto Sans JP",Inter,sans-serif;
-letter-spacing:.02em;
-}
-.bilingual{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:24px;
-}
+
+
 @media(max-width:900px){
-.bilingual{grid-template-columns:1fr;}
+
 }
 </style>
 
@@ -147,7 +133,7 @@ cursor:pointer;
 </div>
 
 <section style="max-width:1100px;margin:60px auto 40px;padding:0 24px;">
-<div class="bilingual">
+<div >
 
 <div>
 <h1 style="font-size:42px;font-weight:600;margin:0;">Spencer K. Cottrell</h1>
@@ -156,12 +142,7 @@ AI Systems Research • Machine Intelligence • Infrastructure
 </p>
 </div>
 
-<div class="jp">
-<h1 style="font-size:42px;font-weight:600;margin:0;">スペンサー・コットレル</h1>
-<p style="color:rgba(255,255,255,.65);margin-top:10px;">
-AIシステム研究・機械知能・インフラストラクチャ
-</p>
-</div>
+
 
 </div>
 </section>
@@ -175,39 +156,7 @@ style="position:fixed;top:20px;right:20px;z-index:9999;padding:10px 18px;border-
 日本語
 </button>
 
-<script>
-const jpMap = {
-"Contact":"お問い合わせ",
-"Direct line to collaboration":"共同研究・事業連携",
-"Academic citations":"学術論文・引用",
-"Research publications":"研究論文",
-"Projects & research":"研究プロジェクト",
-"Professional profile":"公式プロフィール",
-"Direct contact":"直接連絡",
-"Machine Intelligence":"機械知能",
-"Systems":"システム",
-"Infrastructure":"インフラストラクチャ",
-"All Rights Reserved":"無断転載禁止",
-"Last Updated":"最終更新"
-};
 
-let jp=false;
-
-document.getElementById("lang-toggle").onclick=()=>{
-jp=!jp;
-document.getElementById("lang-toggle").textContent=jp?"English":"日本語";
-
-document.querySelectorAll("body *").forEach(el=>{
-if(el.children.length===0){
-let t=el.textContent.trim();
-if(jp && jpMap[t]) el.textContent=jpMap[t];
-if(!jp){
-location.reload();
-}
-}
-});
-};
-</script>
 
 
 <div class="container">
@@ -232,7 +181,7 @@ location.reload();
 
 
 <div id="last-updated" style="max-width:1100px;margin:60px auto 40px;padding:0 24px;text-align:center;font-size:13px;color:rgba(255,255,255,.45);">
-Last Updated — <span id="update-time"></span> PST
+ <div style="margin-top:40px;font-size:14px;color:rgba(255,255,255,.5);">Last Updated — <span id="update-time"></span> PST
 </div>
 
 <script>
@@ -263,7 +212,7 @@ qq{
 <section id="contact" style="max-width:1100px;margin:120px auto 80px;padding:0 24px;">
 <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:60px;">
 
-<div class="bilingual">
+<div >
 
 <div>
 <div style="letter-spacing:.28em;text-transform:uppercase;font-size:12px;color:rgba(255,255,255,.55);margin-bottom:10px;">Contact</div>
@@ -273,8 +222,7 @@ Research • Systems • Infrastructure • Publications
 </p>
 </div>
 
-<div class="jp">
-<div style="letter-spacing:.28em;text-transform:uppercase;font-size:12px;color:rgba(255,255,255,.55);margin-bottom:10px;">お問い合わせ</div>
+
 <h2 style="font-size:30px;font-weight:600;color:white;margin:0;">共同研究・事業連携窓口</h2>
 <p style="color:rgba(255,255,255,.65);margin-top:12px;">
 研究・システム・インフラ・論文
