@@ -32,7 +32,6 @@ jobs:
             ./ out/
 
           touch out/.nojekyll
-      - run: ls -la out | sed -n "1,200p"
 
       - uses: actions/upload-pages-artifact@v3
         with:
