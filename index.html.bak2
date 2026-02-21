@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Spencer K. Cottrell — Research Systems</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/css/core.css">
+</head>
+<body>
+<div class="container">
+  <h1>SPENCER K. COTTRELL</h1>
+  <div class="subtitle">Machine Intelligence · Systems · Infrastructure</div>
+
+  <div class="grid">
+    <a class="card" href="/research"><strong>Research</strong><div class="subtitle">active directions</div></a>
+    <a class="card" href="/papers"><strong>Papers</strong><div class="subtitle">publications</div></a>
+    <a class="card" href="/models"><strong>Models</strong><div class="subtitle">model cards</div></a>
+    <a class="card" href="/infrastructure"><strong>Infrastructure</strong><div class="subtitle">systems</div></a>
+    <a class="card" href="/demos"><strong>Demos</strong><div class="subtitle">proofs</div></a>
+    <a class="card" href="/philosophy"><strong>Philosophy</strong><div class="subtitle">principles</div></a>
+  </div>
+
+  <div class="footer">© <span data-year></span> Spencer K. Cottrell</div>
+</div>
+<script src="/assets/js/site.js"></script>
+
+<section id="contact" style="max-width:1100px;margin:0 auto;padding:80px 24px;">
+<h2 style="font-size:28px;font-weight:600;color:white;margin-bottom:10px;">Contact</h2>
+<p style="color:rgba(255,255,255,0.65);margin-bottom:30px;">Direct line to collaboration.</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
+
+<a href="mailto:spencercottrell@proton.me" style="text-decoration:none;padding:20px;border-radius:18px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.03);color:white;">
+<strong>Email</strong><br><span style="opacity:.6">Fastest response</span>
+</a>
+
+<a href="https://www.linkedin.com/in/spencercottrell/" target="_blank" style="text-decoration:none;padding:20px;border-radius:18px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.03);color:white;">
+<strong>LinkedIn</strong><br><span style="opacity:.6">Professional profile</span>
+</a>
+
+<a href="https://github.com/colonel1223" target="_blank" style="text-decoration:none;padding:20px;border-radius:18px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.03);color:white;">
+<strong>GitHub</strong><br><span style="opacity:.6">Projects & research</span>
+</a>
+
+<a href="https://x.com/colonel_1223" target="_blank" style="text-decoration:none;padding:20px;border-radius:18px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.03);color:white;">
+<strong>X</strong><br><span style="opacity:.6">Updates</span>
+</a>
+
+</div>
+</section>
+</body>
+</html>

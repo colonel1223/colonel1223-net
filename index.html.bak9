@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Spencer K. Cottrell — Research Systems</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/css/core.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+body{
+font-family:Inter,"Noto Sans JP",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+.jp{
+font-family:"Noto Sans JP",Inter,sans-serif;
+letter-spacing:.02em;
+}
+.bilingual{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:24px;
+}
+@media(max-width:900px){
+.bilingual{grid-template-columns:1fr;}
+}
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+body{
+font-family:Inter,"Noto Sans JP",-apple-system,BlinkMacSystemFont,sans-serif;
+}
+.jp{
+font-family:"Noto Sans JP",Inter,sans-serif;
+letter-spacing:.02em;
+}
+.bilingual{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:24px;
+}
+@media(max-width:900px){
+.bilingual{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LANGUAGE TOGGLE ===== -->
+
+<button id="lang-toggle"
+style="position:fixed;top:20px;right:20px;z-index:9999;padding:10px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.55);color:white;font-size:13px;backdrop-filter:blur(10px);cursor:pointer;">
+日本語
+</button>
+
+<script>
+const jpMap = {
+"Contact":"お問い合わせ",
+"Direct line to collaboration":"共同研究・事業連携",
+"Academic citations":"学術論文・引用",
+"Research publications":"研究論文",
+"Projects & research":"研究プロジェクト",
+"Professional profile":"公式プロフィール",
+"Direct contact":"直接連絡",
+"Machine Intelligence":"機械知能",
+"Systems":"システム",
+"Infrastructure":"インフラストラクチャ",
+"All Rights Reserved":"無断転載禁止",
+"Last Updated":"最終更新"
+};
+
+let jp=false;
+
+document.getElementById("lang-toggle").onclick=()=>{
+jp=!jp;
+document.getElementById("lang-toggle").textContent=jp?"English":"日本語";
+
+document.querySelectorAll("body *").forEach(el=>{
+if(el.children.length===0){
+let t=el.textContent.trim();
+if(jp && jpMap[t]) el.textContent=jpMap[t];
+if(!jp){
+location.reload();
+}
+}
+});
+};
+</script>
+
+
+<div class="container">
+  <h1>SPENCER K. COTTRELL</h1>
+  <div class="subtitle">Machine Intelligence · Systems · Infrastructure</div>
+
+  <div class="grid">
+    <a class="card" href="/research"><strong>Research</strong><div class="subtitle">active directions</div></a>
+    <a class="card" href="/papers"><strong>Papers</strong><div class="subtitle">publications</div></a>
+    <a class="card" href="/models"><strong>Models</strong><div class="subtitle">model cards</div></a>
+    <a class="card" href="/infrastructure"><strong>Infrastructure</strong><div class="subtitle">systems</div></a>
+    <a class="card" href="/demos"><strong>Demos</strong><div class="subtitle">proofs</div></a>
+    <a class="card" href="/philosophy"><strong>Philosophy</strong><div class="subtitle">principles</div></a>
+  </div>
+
+  <div class="footer">© <span data-year></span> Spencer K. Cottrell</div>
+</div>
+<script src="/assets/js/site.js"></script>
+
+
+
+
+
+<div id="last-updated" style="max-width:1100px;margin:60px auto 40px;padding:0 24px;text-align:center;font-size:13px;color:rgba(255,255,255,.45);">
+Last Updated — <span id="update-time"></span> PST
+</div>
+
+<script>
+(function(){
+const d = new Date(document.lastModified);
+
+const pst = new Intl.DateTimeFormat("en-US",{
+timeZone:"America/Los_Angeles",
+year:"numeric",
+month:"2-digit",
+day:"2-digit",
+hour:"2-digit",
+minute:"2-digit",
+hour12:false
+}).format(d);
+
+document.getElementById("update-time").textContent = pst.replace(",", "");
+})();
+</script>
+
+
+<!-- ===== ELITE CONTACT ===== -->
+
+qq{
+
+qq{
+
+<section id="contact" style="max-width:1100px;margin:120px auto 80px;padding:0 24px;">
+<div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:60px;">
+
+<div class="bilingual">
+
+<div>
+<div style="letter-spacing:.28em;text-transform:uppercase;font-size:12px;color:rgba(255,255,255,.55);margin-bottom:10px;">Contact</div>
+<h2 style="font-size:30px;font-weight:600;color:white;margin:0;">Direct line to collaboration</h2>
+<p style="color:rgba(255,255,255,.65);margin-top:12px;">
+Research • Systems • Infrastructure • Publications
+</p>
+</div>
+
+<div class="jp">
+<div style="letter-spacing:.28em;text-transform:uppercase;font-size:12px;color:rgba(255,255,255,.55);margin-bottom:10px;">お問い合わせ</div>
+<h2 style="font-size:30px;font-weight:600;color:white;margin:0;">共同研究・事業連携窓口</h2>
+<p style="color:rgba(255,255,255,.65);margin-top:12px;">
+研究・システム・インフラ・論文
+</p>
+</div>
+
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:30px;">
+
+<a href="https://scholar.google.com/citations?user=Mj6ipggAAAAJ&hl=en" target="_blank" style="text-decoration:none;padding:22px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:white;">
+<strong>Google Scholar</strong><br><span style="opacity:.6">Academic citations / 学術論文</span>
+</a>
+
+<a href="https://arxiv.org/search/?query=colonel1223&searchtype=author" target="_blank" style="text-decoration:none;padding:22px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:white;">
+<strong>arXiv</strong><br><span style="opacity:.6">Research publications / 研究論文</span>
+</a>
+
+<a href="https://github.com/colonel1223" target="_blank" style="text-decoration:none;padding:22px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:white;">
+<strong>GitHub</strong><br><span style="opacity:.6">Projects / 研究開発</span>
+</a>
+
+<a href="https://www.linkedin.com/in/spencercottrell/" target="_blank" style="text-decoration:none;padding:22px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:white;">
+<strong>LinkedIn</strong><br><span style="opacity:.6">Professional profile / 公式プロフィール</span>
+</a>
+
+<a href="mailto:spencercottrell415.com" style="text-decoration:none;padding:22px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:white;">
+<strong>Email</strong><br><span style="opacity:.6">Direct contact / 直接連絡</span>
+</a>
+
+</div>
+</div>
+</section>
+
+}
+
+}
+
+<!-- ===== ELITE FOOTER ===== -->
+
+<footer style="max-width:1100px;margin:40px auto 60px;padding:0 24px;text-align:center;color:rgba(255,255,255,.35);font-size:13px;border-top:1px solid rgba(255,255,255,.08);padding-top:30px;">
+Spencer K. Cottrell — Machine Intelligence • Systems • Infrastructure<br>
+© <script>document.write(new Date().getFullYear())</script> All Rights Reserved
+</footer>
+
+</body>
+</html>
