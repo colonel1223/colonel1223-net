@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive Dissolution Timeline</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .timeline {
+            width: 1200px;
+            height: 630px;
+            background: #0a0a0a;
+            padding: 50px 80px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        .title {
+            color: #ff0000;
+            font-size: 38px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            color: #888;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .timeline-track {
+            position: relative;
+            height: 300px;
+            margin: 40px 0;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 100px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #333;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 35px;
+            padding-left: 150px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 91px;
+            top: 5px;
+            width: 22px;
+            height: 22px;
+            background: #00ff41;
+            border: 3px solid #0a0a0a;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.8);
+        }
+        
+        .timeline-item.critical .timeline-dot {
+            background: #ff9900;
+            box-shadow: 0 0 15px rgba(255, 153, 0, 0.8);
+        }
+        
+        .timeline-item.terminal .timeline-dot {
+            background: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.9);
+            width: 28px;
+            height: 28px;
+            left: 88px;
+            top: 2px;
+        }
+        
+        .timeline-date {
+            color: #00ff41;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-item.critical .timeline-date {
+            color: #ff9900;
+        }
+        
+        .timeline-item.terminal .timeline-date {
+            color: #ff0000;
+        }
+        
+        .timeline-status {
+            color: #ffffff;
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+        
+        .timeline-desc {
+            color: #888;
+            font-size: 15px;
+        }
+        
+        .timeline-item.terminal .timeline-status {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid #333;
+        }
+        
+        .countdown {
+            color: #ff0000;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .japanese {
+            color: #00ff41;
+            font-size: 22px;
+            letter-spacing: 2px;
+        }
+        
+        .warning {
+            color: #ff0000;
+            font-size: 28px;
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .current-marker {
+            color: #00ff41;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body><a href="../.." style="position:fixed;top:12px;left:12px;font-family:monospace;font-size:10px;letter-spacing:2px;color:#333;text-decoration:none;z-index:9999;text-transform:uppercase;border:1px solid #1a1a1a;padding:4px 10px;">← BACK</a>
+    <div class="timeline">
+        <div class="warning">⚠️ INTERVENTION WINDOW ⚠️</div>
+        
+        <div class="title">COGNITIVE DISSOLUTION TIMELINE</div>
+        <div class="subtitle">Population-Level Projections | Markov Chain Analysis</div>
+        
+        <div class="timeline-track">
+            <div class="timeline-line"></div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">2026.02 <span class="current-marker">◂ NOW</span></div>
+                <div class="timeline-status">31% dissolved</div>
+                <div class="timeline-desc">Measured current state | S₂-S₄</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">2028.01</div>
+                <div class="timeline-status">63% dissolved</div>
+                <div class="timeline-desc">Majority in dependency states</div>
+            </div>
+            
+            <div class="timeline-item critical">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">2030.01</div>
+                <div class="timeline-status">72% dissolved | CRITICAL MASS</div>
+                <div class="timeline-desc">Phase transition accelerating</div>
+            </div>
+            
+            <div class="timeline-item terminal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">2035.01</div>
+                <div class="timeline-status">84% VESTIGIAL STATE</div>
+                <div class="timeline-desc">Permanent cognitive dissolution | Irreversible</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="countdown">REMAINING: 1,460 DAYS</div>
+            <div class="japanese">時間は限られています</div>
+        </div>
+    </div>
+</body>
+</html>

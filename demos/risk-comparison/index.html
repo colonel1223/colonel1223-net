@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Risk Comparison Chart</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .chart {
+            width: 1200px;
+            height: 630px;
+            background: #0a0a0a;
+            padding: 60px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        .title {
+            color: #ffffff;
+            font-size: 42px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 60px;
+            letter-spacing: 3px;
+        }
+        
+        .risk-item {
+            margin-bottom: 45px;
+            position: relative;
+        }
+        
+        .risk-label {
+            color: #ffffff;
+            font-size: 22px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .risk-value {
+            color: #00ff41;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .risk-bar-container {
+            width: 100%;
+            height: 35px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            position: relative;
+        }
+        
+        .risk-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff41, #00cc33);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            transition: width 2s ease-out;
+        }
+        
+        .asteroid .risk-bar { width: 0.4%; }
+        .nuclear .risk-bar { width: 3%; }
+        .ai .risk-bar { 
+            width: 100%; 
+            background: linear-gradient(90deg, #ff0000, #cc0000);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+        
+        .comparison {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #333;
+            text-align: center;
+        }
+        
+        .comparison-text {
+            color: #ff0000;
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .source {
+            color: #888;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .japanese {
+            color: #00ff41;
+            font-size: 20px;
+            text-align: center;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .warning {
+            color: #ff0000;
+            font-size: 32px;
+            text-align: center;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body><a href="../.." style="position:fixed;top:12px;left:12px;font-family:monospace;font-size:10px;letter-spacing:2px;color:#333;text-decoration:none;z-index:9999;text-transform:uppercase;border:1px solid #1a1a1a;padding:4px 10px;">← BACK</a>
+    <div class="chart">
+        <div class="warning">⚠️</div>
+        
+        <div class="title">EXISTENTIAL RISK COMPARISON</div>
+        
+        <div class="risk-item asteroid">
+            <div class="risk-label">
+                <span>Asteroid Impact</span>
+                <span class="risk-value">0.0001%</span>
+            </div>
+            <div class="risk-bar-container">
+                <div class="risk-bar"></div>
+            </div>
+        </div>
+        
+        <div class="risk-item nuclear">
+            <div class="risk-label">
+                <span>Cold War Nuclear Exchange</span>
+                <span class="risk-value">0.5-1.0%</span>
+            </div>
+            <div class="risk-bar-container">
+                <div class="risk-bar"></div>
+            </div>
+        </div>
+        
+        <div class="risk-item ai">
+            <div class="risk-label">
+                <span>AI X-Risk (by 2030)</span>
+                <span class="risk-value">25.2%</span>
+            </div>
+            <div class="risk-bar-container">
+                <div class="risk-bar"></div>
+            </div>
+        </div>
+        
+        <div class="comparison">
+            <div class="comparison-text">AI risk = 40× nuclear war</div>
+            <div class="comparison-text">AI risk = 4,200× asteroid impact</div>
+            <div class="source">Bayesian decomposition | Empirical data 2020-2026</div>
+            <div class="source">github.com/colonel1223/transmutation-research</div>
+            <div class="japanese">時間は限られています | 1,460 days</div>
+        </div>
+    </div>
+    
+    <script>
+        // Trigger animation on load
+        window.onload = function() {
+            document.querySelectorAll('.risk-bar').forEach(bar => {
+                bar.style.width = bar.style.width;
+            });
+        };
+    </script>
+</body>
+</html>

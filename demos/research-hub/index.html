@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Safety Research | Transmutation Analysis</title>
+    <meta name="description" content="Quantitative AGI risk assessment. Bayesian analysis: P(existential catastrophe|2030)=25.2%. Open-source research.">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-card: #1a1a1a;
+            --text-primary: #00ff41;
+            --text-secondary: #00cc33;
+            --text-white: #ffffff;
+            --text-gray: #888888;
+            --border: #333333;
+            --warning: #ff0000;
+            --accent: #00ff41;
+        }
+        
+        body {
+            background: var(--bg-primary);
+            color: var(--text-white);
+            font-family: 'Space Mono', 'Courier New', monospace;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .warning-badge {
+            color: var(--warning);
+            font-size: 24px;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .title {
+            font-size: 32px;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            color: var(--warning);
+            font-size: 28px;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        
+        /* Links */
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .link-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            padding: 20px 25px;
+            text-decoration: none;
+            color: var(--text-white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .link-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--accent);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .link-card:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+        }
+        
+        .link-card:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .link-card.primary {
+            border-color: var(--accent);
+            background: rgba(0, 255, 65, 0.05);
+        }
+        
+        .link-card.warning {
+            border-color: var(--warning);
+            background: rgba(255, 0, 0, 0.05);
+        }
+        
+        .link-card.warning::before {
+            background: var(--warning);
+        }
+        
+        .link-content {
+            flex: 1;
+        }
+        
+        .link-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+        
+        .link-card.warning .link-title {
+            color: var(--warning);
+        }
+        
+        .link-desc {
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+        
+        .link-icon {
+            font-size: 20px;
+            color: var(--text-gray);
+            margin-left: 15px;
+        }
+        
+        /* Categories */
+        .category {
+            margin-bottom: 35px;
+        }
+        
+        .category-title {
+            color: var(--text-primary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 2px solid var(--border);
+            margin-top: 40px;
+        }
+        
+        .countdown {
+            font-size: 24px;
+            color: var(--warning);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .japanese {
+            color: var(--text-primary);
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .social-link {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s;
+        }
+        
+        .social-link:hover {
+            color: var(--accent);
+        }
+        
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text-gray);
+            margin-top: 10px;
+        }
+        
+        .status-badge.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .title {
+                font-size: 24px;
+            }
+            
+            .stats {
+                gap: 15px;
+            }
+            
+            .stat-value {
+                font-size: 22px;
+            }
+            
+            .link-card {
+                padding: 15px 20px;
+            }
+            
+            .link-title {
+                font-size: 14px;
+            }
+        }
+        
+        /* Loading animation */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .link-card {
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .link-card:nth-child(1) { animation-delay: 0.1s; }
+        .link-card:nth-child(2) { animation-delay: 0.2s; }
+        .link-card:nth-child(3) { animation-delay: 0.3s; }
+        .link-card:nth-child(4) { animation-delay: 0.4s; }
+        .link-card:nth-child(5) { animation-delay: 0.5s; }
+        .link-card:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="warning-badge">⚠️</div>
+            <h1 class="title">Transmutation Research</h1>
+            <p class="subtitle">Quantitative AGI Risk Assessment | Bayesian & Markov Analysis</p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-value">25.2%</span>
+                    <span class="stat-label">X-Risk by 2030</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">84%</span>
+                    <span class="stat-label">Cognitive Loss 2035</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">1,460</span>
+                    <span class="stat-label">Days Remaining</span>
+                </div>
+            </div>
+            
+            <div class="status-badge active">● ACTIVE RESEARCH</div>
+        </div>
+        
+        <!-- Primary Links -->
+        <div class="category">
+            <h2 class="category-title">Primary Research</h2>
+            <div class="links">
+                <a href="https://github.com/colonel1223/transmutation-research" class="link-card primary" target="_blank">
+                    <div class="link-content">
+                        <div class="link-title">Full Mathematical Analysis</div>
+                        <div class="link-desc">Complete Bayesian decomposition, Markov chains, 19 citations</div>
+                    </div>
+                    <span class="link-icon">→</span>
+                </a>
+                
+                <a href="https://colonel1223.github.io/transmutation-research/Dark_Complex_Transmutation_Visualization_1.html" class="link-card" target="_blank">
+                    <div class="link-content">
+                        <div class="link-title">Interactive Visualization</div>
+                        <div class="link-desc">Dark Complex Transmutation - philosophical-mathematical mapping</div>
+                    </div>
+                    <span class="link-icon">→</span>
+                </a>
+                
+                <a href="https://colonel1223.github.io/transmutation-research/Magnum_Opus_Probabilistic_Infographic.html" class="link-card" target="_blank">
+                    <div class="link-content">
+                        <div class="link-title">Probability Synthesis</div>
+                        <div class="link-desc">Magnum Opus - comprehensive visual data synthesis</div>
+                    </div>
+                    <span class="link-icon">→</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Key Findings -->
+        <div class="category">
+            <h2 class="category-title">Key Findings</h2>
+            <div class="links">
+                <a href="https://github.com/colonel1223/transmutation-research#existential-risk-decomposition" class="link-card warning" target="_blank">
+                    <div class="link-content">
+                        <div class="link-title">Existential Risk Analysis</div>
+                        <div class="link-desc">P(catastrophe|2030) = 25.2% | 40× Cold War nuclear risk</div>
+                    </div>
+                    <span class="link-icon">⚠</span>
+                </a>
+                
+                <a href="https://github.com/colonel1223/transmutation-research#cognitive-dissolution-cascade" class="link-card warning" target="_blank">
+                    <div class="link-content">
+                        <div class="link-title">Cognitive Dissolution Timeline</div>
+                        <div class="link-desc">84% vestigial by 2035 | Irreversible after 18-24 months</div>
+                    </div>
+                    <span class="link-icon">⚠</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Connect -->
+        <div class="category">
+            <h2 class="category-title">Connect & Collaborate</h2>
+            <div class="links">
+                <a href="https://linkedin.com/in/YOUR_LINKEDIN" class="link-card" target="_blank">
+                    <div class="link-content">
+                        <div class="link-title">LinkedIn</div>
+                        <div class="link-desc">Professional network | Seeking validation from AI researchers</div>
+                    </div>
+                    <span class="link-icon">→</span>
+                </a>
+                
+                <a href="/cdn-cgi/l/email-protection#7a03150f08541f171b13163a1f021b170a161f54191517" class="link-card">
+                    <div class="link-content">
+                        <div class="link-title">Contact for Collaboration</div>
+                        <div class="link-desc">Open to critique, peer review, and research partnerships</div>
+                    </div>
+                    <span class="link-icon">✉</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="countdown">INTERVENTION WINDOW: 1,460 DAYS</div>
+            <div class="japanese">時間は限られています | Time is limited</div>
+            
+            <div class="social-links">
+                <a href="https://github.com/colonel1223" class="social-link" target="_blank">GitHub</a>
+                <a href="#" class="social-link">Twitter</a>
+                <a href="#" class="social-link">Research Gate</a>
+            </div>
+        </div>
+    </div>
+    
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Countdown timer (optional - updates daily)
+        function updateCountdown() {
+            const targetDate = new Date('2030-01-01');
+            const now = new Date();
+            const diff = targetDate - now;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            const countdownEl = document.querySelector('.countdown');
+            if (countdownEl && days > 0) {
+                countdownEl.textContent = `INTERVENTION WINDOW: ${days} DAYS`;
+            }
+            
+            // Update stats
+            const statValue = document.querySelectorAll('.stat-value')[2];
+            if (statValue) {
+                statValue.textContent = days;
+            }
+        }
+        
+        updateCountdown();
+        
+        // Optional: Track clicks (add your analytics)
+        document.querySelectorAll('.link-card').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const title = this.querySelector('.link-title').textContent;
+     

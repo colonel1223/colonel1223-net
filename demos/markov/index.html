@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markov Chain Cognitive Dissolution</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .diagram {
+            width: 1200px;
+            height: 630px;
+            background: #0a0a0a;
+            padding: 50px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        .title {
+            color: #ffffff;
+            font-size: 38px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            color: #888;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .chain-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+            padding: 0 30px;
+        }
+        
+        .state {
+            text-align: center;
+            position: relative;
+        }
+        
+        .state-box {
+            width: 120px;
+            height: 120px;
+            border: 3px solid #00ff41;
+            background: #0a0a0a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .state:last-child .state-box {
+            border-color: #ff0000;
+            border-width: 4px;
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+        }
+        
+        .state-label {
+            color: #00ff41;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .state:last-child .state-label {
+            color: #ff0000;
+        }
+        
+        .state-pct {
+            color: #888;
+            font-size: 18px;
+        }
+        
+        .state-name {
+            color: #ffffff;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+        
+        .arrow {
+            color: #00ff41;
+            font-size: 32px;
+            margin: 0 -10px;
+        }
+        
+        .arrow-prob {
+            color: #888;
+            font-size: 13px;
+            position: absolute;
+            top: -20px;
+        }
+        
+        .absorbing {
+            color: #ff0000;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .info-box {
+            background: #111;
+            border: 2px solid #333;
+            padding: 20px;
+        }
+        
+        .info-title {
+            color: #00ff41;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .info-line {
+            color: #ccc;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+        
+        .info-line span {
+            color: #888;
+        }
+        
+        .critical {
+            color: #ff0000;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #ff0000;
+            font-size: 28px;
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .japanese {
+            color: #00ff41;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body><a href="../.." style="position:fixed;top:12px;left:12px;font-family:monospace;font-size:10px;letter-spacing:2px;color:#333;text-decoration:none;z-index:9999;text-transform:uppercase;border:1px solid #1a1a1a;padding:4px 10px;">← BACK</a>
+    <div class="diagram">
+        <div class="warning">⚠️</div>
+        
+        <div class="title">COGNITIVE DISSOLUTION CASCADE</div>
+        <div class="subtitle">Markov Chain Analysis | Irreversible Absorption Dynamics</div>
+        
+        <div class="chain-container">
+            <div class="state">
+                <div class="state-box">
+                    <div class="state-label">S₀</div>
+                    <div class="state-pct">100%</div>
+                </div>
+                <div class="state-name">Baseline</div>
+            </div>
+            
+            <div class="arrow">
+                <div>→</div>
+                <div class="arrow-prob">[0.35]</div>
+            </div>
+            
+            <div class="state">
+                <div class="state-box">
+                    <div class="state-label">S₁</div>
+                    <div class="state-pct">95%</div>
+                </div>
+                <div class="state-name">Augmented</div>
+            </div>
+            
+            <div class="arrow">
+                <div>→</div>
+                <div class="arrow-prob">[0.28]</div>
+            </div>
+            
+            <div class="state">
+                <div class="state-box">
+                    <div class="state-label">S₂</div>
+                    <div class="state-pct">75%</div>
+                </div>
+                <div class="state-name">Dependent</div>
+            </div>
+            
+            <div class="arrow">
+                <div>→</div>
+                <div class="arrow-prob">[0.22]</div>
+            </div>
+            
+            <div class="state">
+                <div class="state-box">
+                    <div class="state-label">S₃</div>
+                    <div class="state-pct">40%</div>
+                </div>
+                <div class="state-name">Reliant</div>
+            </div>
+            
+            <div class="arrow">
+                <div>→</div>
+                <div class="arrow-prob">[0.18]</div>
+            </div>
+            
+            <div class="state">
+                <div class="state-box">
+                    <div class="state-label">S₄</div>
+                    <div class="state-pct">10%</div>
+                </div>
+                <div class="state-name">Vestigial</div>
+                <div class="absorbing">ABSORBING</div>
+            </div>
+        </div>
+        
+        <div class="info-grid">
+            <div class="info-box">
+                <div class="info-title">MECHANISM</div>
+                <div class="info-line">Chronic AI dependency <span>→</span> Neural pruning</div>
+                <div class="info-line">Timeline to permanence: <span class="critical">18-24 months</span></div>
+                <div class="info-line">Hebbian plasticity: <span>Use-dependent atrophy</span></div>
+                <div class="info-line">Reversibility: <span class="critical">ZERO</span></div>
+            </div>
+            
+            <div class="info-box">
+                <div class="info-title">POPULATION PROJECTIONS</div>
+                <div class="info-line">2026: <span class="critical">31%</span> in S₂-S₄</div>
+                <div class="info-line">2028: <span class="critical">63%</span> in S₂-S₄</div>
+                <div class="info-line">2030: <span class="critical">72%</span> in S₂-S₄</div>
+                <div class="info-line">2035: <span class="critical">84%</span> in S₄ (terminal)</div>
+            </div>
+        </div>
+        
+        <div class="japanese">NO REVERSAL PATHWAYS EXIST | 時間は限られています</div>
+    </div>
+</body>
+</html>

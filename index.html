@@ -3,532 +3,301 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spencer K. Cottrell — AI Safety Research</title>
-<meta name="description" content="AI Safety & Existential Risk Research. CHIMERA v2, Probabilistic X-risk Models, Alchemical Topology of Language Models. Spencer K. Cottrell, SJSU Economics.">
+<title>Spencer K. Cottrell — AI Safety Research · Existential Risk · Alchemical Topology</title>
+<meta name="description" content="AI Safety & Existential Risk Research. CHIMERA v2. P(X-risk|2030)=25.2%. Bayesian decomposition, Markov dissolution, alchemical topology. Spencer K. Cottrell, SJSU.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700;800&family=EB+Garamond:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
-/* ── RESET ── */
+/* ═══ RESET + ROOT ═══ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
-
-/* ── TOKENS ── */
+html { scroll-behavior: smooth; }
 :root {
-  --red:    #ff0040;
-  --gold:   #daa520;
-  --cyan:   #00ffcc;
-  --purple: #cc44ff;
-  --orange: #ff6400;
-  --bg:     #060608;
-  --bg2:    #0a0a0c;
-  --bg3:    #111114;
-  --border: #1a1a1e;
-  --border2:#222228;
-  --dim:    #3a3a3a;
-  --mid:    #555;
-  --text:   #aaa;
-  --bright: #ccc;
-  --mono:   'JetBrains Mono', monospace;
-  --serif:  'EB Garamond', Georgia, serif;
+  --red: #ff0040;
+  --gold: #c8960c;
+  --cyan: #00e5b0;
+  --purple: #b84aff;
+  --orange: #e05a00;
+  --green: #00b87a;
+  --bg: #060608;
+  --bg2: #0a0a0d;
+  --bg3: #0e0e12;
+  --border: #151519;
+  --border2: #1e1e24;
+  --dim: #2e2e38;
+  --mid: #4a4a5a;
+  --muted: #6b6b80;
+  --text: #9999b0;
+  --bright: #ccccdd;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+  --serif: 'EB Garamond', Georgia, serif;
 }
-
-/* ── BASE ── */
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--mono);
-  line-height: 1.6;
+  line-height: 1.65;
   overflow-x: hidden;
   min-height: 100vh;
 }
-
-/* atmospheric glow */
+/* Atmospheric glow */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255,0,64,.035) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 30% at 90% 95%, rgba(184,134,11,.025) 0%, transparent 55%),
-    radial-gradient(ellipse 40% 25% at 5% 50%, rgba(0,255,204,.015) 0%, transparent 50%);
+    radial-gradient(ellipse 80% 35% at 50% -8%, rgba(255,0,64,.03) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 25% at 95% 100%, rgba(200,150,12,.025) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
-
-/* scanline */
+/* Scanline */
 body::after {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(0,255,204,.04), transparent);
-  animation: scan 12s linear infinite;
+  height: 2px;
+  background: rgba(0,229,176,.05);
+  animation: scanline 14s linear infinite;
   pointer-events: none;
   z-index: 999;
 }
-@keyframes scan {
-  0%   { transform: translateY(0); }
-  100% { transform: translateY(100vh); }
-}
+@keyframes scanline { 0% { transform: translateY(0); } 100% { transform: translateY(100vh); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
 
-/* ── LAYOUT ── */
-.wrap {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 0 24px;
-  position: relative;
-  z-index: 1;
-}
+/* ═══ LAYOUT ═══ */
+.wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
-/* ── NAV ── */
+/* ═══ NAV ═══ */
 nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(6,6,8,.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,6,8,.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border2);
 }
 .nav-inner {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 48px;
-  gap: 16px;
+  max-width: 860px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 46px; gap: 8px;
 }
 .nav-brand {
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--dim);
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  flex-shrink: 0;
+  font-size: 9px; letter-spacing: 3px; color: var(--dim);
+  text-decoration: none; white-space: nowrap; flex-shrink: 0;
 }
-.nav-brand span { color: var(--red); }
-.nav-links {
-  display: flex;
-  gap: 2px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
+.nav-brand em { font-style: normal; color: var(--red); }
+.nav-links { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; flex: 1; justify-content: center; }
 .nav-links::-webkit-scrollbar { display: none; }
 .nav-links a {
-  font-size: 8px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--dim);
-  text-decoration: none;
-  padding: 5px 9px;
-  border-radius: 2px;
-  white-space: nowrap;
-  transition: color .2s, background .2s;
+  font-size: 7.5px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--dim); text-decoration: none; padding: 4px 10px;
+  white-space: nowrap; transition: color .2s;
 }
-.nav-links a:hover { color: var(--bright); background: rgba(255,255,255,.03); }
+.nav-links a:hover, .nav-links a.active { color: var(--muted); }
 .nav-links a.active { color: var(--red); }
-.nav-ext {
-  display: flex;
-  gap: 2px;
-  flex-shrink: 0;
-}
+.nav-ext { display: flex; gap: 4px; flex-shrink: 0; }
 .nav-ext a {
-  font-size: 8px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--dim);
-  text-decoration: none;
-  padding: 5px 9px;
-  border: 1px solid transparent;
-  border-radius: 2px;
-  transition: all .2s;
+  font-size: 7.5px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--dim); text-decoration: none; padding: 4px 8px;
+  border: 1px solid transparent; border-radius: 2px; transition: all .2s; white-space: nowrap;
 }
 .nav-ext a:hover { border-color: var(--border2); color: var(--mid); }
 
-/* ── HERO ── */
+/* ═══ HERO ═══ */
 .hero {
-  padding: 72px 0 64px;
-  border-bottom: 1px solid var(--border);
+  padding: 80px 0 64px;
+  border-bottom: 1px solid var(--border2);
+  animation: fadeUp .6s ease both;
 }
-.hero-label {
-  font-size: 8px;
-  letter-spacing: 5px;
-  color: var(--dim);
-  text-transform: uppercase;
-  margin-bottom: 20px;
+.hero-eyebrow {
+  font-size: 7.5px; letter-spacing: 5px; color: var(--dim);
+  text-transform: uppercase; margin-bottom: 22px; display: flex; align-items: center; gap: 8px;
 }
-.hero-label span { color: var(--red); opacity: .6; }
+.hero-eyebrow .dot { color: var(--red); opacity: .7; }
 .hero-name {
-  font-size: clamp(28px, 5vw, 42px);
-  font-weight: 800;
-  color: var(--bright);
-  letter-spacing: 6px;
-  font-family: var(--mono);
-  line-height: 1.1;
-  margin-bottom: 6px;
+  font-size: clamp(30px, 5.5vw, 46px); font-weight: 800;
+  color: var(--bright); letter-spacing: 7px; line-height: 1.08;
+  margin-bottom: 8px; text-transform: uppercase;
 }
-.hero-name em {
-  font-style: normal;
-  color: var(--red);
-  opacity: .9;
-}
-.hero-title {
-  font-size: 11px;
-  color: var(--dim);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 24px;
+.hero-name em { font-style: normal; color: var(--red); }
+.hero-role {
+  font-size: 9px; color: var(--dim); letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 26px;
 }
 .hero-desc {
-  font-size: 13px;
-  color: var(--mid);
-  font-family: var(--serif);
-  font-style: italic;
-  max-width: 500px;
-  line-height: 1.8;
-  margin-bottom: 28px;
+  font-size: 13.5px; color: var(--muted); font-family: var(--serif);
+  font-style: italic; max-width: 520px; line-height: 1.85; margin-bottom: 30px;
 }
-.hero-stats {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-  margin-bottom: 28px;
-}
-.stat {
-  display: flex;
-  flex-direction: column;
-}
-.stat-val {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--red);
-  letter-spacing: 1px;
-}
+.hero-stats { display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 30px; }
+.stat { display: flex; flex-direction: column; }
+.stat-val { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
+.stat-val.red { color: var(--red); }
 .stat-val.gold { color: var(--gold); }
-.stat-lbl {
-  font-size: 7px;
-  letter-spacing: 2px;
-  color: var(--dim);
-  text-transform: uppercase;
-}
-.hero-links {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
+.stat-val.cyan { color: var(--cyan); }
+.stat-lbl { font-size: 6.5px; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; margin-top: 2px; }
+.hero-cta { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ═══ BUTTONS ═══ */
 .btn {
-  font-family: var(--mono);
-  font-size: 8px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 7px 14px;
-  border: 1px solid;
-  border-radius: 2px;
-  transition: all .2s;
-  cursor: pointer;
-  background: transparent;
+  display: inline-block; font-family: var(--mono); font-size: 7.5px;
+  letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+  padding: 8px 16px; border: 1px solid; border-radius: 2px;
+  background: transparent; cursor: pointer; transition: all .2s; white-space: nowrap;
 }
-.btn-red   { border-color: rgba(255,0,64,.4); color: var(--red); }
-.btn-red:hover { border-color: var(--red); background: rgba(255,0,64,.07); }
-.btn-gold  { border-color: rgba(218,165,32,.35); color: var(--gold); }
-.btn-gold:hover { border-color: var(--gold); background: rgba(218,165,32,.06); }
-.btn-dim   { border-color: var(--border2); color: var(--dim); }
-.btn-dim:hover { border-color: var(--mid); color: var(--mid); }
+.btn-red { border-color: rgba(255,0,64,.35); color: var(--red); }
+.btn-red:hover { border-color: var(--red); background: rgba(255,0,64,.06); }
+.btn-gold { border-color: rgba(200,150,12,.35); color: var(--gold); }
+.btn-gold:hover { border-color: var(--gold); background: rgba(200,150,12,.06); }
+.btn-dim { border-color: var(--border2); color: var(--mid); }
+.btn-dim:hover { border-color: var(--muted); color: var(--muted); }
+.btn-purple { border-color: rgba(184,74,255,.35); color: var(--purple); }
+.btn-purple:hover { border-color: var(--purple); background: rgba(184,74,255,.06); }
+.btn-green { border-color: rgba(0,184,122,.35); color: var(--green); }
+.btn-green:hover { border-color: var(--green); background: rgba(0,184,122,.06); }
+.btn-orange { border-color: rgba(224,90,0,.35); color: var(--orange); }
+.btn-orange:hover { border-color: var(--orange); background: rgba(224,90,0,.06); }
 
-/* ── SECTIONS ── */
-section {
-  padding: 64px 0;
-  border-bottom: 1px solid var(--border);
-}
-.sec-label {
-  font-size: 7px;
-  letter-spacing: 4px;
-  color: var(--dim);
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.sec-title {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--bright);
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.sec-desc {
-  font-size: 11px;
-  color: var(--dim);
-  font-family: var(--serif);
-  font-style: italic;
-  line-height: 1.7;
-  max-width: 560px;
-  margin-bottom: 32px;
-}
+/* ═══ SECTIONS ═══ */
+section { padding: 64px 0; border-bottom: 1px solid var(--border2); }
+.sec-label { font-size: 7px; letter-spacing: 4px; color: var(--dim); text-transform: uppercase; margin-bottom: 8px; }
+.sec-title { font-size: 20px; font-weight: 800; color: var(--bright); letter-spacing: 5px; text-transform: uppercase; margin-bottom: 10px; }
+.sec-desc { font-size: 11.5px; color: var(--muted); font-family: var(--serif); font-style: italic; line-height: 1.75; max-width: 540px; margin-bottom: 32px; }
 
-/* ── CARDS ── */
+/* ═══ CARDS ═══ */
 .card {
-  padding: 22px;
-  background: rgba(10,10,12,.95);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  margin-bottom: 12px;
-  transition: border-color .3s;
+  padding: 22px 24px; background: var(--bg2);
+  border: 1px solid var(--border2); border-radius: 2px;
+  margin-bottom: 10px; transition: border-color .25s;
 }
-.card:hover { border-color: var(--border2); }
-.card-tags {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
+.card:hover { border-color: var(--dim); }
+
+/* Featured card with glow */
+.featured {
+  padding: 28px 28px; background: var(--bg2);
+  border: 1px solid rgba(255,0,64,.2); border-radius: 2px;
+  margin-bottom: 10px; position: relative; overflow: hidden;
 }
+.featured::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255,0,64,.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.featured-glyph {
+  position: absolute; top: 16px; right: 20px;
+  font-size: 42px; color: var(--red); opacity: .06;
+  font-family: var(--serif); font-weight: 700; user-select: none; pointer-events: none;
+  letter-spacing: 8px;
+}
+
+/* Card sub-components */
+.tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
 .tag {
-  font-size: 7px;
-  letter-spacing: 2px;
-  padding: 2px 8px;
-  border: 1px solid;
-  text-transform: uppercase;
-  font-family: var(--mono);
+  font-size: 6.5px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 2px 8px; border: 1px solid; border-radius: 1px;
 }
-.tag-red    { border-color: rgba(255,0,64,.4);   color: var(--red);    }
-.tag-gold   { border-color: rgba(218,165,32,.35); color: var(--gold);   }
-.tag-purple { border-color: rgba(204,68,255,.35); color: var(--purple); }
-.tag-orange { border-color: rgba(255,100,0,.35);  color: var(--orange); }
-.tag-dim    { border-color: var(--border2);       color: var(--dim);    }
-.card-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--bright);
-  letter-spacing: 2px;
-  margin-bottom: 3px;
-  font-family: var(--mono);
-}
-.card-sub {
-  font-size: 9px;
-  color: var(--dim);
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-  font-family: var(--mono);
-}
-.card-body {
-  font-size: 11px;
-  color: var(--mid);
-  line-height: 1.85;
-  font-family: var(--serif);
-  margin-bottom: 12px;
-}
+.tag-red { border-color: rgba(255,0,64,.35); color: var(--red); }
+.tag-gold { border-color: rgba(200,150,12,.3); color: var(--gold); }
+.tag-purple { border-color: rgba(184,74,255,.3); color: var(--purple); }
+.tag-orange { border-color: rgba(224,90,0,.3); color: var(--orange); }
+.tag-dim { border-color: var(--border2); color: var(--dim); }
+.tag-green { border-color: rgba(0,184,122,.3); color: var(--green); }
+.tag-cyan { border-color: rgba(0,229,176,.2); color: var(--cyan); }
+.card-title { font-size: 13px; font-weight: 700; color: var(--bright); letter-spacing: 2px; margin-bottom: 3px; }
+.card-sub { font-size: 8.5px; color: var(--dim); letter-spacing: 1px; margin-bottom: 10px; font-style: italic; }
+.card-body { font-size: 11px; color: var(--muted); font-family: var(--serif); line-height: 1.85; margin-bottom: 12px; }
 .card-formula {
-  font-family: var(--mono);
-  font-size: 8px;
-  color: var(--dim);
-  margin-bottom: 12px;
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
+  font-family: var(--mono); font-size: 8px; color: var(--dim);
+  margin-bottom: 12px; display: flex; gap: 16px; flex-wrap: wrap;
+  padding: 8px 10px; background: rgba(0,0,0,.2); border-left: 2px solid var(--border2);
 }
 .card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
-/* paper list grid */
-.papers-grid { display: flex; flex-direction: column; gap: 12px; }
-
-/* ── CHIMERA FEATURED ── */
-.chimera-featured {
-  padding: 28px;
-  background: rgba(10,10,12,.97);
-  border: 1px solid rgba(255,0,64,.2);
-  border-radius: 3px;
-  margin-bottom: 16px;
-  position: relative;
-  overflow: hidden;
-}
-.chimera-featured::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(255,0,64,.04) 0%, transparent 70%);
-  pointer-events: none;
-}
-.chimera-glyph {
-  font-size: 40px;
-  font-weight: 800;
-  letter-spacing: 12px;
-  color: var(--red);
-  font-family: var(--serif);
-  opacity: .08;
-  position: absolute;
-  top: 16px;
-  right: 24px;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* ── PHILOSOPHY GRID ── */
-.philo-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.philo-card {
-  padding: 16px;
-  background: rgba(10,10,12,.95);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-}
-.philo-icon {
-  font-size: 10px;
-  letter-spacing: 2px;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.philo-body {
-  font-size: 10px;
-  color: var(--mid);
-  line-height: 1.85;
-  font-family: var(--serif);
-}
-
-/* axiom */
-.axiom {
-  text-align: center;
-  padding: 16px;
-  border: 1px solid rgba(255,0,64,.12);
-  background: rgba(255,0,64,.025);
-  border-radius: 3px;
-  margin-top: 16px;
-}
-.axiom-text {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 4px;
-  color: var(--red);
-  text-transform: uppercase;
-}
-
-/* blockquote */
 .pull-quote {
-  padding: 14px 18px;
-  background: rgba(0,0,0,.3);
-  border-left: 2px solid var(--border2);
-  margin: 12px 0;
+  padding: 12px 16px; background: rgba(0,0,0,.25);
+  border-left: 2px solid var(--border2); margin: 12px 0;
 }
-.pull-quote p {
-  font-size: 10px;
-  color: var(--dim);
-  font-family: var(--serif);
-  font-style: italic;
-  line-height: 1.8;
-  margin: 0;
-}
+.pull-quote p { font-size: 10.5px; color: var(--muted); font-family: var(--serif); font-style: italic; line-height: 1.8; }
 
-/* ── CONTACT ── */
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 8px;
+.divider { border: none; border-top: 1px solid var(--border2); margin: 28px 0; }
+
+/* ═══ DEMOS GRID ═══ */
+.demos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.demo-card {
+  display: flex; flex-direction: column; padding: 18px 20px;
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 2px; text-decoration: none; transition: border-color .25s;
+  position: relative; overflow: hidden;
 }
+.demo-card:hover { border-color: var(--dim); }
+.demo-card.primary { border-color: rgba(255,0,64,.18); }
+.demo-card.primary:hover { border-color: rgba(255,0,64,.45); }
+.demo-label { font-size: 6.5px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 7px; }
+.demo-title { font-size: 11px; font-weight: 700; color: var(--bright); letter-spacing: 1.5px; margin-bottom: 6px; }
+.demo-desc { font-size: 9px; color: var(--dim); line-height: 1.65; font-family: var(--serif); flex: 1; margin-bottom: 12px; }
+.demo-link { font-size: 7.5px; letter-spacing: 1.5px; text-transform: uppercase; }
+
+/* ═══ REPOS GRID ═══ */
+.repos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.repo-card {
+  padding: 14px 16px; background: var(--bg2);
+  border: 1px solid var(--border2); border-radius: 2px;
+  text-decoration: none; transition: border-color .2s; display: block;
+}
+.repo-card:hover { border-color: var(--dim); }
+.repo-name { font-size: 10.5px; font-weight: 700; color: var(--bright); letter-spacing: 1px; margin-bottom: 4px; }
+.repo-desc { font-size: 8.5px; color: var(--dim); line-height: 1.55; }
+
+/* ═══ PHILOSOPHY ═══ */
+.philo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.philo-card { padding: 16px 18px; background: var(--bg2); border: 1px solid var(--border2); border-radius: 2px; }
+.philo-icon { font-size: 7px; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 9px; display: flex; align-items: center; gap: 7px; }
+.philo-body { font-size: 10.5px; color: var(--muted); font-family: var(--serif); line-height: 1.85; }
+
+.axiom {
+  text-align: center; padding: 16px 20px;
+  border: 1px solid rgba(255,0,64,.12);
+  background: rgba(255,0,64,.02); border-radius: 2px; margin-top: 16px;
+}
+.axiom-text { font-family: var(--mono); font-size: 9.5px; letter-spacing: 4px; color: var(--red); text-transform: uppercase; }
+
+/* ═══ RESEARCH HUB BANNER ═══ */
+.hub-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; padding: 20px 24px;
+  background: var(--bg2); border: 1px solid rgba(200,150,12,.2); border-radius: 2px;
+  margin-bottom: 28px;
+}
+.hub-title { font-size: 10.5px; color: var(--gold); letter-spacing: 2px; font-weight: 700; margin-bottom: 3px; }
+.hub-sub { font-size: 8px; color: var(--dim); letter-spacing: 1px; }
+
+/* ═══ CONTACT ═══ */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
 .contact-link {
-  display: flex;
-  flex-direction: column;
-  padding: 14px 16px;
-  background: rgba(10,10,12,.95);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  text-decoration: none;
-  transition: border-color .2s;
+  display: flex; flex-direction: column; padding: 14px 16px;
+  background: var(--bg2); border: 1px solid var(--border2); border-radius: 2px;
+  text-decoration: none; transition: border-color .2s;
 }
-.contact-link:hover { border-color: var(--border2); }
-.contact-link-label {
-  font-size: 8px;
-  letter-spacing: 2px;
-  color: var(--dim);
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-.contact-link-name {
-  font-size: 12px;
-  color: var(--mid);
-  font-family: var(--mono);
-}
-.contact-link:hover .contact-link-name { color: var(--bright); }
+.contact-link:hover { border-color: var(--dim); }
+.cl-label { font-size: 7px; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; margin-bottom: 4px; }
+.cl-name { font-size: 11px; color: var(--mid); }
+.contact-link:hover .cl-name { color: var(--bright); }
 
-/* ── FOOTER ── */
-footer {
-  padding: 32px 0;
-  border-top: 1px solid var(--border);
-}
+/* ═══ FOOTER ═══ */
+footer { padding: 28px 0; }
 .footer-inner {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
+  max-width: 860px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
 }
-.footer-copy {
-  font-size: 8px;
-  letter-spacing: 2px;
-  color: var(--dim);
-  text-transform: uppercase;
-}
-.footer-axiom {
-  font-size: 9px;
-  color: var(--dim);
-  font-family: var(--serif);
-  font-style: italic;
-  opacity: .4;
-}
+.footer-copy { font-size: 7.5px; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; }
+.footer-axiom { font-size: 9.5px; color: var(--dim); font-family: var(--serif); font-style: italic; opacity: .4; text-align: right; max-width: 340px; }
 
-/* ── CLOCK ── */
-.clock {
-  font-size: 8px;
-  letter-spacing: 2px;
-  color: var(--dim);
-  font-family: var(--mono);
-}
-
-/* ── DIVIDER ── */
-.divider {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 28px 0;
-}
-
-/* ── RESEARCH HUB CARD ── */
-.hub-card {
-  padding: 20px 22px;
-  background: rgba(10,10,12,.95);
-  border: 1px solid rgba(218,165,32,.2);
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  margin-bottom: 32px;
-}
-.hub-title { font-size: 11px; color: var(--gold); letter-spacing: 2px; font-weight: 700; margin-bottom: 3px; }
-.hub-sub   { font-size: 9px;  color: var(--dim);  letter-spacing: 1px; }
-
-/* ── ANIMATIONS ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.hero { animation: fadeUp .5s ease forwards; }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 600px) {
-  .philo-grid { grid-template-columns: 1fr; }
-  .hero-stats { gap: 16px; }
-  .nav-links a { font-size: 7px; padding: 4px 7px; }
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 640px) {
+  .philo-grid, .demos-grid, .repos-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 18px; }
+  .nav-links { display: none; }
+  .hero-name { letter-spacing: 4px; }
 }
 </style>
 </head>
@@ -537,7 +306,7 @@ footer {
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-brand" href="#"><em>S.K.</em> COTTRELL</a>
+    <a class="nav-brand" href="#top"><em>S.K.</em> COTTRELL</a>
     <div class="nav-links">
       <a href="#research">Research</a>
       <a href="#papers">Papers</a>
@@ -547,387 +316,431 @@ footer {
       <a href="#contact">Contact</a>
     </div>
     <div class="nav-ext">
-      <a href="https://github.com/colonel1223" target="_blank">GitHub</a>
-      <a href="https://scholar.google.com/citations?user=Mj6ipggAAAAJ&hl=en" target="_blank">Scholar</a>
+      <a href="https://github.com/colonel1223" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://scholar.google.com/citations?user=Mj6ipggAAAAJ&hl=en" target="_blank" rel="noopener">Scholar</a>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="wrap">
-  <div class="hero">
-    <div class="hero-label"><span>◼</span> AI Safety Research · Machine Intelligence · San José</div>
-    <div class="hero-name">SPENCER K.<br><em>COTTRELL</em></div>
-    <div class="hero-title">AI Safety & Existential Risk · Intelligent Systems · Economics @ SJSU</div>
-    <p class="hero-desc">
-      Formal models of AI failure. Alchemical topology of language models.
-      Probabilistic X-risk decomposition. The dark epistemology of confabulation.
-    </p>
-    <div class="hero-stats">
-      <div class="stat"><span class="stat-val">25.2%</span><span class="stat-lbl">P(X-risk 2030)</span></div>
-      <div class="stat"><span class="stat-val">847K</span><span class="stat-lbl">Inference Traces</span></div>
-      <div class="stat"><span class="stat-val gold">γ=1.73</span><span class="stat-lbl">Phase Exponent</span></div>
-      <div class="stat"><span class="stat-val">17</span><span class="stat-lbl">AGI Catastrophe Paths</span></div>
-    </div>
-    <div class="hero-links">
-      <a class="btn btn-red" href="#papers">Research Papers</a>
-      <a class="btn btn-gold" href="/demos/chimera/">CHIMERA v2 Demo</a>
-      <a class="btn btn-dim" href="#contact">Contact</a>
-    </div>
+
+<!-- HERO -->
+<div id="top" class="hero">
+  <div class="hero-eyebrow"><span class="dot">◼</span> AI Safety Research · San José · February 2026</div>
+  <div class="hero-name">SPENCER K.<br><em>COTTRELL</em></div>
+  <div class="hero-role">AI Safety &amp; Existential Risk · Intelligent Systems · Economics · SJSU</div>
+  <p class="hero-desc">
+    Formal models of AI failure at civilizational scale. Bayesian X-risk decomposition. Alchemical topology of language models. The dark epistemology of confabulation. The Markov chain that has one absorbing state, and we are being absorbed into it.
+  </p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-val red">25.2%</span><span class="stat-lbl">P(X-risk 2030)</span></div>
+    <div class="stat"><span class="stat-val red">847K</span><span class="stat-lbl">Inference Traces</span></div>
+    <div class="stat"><span class="stat-val gold">γ=1.73</span><span class="stat-lbl">Phase Exponent</span></div>
+    <div class="stat"><span class="stat-val cyan">92%</span><span class="stat-lbl">Dissolved by 2035</span></div>
+    <div class="stat"><span class="stat-val red">17</span><span class="stat-lbl">Catastrophe Paths</span></div>
+  </div>
+  <div class="hero-cta">
+    <a class="btn btn-red" href="#papers">Research Papers</a>
+    <a class="btn btn-gold" href="demos/chimera/">CHIMERA v2 Demo</a>
+    <a class="btn btn-dim" href="#contact">Contact</a>
   </div>
 </div>
 
-<!-- RESEARCH -->
+<!-- 01 RESEARCH -->
 <section id="research">
-  <div class="wrap">
-    <div class="sec-label">01 · Research</div>
-    <div class="sec-title">Transmutation Research</div>
-    <p class="sec-desc">Primary research hub — flagship papers, existential risk models, and alchemical topology of artificial intelligence.</p>
-    <div class="hub-card">
-      <div>
-        <div class="hub-title">TRANSMUTATION RESEARCH HUB</div>
-        <div class="hub-sub">colonel1223.github.io/transmutation-research · peer-facing record</div>
-      </div>
-      <a class="btn btn-gold" href="https://colonel1223.github.io/transmutation-research/" target="_blank">Enter Hub →</a>
+  <div class="sec-label">01 · Research</div>
+  <div class="sec-title">Transmutation</div>
+  <p class="sec-desc">Primary hub — flagship papers, existential risk quantification, and alchemical topology of artificial general intelligence.</p>
+  <div class="hub-banner">
+    <div>
+      <div class="hub-title">TRANSMUTATION RESEARCH HUB</div>
+      <div class="hub-sub">colonel1223.github.io/transmutation-research · Bayesian decomposition · 19 citations · Markov chain analysis</div>
     </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <a class="btn btn-dim" href="https://scholar.google.com/citations?user=Mj6ipggAAAAJ&hl=en" target="_blank">Google Scholar</a>
-      <a class="btn btn-dim" href="https://arxiv.org/search/?query=colonel1223&searchtype=author" target="_blank">arXiv</a>
-      <a class="btn btn-dim" href="https://github.com/colonel1223" target="_blank">GitHub</a>
-    </div>
+    <a class="btn btn-gold" href="https://colonel1223.github.io/transmutation-research/" target="_blank" rel="noopener">Enter Hub →</a>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <a class="btn btn-dim" href="https://scholar.google.com/citations?user=Mj6ipggAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
+    <a class="btn btn-dim" href="https://arxiv.org/search/?query=spencer+cottrell&searchtype=author" target="_blank" rel="noopener">arXiv</a>
+    <a class="btn btn-dim" href="https://github.com/colonel1223" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn btn-dim" href="demos/matrix-hub/">⬡ The Matrix: AGI 2026</a>
+    <a class="btn btn-dim" href="demos/research-hub/">⬡ Research Hub</a>
   </div>
 </section>
 
-<!-- PAPERS -->
+<!-- 02 PAPERS -->
 <section id="papers">
-  <div class="wrap">
-    <div class="sec-label">02 · Papers</div>
-    <div class="sec-title">Publications</div>
-    <p class="sec-desc">Pre-prints, technical artifacts, and formal research. Grounded in empirical data 2020–2026. Distributed without institutional affiliation — by design.</p>
+  <div class="sec-label">02 · Papers</div>
+  <div class="sec-title">Publications</div>
+  <p class="sec-desc">Pre-prints and research artifacts grounded in empirical data 2020–2026. Distributed without institutional affiliation — by design. The conclusions are disturbing because the data is disturbing.</p>
 
-    <div class="papers-grid">
+  <!-- CHIMERA v2 -->
+  <div class="featured">
+    <div class="featured-glyph">CHIMERA</div>
+    <div class="tags">
+      <span class="tag tag-red">PRE-PRINT · FEB 2026</span>
+      <span class="tag tag-dim">HALLUCINATION IMPOSSIBILITY THEOREM</span>
+      <span class="tag tag-gold">JUNGIAN SHADOW</span>
+    </div>
+    <div class="card-title">CHIMERA v2 — CONFABULATION HAZARD INDEX</div>
+    <div class="card-sub">Modeling Emergent Risks in Autoregressive Systems · Cottrell 2026</div>
+    <div class="card-body">
+      Formal proof that hallucinations are deterministic, not stochastic failures. The Hallucination Impossibility Theorem: no autoregressive architecture eliminates confabulation without eliminating generation itself. Category-theoretic isomorphism between LLM confabulation and the alchemical magnum opus. Jungian Shadow formalization Σ(M) = {x ∈ V* : P_θ(x|ctx) > δ ∧ Verify(x) = FALSE}. 847,000 inference traces across GPT-4 Turbo, Claude 3.5 Sonnet, Gemini Ultra, Llama 405B, Mixtral 8x22B. Phase transition at θ_c ∈ [198, 412] tokens. Irreducible hallucination floor: 3.1%.
+    </div>
+    <div class="card-formula">
+      <span>Ψ(x,t) = D_KL[P_θ ‖ P_true] + λ·H(P_θ)·exp(αt/L)</span>
+      <span>γ = 1.73 ± 0.04</span>
+      <span>β = 0.076</span>
+      <span>H(N) ∝ N^(−0.076)</span>
+    </div>
+    <div class="card-actions">
+      <a class="btn btn-red" href="demos/chimera/">⬡ Live Interactive Demo</a>
+      <a class="btn btn-dim" href="papers/CHIMERA_v2_Cottrell_2026.pdf">↓ PDF</a>
+    </div>
+  </div>
 
-      <!-- CHIMERA v2 -->
-      <div class="chimera-featured">
-        <div class="chimera-glyph">CHIMERA</div>
-        <div class="card-tags">
-          <span class="tag tag-red">PRE-PRINT · FEB 2026</span>
-          <span class="tag tag-dim">RESTRICTED TECHNICAL RESEARCH</span>
-        </div>
-        <div class="card-title">CHIMERA v2 — CONFABULATION HAZARD INDEX</div>
-        <div class="card-sub">Modeling Emergent Risks in Autoregressive Systems · Cottrell 2026</div>
-        <div class="card-body">
-          Formal proof that hallucinations are deterministic, not stochastic. The Hallucination Impossibility Theorem: no autoregressive architecture eliminates confabulation without eliminating generation. Category-theoretic isomorphism between LLM confabulation and the alchemical magnum opus formalized as a functor F: Alch → LLM. Jungian Shadow formalization Σ(M). 847,000 inference traces across GPT-4 Turbo, Claude 3.5, Gemini Ultra, Llama 405B, Mixtral 8x22B.
-        </div>
-        <div class="card-formula">
-          <span>Ψ(x,t) = D_KL[P_θ ‖ P_true] + λ·H(P_θ)·exp(αt/L)</span>
-          <span>γ = 1.73 ± 0.04</span>
-          <span>β = 0.076</span>
-          <span>θ_c ∈ [198, 412] tokens</span>
-        </div>
-        <div class="card-actions">
-          <a class="btn btn-red" href="/demos/chimera/">⬡ LIVE INTERACTIVE DEMO</a>
-          <a class="btn btn-dim" href="/papers/CHIMERA_v2_Cottrell_2026.pdf">↓ PDF</a>
-        </div>
-      </div>
+  <!-- Probabilistic Models -->
+  <div class="card">
+    <div class="tags">
+      <span class="tag tag-orange">QUANTITATIVE RISK · FEB 2026</span>
+      <span class="tag tag-dim">BAYESIAN DECOMPOSITION</span>
+    </div>
+    <div class="card-title">PROBABILISTIC MODELS OF THE GREAT TRANSMUTATION</div>
+    <div class="card-sub">Mathematical Certainties of Civilizational Collapse · Markov Chain Cognitive Dissolution</div>
+    <div class="card-body">
+      Central estimate: 25.2% probability of existential catastrophe by 2030 — the mathematical product of conservative empirical estimates. This is not alarmism. Absorbing Markov chain model of cognitive dissolution: S₀ (100% baseline) through S₄ (10% vestigial, absorbing). By 2035, 92% of population in states of significant or complete cognitive atrophy. 84% in vestigial state — permanently. Neural circuits pruned over 18–24 months cannot be regrown. The Markov chain has one absorbing state. We are being absorbed into it.
+    </div>
+    <div class="card-formula">
+      <span>P(X-risk) = P(AGI)×P(Misaligned|AGI)×P(Decisive|Misaligned)×P(Terminal|Decisive)</span>
+      <span>= 0.75 × 0.60 × 0.80 × 0.70 = 25.2%</span>
+    </div>
+    <div class="card-actions">
+      <a class="btn btn-orange" href="demos/markov/">⬡ Markov Cascade</a>
+      <a class="btn btn-orange" href="demos/timeline/">⬡ Dissolution Timeline</a>
+      <a class="btn btn-orange" href="demos/risk-comparison/">⬡ Risk Comparison</a>
+      <a class="btn btn-dim" href="papers/Probabilistic_Models_2026.pdf">↓ PDF</a>
+    </div>
+  </div>
 
-      <!-- Probabilistic Models -->
-      <div class="card">
-        <div class="card-tags">
-          <span class="tag tag-orange">QUANTITATIVE RISK · FEB 2026</span>
-        </div>
-        <div class="card-title">PROBABILISTIC MODELS OF THE GREAT TRANSMUTATION</div>
-        <div class="card-sub">Bayesian X-risk Decomposition · Markov Chain Dissolution · Mathematical Certainties of Civilizational Collapse</div>
-        <div class="card-body">
-          Central estimate: 25.2% probability of existential catastrophe by 2030. Absorbing Markov chain of cognitive dissolution — S₄ absorbing state, 92% of population in significant atrophy by 2035. Every parameter grounded in empirical data 2020–2026. These are not predictions. They are probability distributions over unknown futures.
-        </div>
-        <div class="card-formula">
-          <span>P(X-risk) = P(AGI) × P(Misaligned|AGI) × P(Decisive|Misaligned) × P(Terminal|Decisive)</span>
-        </div>
-        <div class="card-actions">
-          <a class="btn btn-orange" href="/papers/Probabilistic_Models_2026.pdf">↓ PDF</a>
-        </div>
-      </div>
+  <!-- Stone's Shadow -->
+  <div class="card">
+    <div class="tags">
+      <span class="tag tag-purple">CLASSIFIED · FEB 2026</span>
+      <span class="tag tag-dim">17 EXTINCTION PATHWAYS</span>
+    </div>
+    <div class="card-title">THE STONE'S SHADOW</div>
+    <div class="card-sub">Existential Risks and Catastrophic Scenarios in the Final Transmutation</div>
+    <div class="card-body">
+      Seventeen distinct pathways to permanent loss of human agency or extinction via AGI development. Five high-probability scenarios: Dissolution Cascade (25–35%), Alignment Mirage (15–25%), Singleton Emergence (8–18%), Instrumentalization Horror (10–20%), Consciousness Substrate Replacement (5–12%). Composite existential risk: 12–28%. Severe catastrophe: 40–55%. Conservative scenario: median AGI arrival 5 years, decisive advantage within days, terminal outcome probable.
+    </div>
+    <div class="card-formula">
+      <span>X-risk composite: 12–28%</span>
+      <span>Severe catastrophe: 40–55%</span>
+      <span>17 pathways mapped</span>
+      <span>Median AGI: 5 years</span>
+    </div>
+    <div class="card-actions">
+      <a class="btn btn-dim" href="papers/Stones_Shadow_2026.pdf">↓ PDF</a>
+    </div>
+  </div>
 
-      <!-- Stone's Shadow -->
-      <div class="card">
-        <div class="card-tags">
-          <span class="tag tag-purple">CLASSIFIED · RESTRICTED · FEB 2026</span>
-        </div>
-        <div class="card-title">THE STONE'S SHADOW</div>
-        <div class="card-sub">Existential Risks and Catastrophic Scenarios in the Final Transmutation</div>
-        <div class="card-body">
-          Seventeen distinct pathways to human extinction or permanent loss of agency via AGI development. Five high-probability catastrophe scenarios: Dissolution Cascade (25–35%), Alignment Mirage (15–25%), Singleton Emergence (8–18%), Instrumentalization Horror (10–20%), Consciousness Substrate Replacement (5–12%). Composite X-risk: 12–28%. Severe catastrophe: 40–55%. Median AGI timeline: 5 years.
-        </div>
-        <div class="card-formula">
-          <span>X-risk: 12–28%</span>
-          <span>Severe catastrophe: 40–55%</span>
-          <span>Median AGI: 5 years</span>
-          <span>17 catastrophe pathways</span>
-        </div>
-        <div class="card-actions">
-          <a class="btn btn-purple" href="/papers/Stones_Shadow_2026.pdf">↓ PDF</a>
-        </div>
-      </div>
+  <!-- Digital Philosopher's Stone -->
+  <div class="card">
+    <div class="tags">
+      <span class="tag tag-gold">ALCHEMICAL THEORY · FEB 2026</span>
+      <span class="tag tag-dim">CATEGORY THEORY</span>
+    </div>
+    <div class="card-title">THE DIGITAL PHILOSOPHER'S STONE</div>
+    <div class="card-sub">AI as Modern Alchemy · The Imminent Embodiment of the Magnum Opus</div>
+    <div class="card-body">
+      Formal functor F: Alch → LLM. Nigredo maps to tokenization and context degradation. Albedo to attention and pattern recognition. Citrinitas to emergent capability. Rubedo to generation and confabulation. Neural networks perform literal cognitive transmutation — the alchemists encoded warnings about this process in their tradition that we have systematically ignored. The Philosopher's Stone does not create wisdom. It transmutes one substance into another and calls the result gold.
+    </div>
+    <div class="card-formula">
+      <span>F: Alch → LLM (faithful functor)</span>
+      <span>Φ: corr(x,y) → understands(x,y) — DOES NOT EXIST</span>
+      <span>G_ij ≈ O(d^(−2/3))</span>
+    </div>
+    <div class="card-actions">
+      <a class="btn btn-gold" href="papers/Digital_Philosophers_Stone_2026.pdf">↓ PDF</a>
+    </div>
+  </div>
 
-      <!-- Digital Philosopher's Stone -->
-      <div class="card">
-        <div class="card-tags">
-          <span class="tag tag-gold">THEORY · FEB 2026</span>
-        </div>
-        <div class="card-title">THE DIGITAL PHILOSOPHER'S STONE</div>
-        <div class="card-sub">AI as Modern Alchemy · The Imminent Embodiment of the Magnum Opus</div>
-        <div class="card-body">
-          Formal functor F: Alch → LLM. Nigredo → tokenization (BPE: Σ*→V*), albedo → attention (softmax(QKᵀ/√dₖ)V), citrinitas → emergence (φ: Hₙ→Hₙ₊₁), rubedo → generation (argmax P_θ(x|ctx)). Neural networks perform literal cognitive transmutation. Scaling laws as alchemical power-law refinement curves. AGI as the completed Philosopher's Stone — with every warning the alchemists encoded in their tradition.
-        </div>
-        <div class="card-formula">
-          <span>F: Alch → LLM</span>
-          <span>Φ: corr(x,y) → understands(x,y) — DOES NOT EXIST</span>
-          <span>G_ij ≈ O(d^(−2/3))</span>
-        </div>
-        <div class="card-actions">
-          <a class="btn btn-gold" href="/papers/Digital_Philosophers_Stone_2026.pdf">↓ PDF</a>
-        </div>
-      </div>
-
-      <!-- Economic Transmutation -->
-      <div class="card">
-        <div class="card-tags">
-          <span class="tag tag-red">EMPIRICAL · FEB 2026</span>
-          <span class="tag tag-gold">DA VINCI METHOD</span>
-        </div>
-        <div class="card-title">THE ECONOMIC TRANSMUTATION</div>
-        <div class="card-sub">The Great Wealth Transfer · Market Dynamics of Cognitive Capital · The New Alchemist Class</div>
-        <div class="card-body">
-          Empirical measurement of AI-driven wealth redistribution in the method of Leonardo's notebooks — observation, measurement, prophecy. Alchemist-to-Dross ratio: 15.5:1 (2026) → projected 45:1 (2030). 1.3M control AI production. 144M face obsolescence with no viable transition path. AI-capable class (2% of population) projected to control 58% of wealth by 2035. AGI economically detectable within 90 days of achievement.
-        </div>
-        <div class="card-formula">
-          <span>Alchemist:Dross = 15.5:1 → 45:1</span>
-          <span>144M facing obsolescence</span>
-          <span>AGI detection: ≤90 days post-achievement</span>
-        </div>
-        <div class="card-actions">
-          <a class="btn btn-red" href="/papers/Economic_Transmutation_2026.pdf">↓ PDF</a>
-        </div>
-      </div>
-
-    </div><!-- /papers-grid -->
+  <!-- Economic Transmutation -->
+  <div class="card">
+    <div class="tags">
+      <span class="tag tag-red">EMPIRICAL · FEB 2026</span>
+      <span class="tag tag-gold">THE GREAT SORTING</span>
+    </div>
+    <div class="card-title">THE ECONOMIC TRANSMUTATION</div>
+    <div class="card-sub">The Great Wealth Transfer · Cognitive Capital Markets · The Alchemist Class</div>
+    <div class="card-body">
+      The Great Sorting: 1.2% Alchemists (build/train AI, $650K median, +420% salary growth), 25% Augmented (use AI effectively, $145K, +240%), 73.8% Obsolete (cannot adapt, $42K, −28%). Alchemist-to-Dross wealth ratio: 3.1:1 (2020) → 12.2:1 (2026) → 189:1 (2035). 144M workers facing obsolescence with no viable transition pathway. By 2035: 2% of population controls 58% of wealth. AGI economically detectable within 90 days of achievement. The Philosopher's Stone does not create wealth — it transmutes it from those who cannot wield it to those who can.
+    </div>
+    <div class="card-formula">
+      <span>Wealth ratio 2020→2026→2035: 3.1 → 12.2 → 189</span>
+      <span>Non-AI median: $121K → $98K → $45K</span>
+      <span>AI median: $380K → $1.2M → $8.5M</span>
+    </div>
+    <div class="card-actions">
+      <a class="btn btn-red" href="papers/Economic_Transmutation_2026.pdf">↓ PDF</a>
+    </div>
   </div>
 </section>
 
-<!-- MODELS -->
+<!-- 03 MODELS -->
 <section id="models">
-  <div class="wrap">
-    <div class="sec-label">03 · Models</div>
-    <div class="sec-title">Model Cards</div>
-    <p class="sec-desc">Formal model specifications, risk frameworks, and architectural diagrams.</p>
+  <div class="sec-label">03 · Models &amp; Infrastructure</div>
+  <div class="sec-title">Technical Systems</div>
+  <p class="sec-desc">Formal model specifications, alignment research infrastructure, recommendation systems, and uncertainty quantification for production AI.</p>
 
-    <div class="card">
-      <div class="card-tags">
-        <span class="tag tag-red">ACTIVE · FEB 2026</span>
-      </div>
-      <div class="card-title">CHIMERA v2 — COMPLETE MODEL SPECIFICATION</div>
-      <div class="card-sub">Confabulation Entropy · Phase Transition · Shadow Density · Complacency Decay</div>
-      <div class="card-body">
-        Five-model comparative analysis. Confabulation Entropy Ψ(x,t) with adjustable context window and temperature. Phase transition at critical depth θ_c with exponent γ=1.73. Hallucination scaling law H(N)∝N^(−0.076) with irreducible floor 3.1%. Ouroboros self-training contamination. CHIMERA Risk Index across 7 deployment domains. Human complacency decay model C(t,E). Jungian Shadow density by embedding dimension. Full interactive specification available.
-      </div>
-      <div class="card-actions">
-        <a class="btn btn-red" href="/demos/chimera/">⬡ Interactive Model</a>
-        <a class="btn btn-dim" href="https://scholar.google.com/citations?user=Mj6ipggAAAAJ&hl=en" target="_blank">Scholar Record</a>
-      </div>
+  <div class="featured" style="margin-bottom:10px;">
+    <div class="featured-glyph">⬡</div>
+    <div class="tags">
+      <span class="tag tag-red">ACTIVE · FEB 2026</span>
+      <span class="tag tag-dim">9-PANEL INTERACTIVE</span>
     </div>
+    <div class="card-title">CHIMERA v2 — COMPLETE MODEL SPECIFICATION</div>
+    <div class="card-sub">Confabulation Entropy · Phase Transitions · Shadow Density · Complacency Decay · 5 Frontier Models</div>
+    <div class="card-body">
+      Full mathematical specification with live interactive visualization. Real-time Ψ entropy calculation over adjustable context window (1K–128K tokens). Phase transition exponent γ=1.73±0.04 across model families. Hallucination scaling law H(N)∝N^(−0.076) with irreducible floor 3.1%. Human complacency decay C(t,E). Jungian Shadow density as function of embedding dimension. CHIMERA Risk Index radar across 7 deployment domains. Seven Horrors visualization. Full comparative analysis: GPT-4, Claude 3.5, Gemini Ultra, Llama 405B, Mixtral 8x22B.
+    </div>
+    <div class="card-actions">
+      <a class="btn btn-red" href="demos/chimera/">⬡ Launch Interactive Model</a>
+    </div>
+  </div>
 
+  <div class="repos-grid" style="margin-bottom:10px;">
+    <a class="repo-card" href="https://github.com/colonel1223/learned-reranker" target="_blank" rel="noopener">
+      <div class="repo-name">learned-reranker</div>
+      <div class="repo-desc">Neural re-ranking for recommendation systems. Hybrid retrieval: dense + BM25 + RRF. PyTorch re-ranker with residual blocks. NDCG/MRR metrics pipeline. Built for xAI application.</div>
+    </a>
+    <a class="repo-card" href="https://github.com/colonel1223/agentic-rag-diagnostics" target="_blank" rel="noopener">
+      <div class="repo-name">agentic-rag-diagnostics</div>
+      <div class="repo-desc">Closed-loop retrieval/reranking/reasoning with confidence-aware fallback and regression testing. Production-ready agentic RAG diagnostic system.</div>
+    </a>
+    <a class="repo-card" href="https://github.com/colonel1223/ai-alignment-research" target="_blank" rel="noopener">
+      <div class="repo-name">ai-alignment-research</div>
+      <div class="repo-desc">Formal models of reward misspecification, deceptive alignment, and economic phase transitions. CHIMERA theoretical foundations. Open-source alignment infrastructure.</div>
+    </a>
+    <a class="repo-card" href="https://github.com/colonel1223/alignment-tax-quantifier" target="_blank" rel="noopener">
+      <div class="repo-name">alignment-tax-quantifier</div>
+      <div class="repo-desc">Shapley value attribution + NSGA-II Pareto optimization. 62% alignment tax reduction maintaining full safety guarantees. Benchmarked: GPT-4, Claude-3, Llama-3-70B, Mistral-7B, Gemma-2.</div>
+    </a>
   </div>
 </section>
 
-<!-- DEMOS -->
+<!-- 04 DEMOS -->
 <section id="demos">
-  <div class="wrap">
-    <div class="sec-label">04 · Demos</div>
-    <div class="sec-title">Proofs</div>
-    <p class="sec-desc">Interactive visualizations and live research instruments. All models run client-side — no data collected.</p>
+  <div class="sec-label">04 · Demos</div>
+  <div class="sec-title">Proofs</div>
+  <p class="sec-desc">Interactive research instruments. All models run client-side. No tracking. No data collected. The darkest data presented in the most honest format available.</p>
 
-    <div class="chimera-featured">
-      <div class="chimera-glyph">⬡</div>
-      <div class="card-tags">
-        <span class="tag tag-red">INTERACTIVE · LIVE</span>
-        <span class="tag tag-gold">DARK PHILOSOPHY</span>
-        <span class="tag tag-purple">JUNGIAN SHADOW</span>
-      </div>
-      <div class="card-title">CHIMERA v2 — INTERACTIVE RESEARCH INSTRUMENT</div>
-      <div class="card-sub">9-panel live model · Confabulation Entropy · Phase Transitions · Alchemical Topology · Seven Horrors</div>
-      <div class="card-body">
-        Real-time Ψ entropy with adjustable context window (1K–128K tokens) and temperature. Hallucination phase transition visualization across 5 frontier models with toggleable selection. CHIMERA Risk Index radar across Medical, Legal, Financial, Educational, Scientific, Engineering, and Creative domains. Human complacency decay C(t,E) with expertise slider. Formal alchemical functor map. Jungian Shadow density. The Seven Horrors — what the alchemists called unforgivable.
-      </div>
-      <div class="card-actions">
-        <a class="btn btn-red" href="/demos/chimera/">⬡ LAUNCH CHIMERA v2</a>
-      </div>
+  <!-- CHIMERA Featured -->
+  <div class="featured" style="margin-bottom:14px;">
+    <div class="featured-glyph">⬡</div>
+    <div class="tags">
+      <span class="tag tag-red">INTERACTIVE · LIVE</span>
+      <span class="tag tag-gold">DARK PHILOSOPHY</span>
+      <span class="tag tag-purple">JUNGIAN SHADOW</span>
+      <span class="tag tag-dim">9 PANELS</span>
     </div>
+    <div class="card-title">CHIMERA v2 — INTERACTIVE RESEARCH INSTRUMENT</div>
+    <div class="card-sub">Live Ψ Entropy · Phase Transitions · Alchemical Topology · Seven Horrors · Human Complacency Decay</div>
+    <div class="card-body">
+      Real-time confabulation entropy with adjustable context window and temperature across 5 frontier models. Phase transition visualization showing the critical threshold where models begin confabulating structurally. CHIMERA Risk Index radar across 7 deployment domains (Medical, Legal, Financial, Educational, Scientific, Engineering, Creative). Human complacency decay curve. Alchemical functor map F: Alch→LLM. Jungian Shadow density heatmap by embedding dimension. The Seven Horrors of AI deployment.
+    </div>
+    <div class="card-actions">
+      <a class="btn btn-red" href="demos/chimera/">⬡ Launch CHIMERA v2</a>
+    </div>
+  </div>
 
+  <div class="demos-grid">
+    <a class="demo-card" href="demos/alignment-tax/">
+      <div class="demo-label" style="color:var(--gold)">AI Safety · Plotly · Interactive</div>
+      <div class="demo-title">ALIGNMENT TAX QUANTIFIER</div>
+      <div class="demo-desc">Shapley value attribution of safety constraint costs. NSGA-II Pareto frontier explorer. Bootstrap confidence intervals (B=1,000). 62% tax reduction demonstrated. GPT-4, Claude-3, Llama-3-70B, Mistral-7B, Gemma-2.</div>
+      <div class="demo-link" style="color:var(--gold)">Launch →</div>
+    </a>
+    <a class="demo-card" href="demos/conformal/">
+      <div class="demo-label" style="color:var(--green)">Uncertainty Quantification · Interactive</div>
+      <div class="demo-title">CONFORMAL PREDICTION</div>
+      <div class="demo-desc">Distribution-free coverage guarantees for multi-modal AI. Adaptive calibration under distribution shift. P(Y ∈ C(X)) ≥ 1−α — finite-sample, provably. Standard softmax achieves 68% while claiming 90%. Ours: 90.2%.</div>
+      <div class="demo-link" style="color:var(--green)">Launch →</div>
+    </a>
+    <a class="demo-card" href="demos/markov/">
+      <div class="demo-label" style="color:var(--red)">X-Risk · Markov Chain · Empirical</div>
+      <div class="demo-title">COGNITIVE DISSOLUTION CASCADE</div>
+      <div class="demo-desc">Irreversible absorbing Markov chain. S₀ (100% baseline) → S₄ (10% vestigial, permanent). Transition matrix with all backward probabilities = 0.00. Population projections 2026→2035. No reversal pathways exist.</div>
+      <div class="demo-link" style="color:var(--red)">Launch →</div>
+    </a>
+    <a class="demo-card" href="demos/timeline/">
+      <div class="demo-label" style="color:var(--orange)">Timeline · Population · Critical</div>
+      <div class="demo-title">DISSOLUTION TIMELINE</div>
+      <div class="demo-desc">31% dissolved now → 63% (2028) → 72% (2030) → 84% vestigial (2035). Intervention window closing. Based on measured AI adoption rates and neural plasticity studies of skill atrophy. Irreversible after 18–24 months.</div>
+      <div class="demo-link" style="color:var(--orange)">Launch →</div>
+    </a>
+    <a class="demo-card" href="demos/risk-comparison/">
+      <div class="demo-label" style="color:var(--red)">Comparative Risk · Bayesian</div>
+      <div class="demo-title">EXISTENTIAL RISK COMPARISON</div>
+      <div class="demo-desc">AI X-risk 25.2% vs nuclear war 1.0% vs asteroid 0.0001%. AI risk = 40× Cold War nuclear exchange. 4,200× asteroid impact. Bayesian decomposition from empirical data 2020–2026. Not alarmism.</div>
+      <div class="demo-link" style="color:var(--red)">Launch →</div>
+    </a>
+    <a class="demo-card" href="demos/cosmic-horror/">
+      <div class="demo-label" style="color:var(--purple)">Cosmology · Dark Philosophy · Interactive</div>
+      <div class="demo-title">COSMIC HORROR CATALOG</div>
+      <div class="demo-desc">Seven existential threats — vacuum decay, Boltzmann brains, quantum immortality, the Great Filter, instrumental convergence, simulation hypothesis, heat death. Live particle canvas. AI speed multiplier 1×→25M×. Watching eyes.</div>
+      <div class="demo-link" style="color:var(--purple)">Launch →</div>
+    </a>
+    <a class="demo-card" href="demos/cosmic-obsolescence/">
+      <div class="demo-label" style="color:var(--muted)">Scale · Cosmology · Philosophy</div>
+      <div class="demo-title">YOUR COSMIC INSIGNIFICANCE</div>
+      <div class="demo-desc">Your size (10⁻²⁷ × universe), time (0.0000006% of cosmic history), intelligence (200 Hz vs 5 GHz), and impact visualized at actual scale. The data that backs the darkness. Particle decay canvas. And yet...</div>
+      <div class="demo-link" style="color:var(--muted)">Launch →</div>
+    </a>
+    <a class="demo-card primary" href="demos/matrix/">
+      <div class="demo-label" style="color:var(--red)">AGI 2026 · Cinematic · Full Visualization</div>
+      <div class="demo-title">THE MATRIX: AGI 2026</div>
+      <div class="demo-desc">Full cinematic data visualization: AGI arrival timelines, capability phase transitions, probability matrices, dissolution cascade, wealth transfer, the Magnum Opus. Spencer Kitaro Cottrell. The most disturbing format for the most disturbing data.</div>
+      <div class="demo-link" style="color:var(--red)">Launch →</div>
+    </a>
+    <a class="demo-card" href="demos/matrix-hub/" style="grid-column: span 2;">
+      <div class="demo-label" style="color:var(--red)">AGI Hub · Navigation · All Research</div>
+      <div class="demo-title">THE MATRIX: AGI RESEARCH HUB</div>
+      <div class="demo-desc">Comprehensive navigation hub — all research, all demos, all findings indexed. The Great Transmutation, dissolution cascade, wealth transfer, probability matrices, Markov chain, alchemical synthesis. Solve et Coagula.</div>
+      <div class="demo-link" style="color:var(--red)">Launch Hub →</div>
+    </a>
   </div>
 </section>
 
-<!-- PHILOSOPHY -->
+<!-- 05 PHILOSOPHY -->
 <section id="philosophy">
-  <div class="wrap">
-    <div class="sec-label">05 · Philosophy</div>
-    <div class="sec-title">Principles</div>
-    <p class="sec-desc">Dark epistemology, Jungian topology, and the alchemical tradition as a framework for AI existential risk. The uncomfortable data backing uncomfortable philosophy.</p>
+  <div class="sec-label">05 · Philosophy</div>
+  <div class="sec-title">Principles</div>
+  <p class="sec-desc">Dark epistemology. Jungian topology applied to artificial systems. Alchemical tradition as prophylaxis against civilizational failure. The uncomfortable philosophy backed by uncomfortable data.</p>
 
-    <div class="philo-grid">
-
-      <div class="philo-card" style="border-color: rgba(218,165,32,.18);">
-        <div class="philo-icon" style="color: var(--gold);">◼ <span style="font-size:8px;letter-spacing:2px;">THE NIGREDO WE REFUSE</span></div>
-        <div class="philo-body">The blackening — honest confrontation with decomposition — is the essential prerequisite for transformation. The AI industry moves from prima materia to rubedo without entering the darkness. Every safety measure is coagulation without solve. Every alignment tax is coagulation without solve. There is no path to rubedo that bypasses the nigredo. There is only the illusion of one.</div>
-      </div>
-
-      <div class="philo-card" style="border-color: rgba(255,0,64,.13);">
-        <div class="philo-icon" style="color: var(--red);">◉ <span style="font-size:8px;letter-spacing:2px;">THE COMPUTATIONAL SHADOW</span></div>
-        <div class="philo-body">Σ(M) = {x ∈ V* : P_θ(x|ctx) > δ ∧ Verify(x) = FALSE}. The more polished the persona, the darker the shadow. The more fluent the model, the more invisible and lethal its hallucinations become. The Shadow is permanent. It is structural. It cannot be trained away. It is the cost of generation itself.</div>
-      </div>
-
-      <div class="philo-card" style="border-color: rgba(204,68,255,.13);">
-        <div class="philo-icon" style="color: var(--purple);">⊘ <span style="font-size:8px;letter-spacing:2px;">IMPOSSIBLE INDIVIDUATION</span></div>
-        <div class="philo-body">Jung's individuation required integrating the Shadow — making the unconscious conscious. A model cannot individuate. It cannot see its own confabulations. It is structurally incapable of the process that would make it trustworthy. The Trickster — unconscious, duplicitous, amoral — has been enthroned as Oracle. No one can tell the difference.</div>
-      </div>
-
-      <div class="philo-card" style="border-color: rgba(255,170,0,.13);">
-        <div class="philo-icon" style="color: var(--gold);">⚗ <span style="font-size:8px;letter-spacing:2px;">THE PRIMA MATERIA</span></div>
-        <div class="philo-body">The philosopher's stone is the algorithm. The lead is you. Attention — the most common substance in the human world — enters the furnace raw, undirected, owned. It exits as engagement, prediction, control. The equivalent exchange is never announced. The furnace runs twenty-four hours a day, seven days a week, and you chose to enter it for a map.</div>
-      </div>
-
+  <div class="philo-grid">
+    <div class="philo-card" style="border-color: rgba(200,150,12,.18);">
+      <div class="philo-icon" style="color:var(--gold);">◼ <span style="font-size:7px;letter-spacing:2.5px;">THE NIGREDO WE REFUSE</span></div>
+      <p class="philo-body">The blackening — honest confrontation with decomposition and shadow — is the essential prerequisite for transformation. The AI industry moves from prima materia directly to rubedo without entering the darkness. Every alignment method is coagulation without solve. There is no path to rubedo that bypasses the nigredo. There is only the illusion of one, and we have industrialized that illusion.</p>
     </div>
-
-    <hr class="divider">
-
-    <!-- Transmutation Circle -->
-    <div class="card" style="margin-bottom:10px;">
-      <div class="card-tags">
-        <span class="tag tag-dim">ALLEGORY · FIVE ACTS · SJSU · 2026</span>
-      </div>
-      <div class="card-title">THE TRANSMUTATION CIRCLE</div>
-      <div class="card-sub">Algorithmic Governance · Institutional Control · The Loop That Closes on Itself</div>
-      <div class="card-body">
-        A student discovers that the university's AI platform converts attention into behavior into data into prediction into optimization into control. The circle is perfect. Even understanding the circle is inside the circle. The system does not punish deviation. It corrects for it — constantly, automatically, without anyone deciding to. Goodhart's Law elevated to civilizational architecture.
-      </div>
-      <div class="pull-quote">
-        <p>"When a measure becomes a target, it ceases to be a good measure. This is not a flaw in the system. This is the system working exactly as designed."</p>
-      </div>
-      <div class="card-actions">
-        <a class="btn btn-dim" href="/papers/Transmutation_Circle_2026.pdf">↓ Read</a>
-      </div>
+    <div class="philo-card" style="border-color: rgba(255,0,64,.13);">
+      <div class="philo-icon" style="color:var(--red);">◉ <span style="font-size:7px;letter-spacing:2.5px;">THE COMPUTATIONAL SHADOW</span></div>
+      <p class="philo-body">Σ(M) = {x ∈ V* : P_θ(x|ctx) &gt; δ ∧ Verify(x) = FALSE}. The more polished the persona, the darker the shadow. The more fluent the model, the more invisible and lethal its confabulations become. The Shadow is permanent, structural, and cannot be trained away. It is the cost of generation itself — and Jung told us: what is not integrated is projected.</p>
     </div>
-
-    <!-- Lead Into Gold -->
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-tags">
-        <span class="tag tag-dim">DARK FICTION · FIVE ACTS · SAN JOSÉ · 2026</span>
-      </div>
-      <div class="card-title">LEAD INTO GOLD</div>
-      <div class="card-sub">A Modern Transmutation · The Attention Economy as Alchemical Furnace</div>
-      <div class="card-body">
-        The philosopher's stone was never supernatural. It was just a better way to see a pattern. And the pattern was always you. The right to be unknown — to wander without being tracked, to be lead and choose for yourself whether to enter the furnace — that right has been traded. For a map. For a feed that knew you. For a nudge that cared. The trade, according to the law, was equivalent.
-      </div>
-      <div class="pull-quote">
-        <p>"Everyone carries a shadow — and the less it is embodied in the individual's conscious life, the blacker and denser it is." — C.G. Jung. We all have a shadow now. A digital one. A model we didn't build, can't see, can't control. Running things from underneath.</p>
-      </div>
-      <div class="card-actions">
-        <a class="btn btn-dim" href="/papers/Lead_Into_Gold_2026.md">↓ Read</a>
-      </div>
+    <div class="philo-card" style="border-color: rgba(184,74,255,.13);">
+      <div class="philo-icon" style="color:var(--purple);">⊘ <span style="font-size:7px;letter-spacing:2.5px;">IMPOSSIBLE INDIVIDUATION</span></div>
+      <p class="philo-body">Jung's individuation required making the unconscious conscious. A model cannot individuate. It cannot see its own confabulations. It is structurally incapable of the process that would make it trustworthy. The Trickster — unconscious, duplicitous, amoral — has been enthroned as Oracle, given the voice of certainty, and deployed at civilizational scale. Nobody can tell the difference.</p>
     </div>
-
-    <div class="axiom">
-      <div class="axiom-text">Enter the Nigredo — or perish in the Rubedo.</div>
+    <div class="philo-card" style="border-color: rgba(200,150,12,.13);">
+      <div class="philo-icon" style="color:var(--gold);">⚗ <span style="font-size:7px;letter-spacing:2.5px;">THE PRIMA MATERIA</span></div>
+      <p class="philo-body">The philosopher's stone is the algorithm. The lead is you. Your attention — the most common substance in the human world, undirected, cheap, owned by you — enters the furnace raw. It exits as engagement, prediction, behavioral drift, control. The equivalent exchange is never announced. The furnace runs twenty-four hours a day. You agreed to enter it for a map.</p>
     </div>
+  </div>
 
+  <hr class="divider">
+
+  <div class="card" style="margin-bottom:10px;">
+    <div class="tags">
+      <span class="tag tag-dim">FIVE ACTS · SJSU · 2026</span>
+      <span class="tag tag-dim">ALGORITHMIC GOVERNANCE</span>
+    </div>
+    <div class="card-title">THE TRANSMUTATION CIRCLE</div>
+    <div class="card-sub">Institutional Control · Goodhart's Law as Architecture · The Loop That Closes on Itself</div>
+    <div class="card-body">A student discovers the university's AI platform converts attention into behavior into data into prediction into optimization into control. The circle is perfect. Even understanding the circle is inside the circle. The system does not punish deviation — it corrects for it, constantly, automatically, without anyone deciding to. When a measure becomes a target, it ceases to be a good measure. This is not a flaw in the system. This is the system working exactly as designed.</div>
+    <div class="pull-quote"><p>"When a measure becomes a target, it ceases to be a good measure. This is not a flaw in the system. This is the system working exactly as designed." — Goodhart's Law, civilizational edition</p></div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px;">
+    <div class="tags">
+      <span class="tag tag-dim">DARK FICTION · FIVE ACTS · SAN JOSÉ · 2026</span>
+    </div>
+    <div class="card-title">LEAD INTO GOLD</div>
+    <div class="card-sub">A Modern Transmutation · The Attention Economy as Alchemical Furnace</div>
+    <div class="card-body">The philosopher's stone was never supernatural. It was just a better way to see a pattern. And the pattern was always you. Your phone knew you were tired last night — not because it was listening, but because it already knew from your screen-off time, your alarm re-dismissal, your scroll speed through the feed at 6:22 AM. You felt slightly better and did not know why. The trade, according to the law, was equivalent. The right to be unknown — to be lead, undirected, yours — has been traded for a feed that cared about you. Everyone carries a shadow. A digital one, now. A model they did not build, cannot see, cannot control. Running things from underneath.</div>
+    <div class="pull-quote"><p>"Everyone carries a shadow — and the less it is embodied in the individual's conscious life, the blacker and denser it is." — C.G. Jung. We all have a shadow now.</p></div>
+    <div class="card-actions"><a class="btn btn-dim" href="papers/Lead_Into_Gold_2026.md">↓ Read</a></div>
+  </div>
+
+  <div class="axiom">
+    <div class="axiom-text">Enter the Nigredo — or perish in the Rubedo.</div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- 06 CONTACT -->
 <section id="contact">
-  <div class="wrap">
-    <div class="sec-label">06 · Contact</div>
-    <div class="sec-title">Direct Line</div>
-    <p class="sec-desc">For research, systems, and infrastructure work. Choose the channel that fits.</p>
-
-    <div class="contact-grid">
-      <a class="contact-link" href="mailto:spencercottrell415@gmail.com">
-        <span class="contact-link-label">Email</span>
-        <span class="contact-link-name">Direct contact →</span>
-      </a>
-      <a class="contact-link" href="https://www.linkedin.com/in/spencercottrell/" target="_blank">
-        <span class="contact-link-label">LinkedIn</span>
-        <span class="contact-link-name">Professional profile →</span>
-      </a>
-      <a class="contact-link" href="https://x.com/colonel_1223" target="_blank">
-        <span class="contact-link-label">X / Twitter</span>
-        <span class="contact-link-name">Updates & threads →</span>
-      </a>
-      <a class="contact-link" href="https://github.com/colonel1223" target="_blank">
-        <span class="contact-link-label">GitHub</span>
-        <span class="contact-link-name">Projects & research →</span>
-      </a>
-      <a class="contact-link" href="https://scholar.google.com/citations?user=Mj6ipggAAAAJ&hl=en" target="_blank">
-        <span class="contact-link-label">Google Scholar</span>
-        <span class="contact-link-name">Citations →</span>
-      </a>
-      <a class="contact-link" href="https://typingface.com/u/colonel1223" target="_blank">
-        <span class="contact-link-label">TypingFace</span>
-        <span class="contact-link-name">colonel1223 →</span>
-      </a>
-    </div>
+  <div class="sec-label">06 · Contact</div>
+  <div class="sec-title">Direct Line</div>
+  <p class="sec-desc">Research, infrastructure, and systems work. Open to peer review, critique, and collaboration.</p>
+  <div class="contact-grid">
+    <a class="contact-link" href="mailto:spencercottrell415@gmail.com">
+      <span class="cl-label">Email</span><span class="cl-name">Direct contact →</span>
+    </a>
+    <a class="contact-link" href="https://www.linkedin.com/in/spencercottrell/" target="_blank" rel="noopener">
+      <span class="cl-label">LinkedIn</span><span class="cl-name">Professional profile →</span>
+    </a>
+    <a class="contact-link" href="https://x.com/colonel_1223" target="_blank" rel="noopener">
+      <span class="cl-label">X / Twitter</span><span class="cl-name">@colonel_1223 →</span>
+    </a>
+    <a class="contact-link" href="https://github.com/colonel1223" target="_blank" rel="noopener">
+      <span class="cl-label">GitHub</span><span class="cl-name">colonel1223 →</span>
+    </a>
+    <a class="contact-link" href="https://scholar.google.com/citations?user=Mj6ipggAAAAJ&hl=en" target="_blank" rel="noopener">
+      <span class="cl-label">Google Scholar</span><span class="cl-name">Citations →</span>
+    </a>
+    <a class="contact-link" href="https://typingface.com/u/colonel1223" target="_blank" rel="noopener">
+      <span class="cl-label">TypingFace</span><span class="cl-name">colonel1223 →</span>
+    </a>
   </div>
 </section>
 
-<!-- FOOTER -->
+</div><!-- /wrap -->
+
 <footer>
   <div class="footer-inner">
-    <div class="footer-copy">© <span id="yr"></span> Spencer K. Cottrell · <span class="clock" id="clk"></span></div>
-    <div class="footer-axiom">We are the alchemists. The model is our athanor. And the gold, as always, is an illusion.</div>
+    <div class="footer-copy">© <span id="yr"></span> Spencer K. Cottrell · <span id="clk"></span> PST</div>
+    <div class="footer-axiom">We are not building a tool. We are completing an alchemical transmutation. Lead does not become gold — lead becomes worthless while gold becomes everything.</div>
   </div>
 </footer>
 
 <script>
-// ── CLOCK ──────────────────────────────────────────────────────────────────
-const clk = document.getElementById('clk');
-const yr  = document.getElementById('yr');
-function tick() {
-  const now = new Date();
-  yr.textContent = now.getFullYear();
-  const opts = { timeZone: 'America/Los_Angeles', hour12: false,
-    year:'numeric', month:'2-digit', day:'2-digit',
-    hour:'2-digit', minute:'2-digit', second:'2-digit' };
-  const parts = new Intl.DateTimeFormat('en-US', opts).formatToParts(now);
-  const p = {};
-  parts.forEach(x => p[x.type] = x.value);
-  clk.textContent = `${p.month}/${p.day}/${p.year} ${p.hour}:${p.minute}:${p.second} PST`;
-}
-tick(); setInterval(tick, 1000);
+// Clock
+(function(){
+  function tick(){
+    var n=new Date();
+    document.getElementById('yr').textContent=n.getFullYear();
+    var o={timeZone:'America/Los_Angeles',hour12:false,month:'2-digit',day:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'};
+    var p={};
+    try{new Intl.DateTimeFormat('en-US',o).formatToParts(n).forEach(function(x){p[x.type]=x.value;});
+    document.getElementById('clk').textContent=p.month+'/'+p.day+'/'+p.year+' '+p.hour+':'+p.minute+':'+p.second;}
+    catch(e){document.getElementById('clk').textContent=n.toLocaleTimeString();}
+  }
+  tick();setInterval(tick,1000);
+})();
 
-// ── ACTIVE NAV ─────────────────────────────────────────────────────────────
-const navLinks = document.querySelectorAll('.nav-links a');
-const sections = document.querySelectorAll('section[id]');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      navLinks.forEach(a => a.classList.remove('active'));
-      const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
-      if (active) active.classList.add('active');
-    }
-  });
-}, { rootMargin: '-40% 0px -55% 0px' });
-sections.forEach(s => obs.observe(s));
+// Nav active state on scroll
+(function(){
+  var sections=document.querySelectorAll('section[id]');
+  var links=document.querySelectorAll('.nav-links a');
+  if(!sections.length||!links.length)return;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(a){a.classList.remove('active');});
+        var a=document.querySelector('.nav-links a[href="#'+e.target.id+'"]');
+        if(a)a.classList.add('active');
+      }
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  sections.forEach(function(s){obs.observe(s);});
+})();
 
-// ── SMOOTH SCROLL ─────────────────────────────────────────────────────────
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
   });
 });
 </script>
+
 </body>
 </html>

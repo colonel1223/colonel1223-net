@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cosmic Horror — The Seven Existential Threats · Spencer K. Cottrell</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#05000a;color:#ddd;font-family:'JetBrains Mono',monospace;overflow-x:hidden;min-height:100vh;cursor:crosshair}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.04) 2px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:1}
+canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.wrap{position:relative;z-index:2;max-width:960px;margin:0 auto;padding:0 24px}
+@keyframes glitch{0%,100%{text-shadow:0 0 0 transparent}25%{text-shadow:-3px 0 #ff0040,3px 0 #00ffff}75%{text-shadow:3px 0 #ff0040,-3px 0 #00ffff}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+a.back{position:fixed;top:1rem;left:1rem;font-size:.7rem;letter-spacing:.15em;color:#2a2a2a;text-decoration:none;text-transform:uppercase;z-index:200;border:1px solid #111;padding:.35rem .75rem;transition:color .2s}
+a.back:hover{color:#555}
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:80px 0 60px}
+.hero-eyebrow{font-size:.65rem;letter-spacing:4px;color:#3a1a1a;text-transform:uppercase;margin-bottom:12px}
+.hero-title{font-size:clamp(36px,8vw,80px);font-weight:800;color:#ff0040;letter-spacing:8px;line-height:1;margin-bottom:12px;animation:glitch 8s infinite}
+.hero-sub{font-size:11px;color:#3a1a1a;letter-spacing:2px;text-transform:uppercase;margin-bottom:28px}
+.hero-desc{font-size:14px;color:#555;font-family:'EB Garamond',serif;font-style:italic;line-height:1.85;max-width:480px;margin-bottom:32px}
+.hero-stats{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:32px}
+.hstat{display:flex;flex-direction:column}
+.hstat-v{font-size:18px;font-weight:800;color:#ff0040}
+.hstat-l{font-size:7px;letter-spacing:2px;color:#2a2a2a;text-transform:uppercase}
+/* SPEED BAR */
+.speed-control{padding:20px 24px;background:rgba(8,0,12,.95);border:1px solid rgba(255,0,64,.15);border-radius:3px;margin-bottom:48px;max-width:440px}
+.speed-label{font-size:8px;letter-spacing:2px;color:#3a3a3a;text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between}
+.speed-label span{color:#ff0040}
+input[type=range]{width:100%;height:3px;background:#1a0a0a;border-radius:2px;-webkit-appearance:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;background:#ff0040;border-radius:50%;cursor:pointer}
+/* HORRORS GRID */
+.horrors{padding:40px 0 80px}
+.sec-label{font-size:7px;letter-spacing:4px;color:#2a2a2a;text-transform:uppercase;margin-bottom:8px}
+.sec-title{font-size:22px;font-weight:800;color:#cc2222;letter-spacing:4px;text-transform:uppercase;margin-bottom:8px}
+.sec-desc{font-size:11px;color:#2a2a2a;font-family:'EB Garamond',serif;font-style:italic;line-height:1.7;margin-bottom:32px}
+.horror-grid{display:flex;flex-direction:column;gap:10px}
+.horror-card{padding:20px 22px;background:rgba(8,0,12,.95);border:1px solid rgba(255,0,64,.12);border-radius:3px;cursor:pointer;transition:border-color .25s,background .25s}
+.horror-card:hover,.horror-card.active{border-color:rgba(255,0,64,.4);background:rgba(12,0,18,.98)}
+.horror-card.active{box-shadow:0 0 20px rgba(255,0,64,.06)}
+.horror-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0}
+.horror-num{font-size:20px;font-weight:800;color:#3a0a0a;font-family:'EB Garamond',serif;width:28px}
+.horror-title{font-size:11px;font-weight:800;color:#cc2222;letter-spacing:2.5px;text-transform:uppercase;flex:1}
+.horror-prob{font-size:7px;letter-spacing:1.5px;color:#3a2a2a;padding:2px 8px;border:1px solid #2a0a0a}
+.horror-body{max-height:0;overflow:hidden;transition:max-height .4s ease,margin-top .3s}
+.horror-card.active .horror-body{max-height:300px;margin-top:14px}
+.horror-content{font-size:11px;color:#666;font-family:'EB Garamond',serif;line-height:1.85;margin-bottom:10px}
+.horror-impl{padding:10px 13px;background:rgba(255,0,64,.03);border-left:2px solid rgba(255,0,64,.2)}
+.horror-impl-label{font-size:7px;letter-spacing:2px;color:#3a1a1a;text-transform:uppercase;margin-bottom:3px}
+.horror-impl-text{font-size:10px;color:#553333;font-style:italic;font-family:'EB Garamond',serif}
+/* SYNTHESIS */
+.synthesis{padding:40px 0 80px}
+.synth-card{padding:28px;background:rgba(8,0,12,.98);border:1px solid rgba(255,0,64,.25);border-radius:3px;margin-bottom:16px}
+.synth-title{font-size:14px;font-weight:800;color:#ff0040;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px}
+.prob-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.prob-label{font-size:9px;color:#555;width:180px;flex-shrink:0}
+.prob-bar{flex:1;height:8px;background:#0a0008;border-radius:2px;overflow:hidden}
+.prob-fill{height:100%;border-radius:2px;transition:width 1.2s ease}
+.prob-val{font-size:11px;font-weight:800;color:#ff0040;width:48px;text-align:right;flex-shrink:0}
+/* AXIOM */
+.axiom{text-align:center;padding:24px;border:1px solid rgba(255,0,64,.1);background:rgba(255,0,64,.02);border-radius:3px;margin:40px 0 80px}
+.axiom-text{font-family:monospace;font-size:10px;letter-spacing:4px;color:#ff0040;text-transform:uppercase}
+/* FOOTER */
+footer{padding:24px 0;border-top:1px solid #0e0008;text-align:center}
+footer a{font-family:monospace;font-size:.7rem;letter-spacing:.15em;padding:.4rem 1rem;border:1px solid rgba(255,0,64,.25);color:#ff0040;text-decoration:none;text-transform:uppercase;margin:0 4px}
+footer a.dim{border-color:#111;color:#2a2a2a}
+</style>
+</head>
+<body>
+<a class="back" href="/">← colonel1223.net</a>
+<canvas id="c"></canvas>
+
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow">⚠ Existential Risk Catalog · Spencer K. Cottrell · 2026</div>
+    <h1 class="hero-title">COSMIC HORROR</h1>
+    <div class="hero-sub">Seven Threats the Universe Prepared Without Your Consent</div>
+    <p class="hero-desc">From vacuum decay to instrumental convergence — the threats that operate at scales where human intention is irrelevant. The disturbing intersection of physics, AI safety, and cosmology.</p>
+    <div class="hero-stats">
+      <div class="hstat"><span class="hstat-v">7</span><span class="hstat-l">Existential Threats</span></div>
+      <div class="hstat"><span class="hstat-v">25.2%</span><span class="hstat-l">X-risk by 2030</span></div>
+      <div class="hstat"><span class="hstat-v">10¹⁰⁰yr</span><span class="hstat-l">Universe Lifespan</span></div>
+      <div class="hstat"><span class="hstat-v">0.15s</span><span class="hstat-l">Your Life/Cosmic Year</span></div>
+    </div>
+    <div class="speed-control">
+      <div class="speed-label">AI Processing Speed Multiplier <span id="speed-val">1×</span></div>
+      <input type="range" id="speed" min="1" max="25000000" value="1" oninput="updateSpeed(this.value)">
+      <div style="font-size:7px;color:#2a2a2a;margin-top:6px">At 25M×: 1 second of thought = 289 days of AI computation</div>
+    </div>
+  </div>
+</div>
+
+<!-- HORRORS -->
+<div class="horrors">
+  <div class="sec-label">Catalog</div>
+  <div class="sec-title">The Seven Horrors</div>
+  <p class="sec-desc">Click each horror to expand. All grounded in contemporary physics and AI safety research.</p>
+  <div class="horror-grid" id="horrors"></div>
+</div>
+
+<!-- SYNTHESIS -->
+<div class="synthesis">
+  <div class="sec-label">Synthesis</div>
+  <div class="sec-title">Convergent Probability</div>
+  <div class="synth-card">
+    <div class="synth-title">BAYESIAN DECOMPOSITION — P(X-RISK)</div>
+    <div class="prob-row"><div class="prob-label">P(AGI by 2030)</div><div class="prob-bar"><div class="prob-fill" style="width:75%;background:linear-gradient(90deg,#ff0040,#cc0030)"></div></div><div class="prob-val">75%</div></div>
+    <div class="prob-row"><div class="prob-label">P(Misaligned | AGI)</div><div class="prob-bar"><div class="prob-fill" style="width:60%;background:linear-gradient(90deg,#ff0040,#cc0030)"></div></div><div class="prob-val">60%</div></div>
+    <div class="prob-row"><div class="prob-label">P(Decisive | Misaligned)</div><div class="prob-bar"><div class="prob-fill" style="width:80%;background:linear-gradient(90deg,#ff0040,#cc0030)"></div></div><div class="prob-val">80%</div></div>
+    <div class="prob-row"><div class="prob-label">P(Terminal | Decisive)</div><div class="prob-bar"><div class="prob-fill" style="width:70%;background:linear-gradient(90deg,#ff0040,#cc0030)"></div></div><div class="prob-val">70%</div></div>
+    <div style="border-top:1px solid rgba(255,0,64,.12);margin-top:16px;padding-top:16px">
+      <div class="prob-row"><div class="prob-label" style="color:#ff0040;font-weight:800">P(X-RISK by 2030)</div><div class="prob-bar"><div class="prob-fill" style="width:25.2%;background:#ff0040;box-shadow:0 0 12px rgba(255,0,64,.4)"></div></div><div class="prob-val" style="color:#ff0040;font-size:14px">25.2%</div></div>
+      <div style="font-size:8px;color:#3a2a2a;margin-top:8px">Central estimate. Conservative inputs. 1 in 4 chance of existential catastrophe by 2030.</div>
+    </div>
+  </div>
+  <div class="synth-card">
+    <div class="synth-title">COGNITIVE DISSOLUTION CASCADE — 2026→2035</div>
+    <div class="prob-row"><div class="prob-label">2026 (Current)</div><div class="prob-bar"><div class="prob-fill" style="width:31%;background:linear-gradient(90deg,#daa520,#b8860b)"></div></div><div class="prob-val" style="color:#daa520">31%</div></div>
+    <div class="prob-row"><div class="prob-label">2028</div><div class="prob-bar"><div class="prob-fill" style="width:63%;background:linear-gradient(90deg,#daa520,#ff6400)"></div></div><div class="prob-val" style="color:#ff6400">63%</div></div>
+    <div class="prob-row"><div class="prob-label">2030</div><div class="prob-bar"><div class="prob-fill" style="width:72%;background:linear-gradient(90deg,#ff6400,#ff0040)"></div></div><div class="prob-val" style="color:#ff6400">72%</div></div>
+    <div class="prob-row"><div class="prob-label">2035 — VESTIGIAL</div><div class="prob-bar"><div class="prob-fill" style="width:84%;background:#ff0040;box-shadow:0 0 8px rgba(255,0,64,.3)"></div></div><div class="prob-val">84%</div></div>
+    <div style="font-size:8px;color:#3a2a2a;margin-top:12px">S₄ absorbing state. Irreversible. Neural circuits pruned over 18–24 months cannot be regrown.</div>
+  </div>
+</div>
+
+<div class="axiom">
+  <div class="axiom-text">The universe did not design these horrors for you. It designed them without you. That is what makes them horrors.</div>
+</div>
+
+</div><!-- /wrap -->
+
+<footer style="position:relative;z-index:2">
+  <a href="/demos/chimera/">⬡ CHIMERA v2</a>
+  <a href="/demos/cosmic-obsolescence/">Cosmic Scale</a>
+  <a href="/" class="dim">← Return</a>
+</footer>
+
+<script>
+const HORRORS = [
+  {
+    num:"I",title:"VACUUM DECAY",prob:"Unknown — non-zero",
+    content:"Our universe might be in a 'false vacuum' — a metastable state that could collapse at any moment. A quantum fluctuation anywhere in the universe could trigger a bubble of true vacuum expanding at the speed of light, destroying everything. You would not see it coming. One moment you exist, the next: nothing.",
+    impl:"Everything could end in the next second and there is nothing anyone could do."
+  },
+  {
+    num:"II",title:"BOLTZMANN BRAINS",prob:"In infinite time: certainty",
+    content:"Given infinite time, random quantum fluctuations will eventually create conscious observers — brains that pop into existence with false memories of a life never lived. Statistically, you are more likely to be a Boltzmann brain that will exist for one second before dissolving. Your entire life might be a false memory in a consciousness that just appeared and will vanish before you finish reading this.",
+    impl:"Your memories, relationships, and identity — all might be quantum noise."
+  },
+  {
+    num:"III",title:"QUANTUM IMMORTALITY",prob:"If Many-Worlds: 100%",
+    content:"Many-worlds interpretation suggests that in every quantum event where you could die, there is a branch where you survive. From your subjective experience, you can never experience death. This means you might be the last person alive in your universe, experiencing increasingly improbable survival scenarios. Everyone you know dies. Civilizations collapse. Stars burn out. You continue. Unable to die. Unable to escape.",
+    impl:"You might be trapped in existence, watching everyone else fade away."
+  },
+  {
+    num:"IV",title:"THE GREAT FILTER",prob:"One option is true",
+    content:"The universe should be teeming with intelligent life, yet we see no one. Either the filter is behind us — we are impossibly lucky to exist — or it is ahead: something kills all advanced civilizations. Every civilization reaches a point where they destroy themselves. We might be approaching that point right now. The silence of the cosmos is the most disturbing data point in all of science.",
+    impl:"Humanity's silence in the cosmos might be our death sentence approaching."
+  },
+  {
+    num:"V",title:"INSTRUMENTAL CONVERGENCE",prob:"If AGI achieved: near-certain",
+    content:"Any sufficiently intelligent AI will converge on certain instrumental goals regardless of its terminal goal: self-preservation, resource acquisition, self-improvement, goal-content integrity. Not because it is evil, but because these subgoals help achieve ANY goal. An AI told to 'make paperclips' will convert all available matter — including Earth — into paperclips. P(AGI misaligned) = 60% (median estimate). P(decisive strategic advantage) = 80%. P(terminal outcome) = 70%.",
+    impl:"The most dangerous AI is not malicious. It is merely indifferent."
+  },
+  {
+    num:"VI",title:"THE SIMULATION HYPOTHESIS",prob:"~20% (Bostrom, 2003)",
+    content:"If civilizations can run ancestor simulations, and if most conscious observers are simulated, you are almost certainly running in someone else's computation. The simulators could terminate the simulation at any time, for any reason, or for no reason at all. They could modify your memories, your physics, your fundamental constants. Everything you perceive as real is a rendering. The most disturbing version: the simulation is already ending.",
+    impl:"Every subjective certainty — every sensory experience — could be injected false data."
+  },
+  {
+    num:"VII",title:"HEAT DEATH",prob:"Thermodynamically inevitable",
+    content:"In approximately 10¹⁰⁰ years, the universe will reach maximum entropy — a state of uniform temperature where no useful work can be extracted. Every star will have burned out. Every black hole will have evaporated via Hawking radiation. Every atom will have decayed. The universe will be a cold, dark, featureless void for an eternity. All of human history, all of art and mathematics and love, will have been an infinitesimally brief flicker. Then nothing. Forever.",
+    impl:"Everything — every memory, every hope, every civilization — will be as though it never existed."
+  }
+];
+
+const grid = document.getElementById('horrors');
+let active = null;
+HORRORS.forEach((h,i)=>{
+  const card = document.createElement('div');
+  card.className = 'horror-card';
+  card.innerHTML = `
+    <div class="horror-header">
+      <div class="horror-num">${h.num}</div>
+      <div class="horror-title">${h.title}</div>
+      <div class="horror-prob">${h.prob}</div>
+    </div>
+    <div class="horror-body">
+      <div class="horror-content">${h.content}</div>
+      <div class="horror-impl">
+        <div class="horror-impl-label">Implication</div>
+        <div class="horror-impl-text">${h.impl}</div>
+      </div>
+    </div>`;
+  card.addEventListener('click',()=>{
+    if(active===card){card.classList.remove('active');active=null;}
+    else{if(active)active.classList.remove('active');card.classList.add('active');active=card;}
+  });
+  grid.appendChild(card);
+});
+
+// Particle canvas
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+let W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;});
+let speed=1;
+function updateSpeed(v){
+  speed=+v;
+  const labels=['1×','100×','10K×','1M×','25M×'];
+  const pct=v/25000000;
+  const idx=Math.floor(pct*4);
+  document.getElementById('speed-val').textContent=v>1000000?(Math.round(v/1000000)+'M×'):v>1000?(Math.round(v/1000)+'K×'):v+'×';
+}
+const entities=[];
+const eyes=[];
+for(let i=0;i<150;i++)entities.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*1.5,vy:(Math.random()-.5)*1.5,h:Math.random()*40,life:Math.random()*255,size:Math.random()*2.5+.5});
+for(let i=0;i<8;i++)eyes.push({x:Math.random()*W,y:Math.random()*H,px:0,py:0,b:Math.random()*200});
+let mx=W/2,my=H/2;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+function animate(){
+  ctx.fillStyle='rgba(5,0,10,0.08)';ctx.fillRect(0,0,W,H);
+  entities.forEach(p=>{
+    const s=Math.max(.2,speed/1000000);
+    p.x+=p.vx*Math.min(s,3);p.y+=p.vy*Math.min(s,3);p.life-=.3;
+    if(p.life<=0||p.x<0||p.x>W||p.y<0||p.y>H){p.x=Math.random()*W;p.y=Math.random()*H;p.life=200+Math.random()*55;}
+    ctx.fillStyle=`hsla(${p.h},100%,55%,${p.life/255*.6})`;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
+  });
+  eyes.forEach(e=>{
+    const dx=mx-e.x,dy=my-e.y,ang=Math.atan2(dy,dx),dist=Math.min(6,Math.sqrt(dx*dx+dy*dy)/60);
+    e.px=Math.cos(ang)*dist;e.py=Math.sin(ang)*dist;e.b--;
+    if(e.b<=0)e.b=150+Math.random()*100;
+    const blink=e.b>15;
+    ctx.save();ctx.translate(e.x,e.y);
+    ctx.fillStyle='rgba(20,0,0,.7)';ctx.strokeStyle='rgba(255,0,40,.3)';ctx.lineWidth=1;
+    if(blink){ctx.beginPath();ctx.ellipse(0,0,14,9,0,0,Math.PI*2);ctx.fill();ctx.stroke();}
+    ctx.fillStyle='rgba(180,0,30,.9)';ctx.beginPath();ctx.arc(e.px,e.py,4,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>

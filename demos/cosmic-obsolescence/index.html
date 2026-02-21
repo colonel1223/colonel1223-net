@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Cosmic Insignificance — Spencer K. Cottrell</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Crimson+Pro:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden}
+.serif{font-family:'Crimson Pro',serif}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn 1s ease-in}
+.number-huge{font-size:clamp(3rem,10vw,8rem);font-weight:900;line-height:1}
+canvas{position:fixed;inset:0;opacity:.2;pointer-events:none;z-index:0}
+.content{position:relative;z-index:1}
+section{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:4rem 1.5rem}
+.max-w{max-width:72rem;width:100%;margin:0 auto}
+.max-w-4{max-width:56rem;width:100%;margin:0 auto}
+.text-center{text-align:center}
+.space-y>*+*{margin-top:2rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+@media(max-width:768px){.grid-3,.grid-2{grid-template-columns:1fr}}
+.card{background:rgba(15,23,42,.5);border:1px solid #334155;border-radius:12px;padding:1.5rem;text-align:center}
+.card-highlight{background:linear-gradient(135deg,rgba(8,47,73,.5),rgba(8,47,73,.3));border:2px solid #06b6d4}
+.card-danger{background:linear-gradient(135deg,rgba(69,10,10,.5),rgba(0,0,0,0));border:2px solid #7f1d1d}
+.big-num{font-size:2.5rem;font-weight:900;color:#6b7280;margin-bottom:.5rem}
+.label-sm{font-size:.75rem;color:#6b7280}
+.red{color:#ef4444}.cyan{color:#06b6d4}.yellow{color:#eab308}.orange{color:#f97316}.purple{color:#a855f7}.green{color:#10b981}
+h1{font-size:clamp(3rem,8vw,8rem);font-weight:900;margin-bottom:1.5rem;background:linear-gradient(to bottom,#fff,#6b7280);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+h2{font-size:clamp(2rem,6vw,4rem);font-weight:900;margin-bottom:1rem}
+.subtitle{font-size:1.5rem;color:#9ca3af;font-style:italic;font-family:'Crimson Pro',serif}
+.stat-row{display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,.3);padding:1rem 1.5rem;border-radius:.5rem;margin-bottom:.75rem}
+.stat-val{font-size:1.5rem;font-weight:700}
+.warning-box{background:linear-gradient(135deg,rgba(69,10,10,1),rgba(0,0,0,0));border:4px solid #ef4444;border-radius:12px;padding:3rem}
+.and-yet{background:linear-gradient(135deg,rgba(8,47,73,.9),rgba(30,27,75,.9),rgba(46,16,101,.9));border:4px solid #06b6d4;border-radius:12px;padding:3rem}
+.arrow-item{display:flex;align-items:flex-start;gap:1rem;font-size:1.1rem;line-height:1.7;color:#d1d5db;margin-bottom:1.5rem}
+.arrow{font-size:2rem;color:#ef4444;flex-shrink:0;line-height:1}
+.progress-bar{position:fixed;bottom:0;left:0;right:0;height:4px;background:#1e293b;z-index:100}
+.progress-fill{height:100%;background:linear-gradient(90deg,#06b6d4,#a855f7,#ef4444);transition:width .1s}
+a.back{position:fixed;top:1rem;left:1rem;font-size:.75rem;letter-spacing:.15em;color:#374151;text-decoration:none;text-transform:uppercase;z-index:200;border:1px solid #1f2937;padding:.4rem .8rem;border-radius:.25rem;transition:color .2s,border-color .2s}
+a.back:hover{color:#9ca3af;border-color:#374151}
+</style>
+</head>
+<body>
+<a class="back" href="/">← colonel1223.net</a>
+<canvas id="c"></canvas>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<div class="content">
+
+<section>
+<div class="max-w-4 text-center space-y fade-in">
+  <h1>YOUR COSMIC INSIGNIFICANCE</h1>
+  <p class="subtitle">Everything, visualized at actual scale</p>
+  <p style="color:#4b5563;font-size:1rem;margin-top:3rem">↓ scroll</p>
+</div>
+</section>
+
+<section>
+<div class="max-w space-y">
+  <div class="text-center" style="margin-bottom:3rem">
+    <h2>YOUR SIZE</h2>
+    <p style="color:#9ca3af;font-size:1.25rem">In the scale of space</p>
+  </div>
+  <div class="card-highlight" style="text-align:center;padding:2rem;margin-bottom:1.5rem">
+    <div class="number-huge cyan">1.7m</div>
+    <div style="font-size:1.5rem;font-weight:700;margin-top:1rem">YOU</div>
+    <div style="color:#9ca3af;margin-top:.5rem">Average human height</div>
+  </div>
+  <div class="grid-3">
+    <div class="card"><div class="big-num">0.000001%</div><div class="label-sm">of Earth's diameter</div></div>
+    <div class="card"><div class="big-num" style="font-size:1.4rem">0.00000000012%</div><div class="label-sm">of the Sun's diameter</div></div>
+    <div class="card"><div class="big-num">≈ 0%</div><div class="label-sm">of the universe</div></div>
+  </div>
+  <div class="card-danger" style="text-align:center;padding:2rem;margin-top:1.5rem">
+    <div class="number-huge red">8.8×10²⁶m</div>
+    <div style="font-size:1.5rem;font-weight:700;margin-top:1rem">OBSERVABLE UNIVERSE</div>
+    <div style="color:#9ca3af;margin-top:.5rem">You are 10⁻²⁷ times smaller than this</div>
+    <div style="color:#4b5563;font-size:.875rem;margin-top:1rem;font-style:italic">If the universe were the size of Earth, you would be 10 million times smaller than a single atom</div>
+  </div>
+  <p class="text-center serif" style="font-size:1.25rem;color:#6b7280;padding:2rem">You are a speck on a speck orbiting a speck in a speck of the universe</p>
+</div>
+</section>
+
+<section>
+<div class="max-w space-y">
+  <div class="text-center" style="margin-bottom:3rem">
+    <h2>YOUR TIME</h2>
+    <p style="color:#9ca3af;font-size:1.25rem">In the scale of cosmic history</p>
+  </div>
+  <div style="position:relative;padding-left:4rem;margin-bottom:3rem">
+    <div style="position:absolute;left:1.5rem;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,#a855f7,#3b82f6,#ef4444)"></div>
+    <div style="margin-bottom:4rem">
+      <div style="font-size:1.5rem;font-weight:900;color:#a855f7">13.8 billion years ago</div>
+      <div style="font-size:1.125rem;color:#fff;margin-top:.25rem">Big Bang</div>
+      <div style="font-size:.875rem;color:#6b7280">Universe begins</div>
+    </div>
+    <div style="margin-bottom:4rem">
+      <div style="font-size:1.5rem;font-weight:900;color:#3b82f6">4.5 billion years ago</div>
+      <div style="font-size:1.125rem;color:#fff;margin-top:.25rem">Earth Forms</div>
+      <div style="font-size:.875rem;color:#6b7280">Your planet emerges</div>
+    </div>
+    <div style="margin-bottom:4rem">
+      <div style="font-size:1.5rem;font-weight:900;color:#06b6d4">300,000 years ago</div>
+      <div style="font-size:1.125rem;color:#fff;margin-top:.25rem">Homo Sapiens</div>
+      <div style="font-size:.875rem;color:#6b7280">Modern humans emerge</div>
+    </div>
+    <div style="margin-bottom:4rem;animation:pulse 2s infinite">
+      <div style="font-size:1.5rem;font-weight:900;color:#eab308">~80 years</div>
+      <div style="font-size:1.125rem;color:#fff;margin-top:.25rem">YOUR LIFE</div>
+      <div style="font-size:.875rem;color:#6b7280">If you're lucky</div>
+    </div>
+    <div>
+      <div style="font-size:1.5rem;font-weight:900;color:#ef4444">10¹⁰⁰ years</div>
+      <div style="font-size:1.125rem;color:#fff;margin-top:.25rem">Heat Death</div>
+      <div style="font-size:.875rem;color:#6b7280">Universe ends in darkness</div>
+    </div>
+  </div>
+  <div class="card-danger text-center" style="padding:2rem">
+    <div style="font-size:1.5rem;font-weight:700;color:#ef4444;margin-bottom:1rem">Your Life as a % of Universe History:</div>
+    <div class="number-huge red">0.0000006%</div>
+    <p class="serif" style="font-size:1.125rem;color:#9ca3af;margin-top:1.5rem">If the universe's age were compressed into one year, humans appeared 3 minutes before midnight on December 31st.<br><br>Your entire life? 0.15 seconds.</p>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="max-w space-y">
+  <div class="text-center" style="margin-bottom:3rem">
+    <h2>YOUR INTELLIGENCE</h2>
+    <p style="color:#9ca3af;font-size:1.25rem">Compared to what's possible</p>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:1rem">
+    <div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:.5rem"><span style="color:#9ca3af">Bacteria</span></div><div style="height:8px;background:#1e293b;border-radius:4px;overflow:hidden"><div style="width:0.1%;height:100%;background:#4b5563"></div></div></div>
+    <div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:.5rem"><span style="color:#9ca3af">Dog</span></div><div style="height:8px;background:#1e293b;border-radius:4px;overflow:hidden"><div style="width:5%;height:100%;background:#6b7280"></div></div></div>
+    <div class="card-highlight"><div style="display:flex;justify-content:space-between;margin-bottom:.5rem"><span style="font-weight:700;color:#06b6d4;font-size:1.125rem">YOU (Human)</span></div><div style="height:16px;background:#1e293b;border-radius:4px;overflow:hidden"><div style="width:20%;height:100%;background:#06b6d4"></div></div><div style="font-size:.75rem;color:#6b7280;margin-top:.5rem">Smartest known biological intelligence</div></div>
+    <div style="background:rgba(69,26,3,.5);border:2px solid #f97316;border-radius:12px;padding:1.5rem"><div style="font-weight:700;color:#f97316;font-size:1.125rem;margin-bottom:.5rem">AGI (Future)</div><div style="height:16px;background:#1e293b;border-radius:4px;overflow:hidden"><div style="width:50%;height:100%;background:#f97316"></div></div><div style="font-size:.75rem;color:#6b7280;margin-top:.5rem">Human-level general intelligence — projected median arrival: 5 years</div></div>
+    <div class="card-danger"><div style="font-weight:700;color:#ef4444;font-size:1.125rem;margin-bottom:.5rem">Superintelligence</div><div style="height:16px;background:#1e293b;border-radius:4px;overflow:hidden"><div style="width:100%;height:100%;background:linear-gradient(90deg,#ef4444,#9f1239);animation:pulse 2s infinite"></div></div><div style="font-size:.75rem;color:#6b7280;margin-top:.5rem">Beyond human comprehension</div></div>
+  </div>
+  <div class="card-danger" style="padding:2rem">
+    <h3 style="font-size:1.5rem;font-weight:700;color:#ef4444;margin-bottom:1.5rem;text-align:center">Processing Speed Gap</h3>
+    <div class="grid-2">
+      <div style="background:rgba(0,0,0,.5);padding:1.5rem;border-radius:.5rem"><div style="font-size:2.5rem;font-weight:900;color:#06b6d4">200 Hz</div><div style="font-size:1.125rem;color:#fff">Your Neurons</div><div style="font-size:.75rem;color:#6b7280;margin-top:.5rem">How fast your brain processes</div></div>
+      <div style="background:rgba(0,0,0,.5);padding:1.5rem;border-radius:.5rem"><div style="font-size:2.5rem;font-weight:900;color:#ef4444">5 GHz</div><div style="font-size:1.125rem;color:#fff">Computer Processors</div><div style="font-size:.75rem;color:#6b7280;margin-top:.5rem">25 MILLION times faster</div></div>
+    </div>
+    <div style="margin-top:1.5rem;text-align:center">
+      <p class="serif" style="font-size:1.125rem;color:#d1d5db">In 1 second of human thought, advanced AI could experience <span style="color:#ef4444;font-weight:700">289 days</span> of thinking.<br>You are frozen. Helpless. Incomprehensible to it.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="max-w space-y">
+  <div class="text-center" style="margin-bottom:3rem">
+    <h2 class="red">THE FINAL TRUTH</h2>
+    <p style="color:#9ca3af;font-size:1.25rem">Putting it all together</p>
+  </div>
+  <div class="warning-box">
+    <h3 style="font-size:1.75rem;font-weight:900;color:#ef4444;margin-bottom:2rem;text-align:center">YOUR COMPLETE OBSOLESCENCE</h3>
+    <div class="arrow-item"><span class="arrow">→</span><p>You are <span class="red" style="font-weight:700">10⁻²⁷ times</span> smaller than the universe. A rounding error. A statistical blip.</p></div>
+    <div class="arrow-item"><span class="arrow">→</span><p>Your life is <span class="red" style="font-weight:700">0.0000006%</span> of universe history. If cosmic time were a year, you exist for 0.15 seconds.</p></div>
+    <div class="arrow-item"><span class="arrow">→</span><p>Your brain processes at <span class="red" style="font-weight:700">200 Hz</span>. AI processes at <span class="red" style="font-weight:700">5 GHz</span> — 25 million times faster. You think in geological slow motion.</p></div>
+    <div class="arrow-item"><span class="arrow">→</span><p>Future AI will be <span class="red" style="font-weight:700">smarter than all humans combined</span>. You will be to it what an ant is to you — but an ant that doesn't know it.</p></div>
+    <div class="arrow-item"><span class="arrow">→</span><p>Everything you create will be <span class="red" style="font-weight:700">erased</span> by time. In 1,000 years, forgotten. In 1 million years, humanity possibly extinct. In 10¹⁰⁰ years, even atoms decay.</p></div>
+    <div class="arrow-item"><span class="arrow">→</span><p><span class="red" style="font-weight:700">P(X-risk by 2030) = 25.2%.</span> Mathematical product of conservative empirical estimates. Not alarmism. Bayesian decomposition.</p></div>
+  </div>
+  <div class="grid-2">
+    <div style="background:#000;border:2px solid #ef4444;border-radius:12px;padding:2rem;text-align:center"><div class="number-huge red">0.0000006%</div><div>Your lifetime vs universe age</div></div>
+    <div style="background:#000;border:2px solid #ef4444;border-radius:12px;padding:2rem;text-align:center"><div class="number-huge red">25.2%</div><div>P(extinction by 2030)</div></div>
+    <div style="background:#000;border:2px solid #ef4444;border-radius:12px;padding:2rem;text-align:center"><div class="number-huge red">92%</div><div>Cognitive dissolution by 2035</div></div>
+    <div style="background:#000;border:2px solid #ef4444;border-radius:12px;padding:2rem;text-align:center"><div class="number-huge red">100%</div><div>Probability you'll be forgotten</div></div>
+  </div>
+  <div class="and-yet">
+    <h3 style="font-size:2.5rem;font-weight:900;color:#06b6d4;margin-bottom:2rem;text-align:center">AND YET...</h3>
+    <p class="serif text-center" style="font-size:1.5rem;color:#e2e8f0;line-height:1.8">Despite all of this — despite your infinitesimal size, fleeting existence, negligible impact, and inevitable obsolescence...</p>
+    <p class="text-center" style="font-size:1.75rem;font-weight:700;color:#06b6d4;margin:1.5rem 0">You still EXPERIENCE.</p>
+    <p class="serif text-center" style="font-size:1.25rem;color:#cbd5e1;line-height:1.8">You are the universe aware of itself. Atoms that organized to contemplate atoms. Matter that wonders about matter.</p>
+    <p class="text-center" style="font-size:2rem;font-weight:900;color:#fff;margin-top:2rem">Cogito, ergo sum.</p>
+    <p class="serif text-center" style="color:#9ca3af;margin-top:.5rem;font-style:italic">That might be the only meaning there is.</p>
+  </div>
+  <div style="text-align:center;padding:2rem;border-top:1px solid #1f2937;margin-top:2rem">
+    <a href="/demos/chimera/" style="font-family:monospace;font-size:.75rem;letter-spacing:.15em;padding:.5rem 1rem;border:1px solid rgba(255,0,64,.4);color:#ff0040;text-decoration:none;text-transform:uppercase;margin-right:.5rem">⬡ CHIMERA v2 →</a>
+    <a href="/" style="font-family:monospace;font-size:.75rem;letter-spacing:.15em;padding:.5rem 1rem;border:1px solid #1f2937;color:#6b7280;text-decoration:none;text-transform:uppercase">← Return</a>
+  </div>
+</div>
+</section>
+
+</div>
+
+<script>
+const canvas=document.getElementById('c');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+const particles=[];
+for(let i=0;i<100;i++)particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.5,vy:Math.random()*.5+.2,size:Math.random()*2,opacity:Math.random()});
+function animate(){
+  ctx.fillStyle='rgba(0,0,0,0.05)';ctx.fillRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    p.y+=p.vy;p.x+=p.vx;p.opacity-=.002;
+    if(p.y>canvas.height||p.opacity<=0){p.y=0;p.x=Math.random()*canvas.width;p.opacity=Math.random();}
+    ctx.fillStyle=`rgba(255,255,255,${p.opacity*.3})`;ctx.fillRect(p.x,p.y,p.size,p.size);
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+window.addEventListener('scroll',()=>{
+  const pct=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
+  document.getElementById('prog').style.width=pct+'%';
+});
+</script>
+</body>
+</html>
