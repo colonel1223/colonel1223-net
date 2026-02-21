@@ -7,6 +7,49 @@
 <link rel="stylesheet" href="/assets/css/core.css">
 </head>
 <body>
+
+<!-- ===== LANGUAGE TOGGLE ===== -->
+
+<button id="lang-toggle"
+style="position:fixed;top:20px;right:20px;z-index:9999;padding:10px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.55);color:white;font-size:13px;backdrop-filter:blur(10px);cursor:pointer;">
+日本語
+</button>
+
+<script>
+const jpMap = {
+"Contact":"お問い合わせ",
+"Direct line to collaboration":"共同研究・事業連携",
+"Academic citations":"学術論文・引用",
+"Research publications":"研究論文",
+"Projects & research":"研究プロジェクト",
+"Professional profile":"公式プロフィール",
+"Direct contact":"直接連絡",
+"Machine Intelligence":"機械知能",
+"Systems":"システム",
+"Infrastructure":"インフラストラクチャ",
+"All Rights Reserved":"無断転載禁止",
+"Last Updated":"最終更新"
+};
+
+let jp=false;
+
+document.getElementById("lang-toggle").onclick=()=>{
+jp=!jp;
+document.getElementById("lang-toggle").textContent=jp?"English":"日本語";
+
+document.querySelectorAll("body *").forEach(el=>{
+if(el.children.length===0){
+let t=el.textContent.trim();
+if(jp && jpMap[t]) el.textContent=jpMap[t];
+if(!jp){
+location.reload();
+}
+}
+});
+};
+</script>
+
+
 <div class="container">
   <h1>SPENCER K. COTTRELL</h1>
   <div class="subtitle">Machine Intelligence · Systems · Infrastructure</div>
