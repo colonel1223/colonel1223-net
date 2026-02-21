@@ -5,3 +5,6 @@ out
 .DS_Store
 _next
 .claude/worktrees
+*.bak
+*.bak*
+colonel1223-net/
