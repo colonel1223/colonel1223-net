@@ -205,6 +205,14 @@
  <div class="label" data-i18n="sec_models_label">Models</div>
  <h2 data-i18n="sec_models_title">Model cards</h2>
  <p data-i18n="sec_models_desc"> </p>
+
+<div id="models-hub" style="margin-top:18px;">
+        <div class="cards2" id="models-cards"></div>
+        <div style="margin-top:18px; color:rgba(255,255,255,.66); line-height:1.7;">
+          <div class="label" data-i18n="models_findings_label">Findings</div>
+          <div id="models-findings"></div>
+        </div>
+      </div>
 <div class="s" data-i18n="magnum_desc">Bayesian X-risk decomposition + Markov-chain dissolution model (2020–2026 derived)</div>
         </a>
       </div>
@@ -413,8 +421,8 @@ magnum_findings_label: "Key findings",
 magnum_f1: "Bayesian decomposition estimates 25.2% median extinction probability by 2030.",
 magnum_f2: "Markov-chain analysis projects cognitive dissolution reaching 92% by 2035 under current adoption rates.",
 magnum_f3: "Two independent models converge: extinction risk + autonomy loss trajectories.",
+        models_findings_label: "Findings",
 
-      
       },
       ja: {
  name: "スペンサー・K・コットレル",
@@ -491,6 +499,7 @@ magnum_findings_label: "主要ポイント",
 magnum_f1: "ベイズ分解により、2030年までの中央値として消滅確率25.2%を提示。",
 magnum_f2: "マルコフ連鎖分析により、2035年までに認知溶解が92%に到達する可能性を提示。",
 magnum_f3: "独立した2モデルが収束：消滅リスクと自律性喪失の同時進行。",
+        models_findings_label: "要点",
 
       }
     };
@@ -560,6 +569,62 @@ magnum_f3: "独立した2モデルが収束：消滅リスクと自律性喪失�
 
  const msToNext = 1000 - (new Date().getMilliseconds() % 1000);
  setTimeout(()=>{ tick(); setInterval(tick, 1000); }, msToNext);
+})();
+</script>
+<script id="models-hub-script">
+(function(){
+  const DATA_URL = "data/portfolio.json";
+
+  async function load(){
+    const res = await fetch(DATA_URL, { cache: "no-store" });
+    if(!res.ok) throw new Error("Failed to load " + DATA_URL);
+    return await res.json();
+  }
+
+  function currentLang(){
+    return (localStorage.getItem("lang") === "ja") ? "ja" : "en";
+  }
+
+  function cardHTML(item, lang){
+    const title = (item.title && item.title[lang]) || (item.title && item.title.en) || "";
+    const desc  = (item.desc  && item.desc[lang])  || (item.desc  && item.desc.en)  || "";
+    return `
+      <a class="card" href="${item.url}" target="_blank" rel="noreferrer">
+        <div class="k"><span>${title}</span></div>
+        <div class="s">${desc}</div>
+      </a>
+    `;
+  }
+
+  function render(data){
+    const lang = currentLang();
+    const cardsEl = document.getElementById("models-cards");
+    const findingsEl = document.getElementById("models-findings");
+    if(!cardsEl || !findingsEl) return;
+
+    const models = (data.items || []).filter(x => (x.tags || []).includes("models"));
+    cardsEl.innerHTML = models.map(x => cardHTML(x, lang)).join("");
+
+    const f = (data.findings && data.findings[lang]) || (data.findings && data.findings.en) || [];
+    findingsEl.innerHTML = (f || []).map(line => `<div style="margin-top:8px;">${line}</div>`).join("");
+  }
+
+  function hookLang(){
+    const btn = document.getElementById("langBtn");
+    if(btn){
+      btn.addEventListener("click", async () => {
+        try { render(await load()); } catch(e) {}
+      });
+    }
+  }
+
+  (async ()=>{
+    try{
+      const data = await load();
+      render(data);
+      hookLang();
+    }catch(e){}
+  })();
 })();
 </script>
 </body>

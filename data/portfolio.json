@@ -1,0 +1,35 @@
+{
+  "findings": {
+    "en": [
+      "Flagship artifacts are surfaced for fast executive review; full archive remains available.",
+      "Magnum Opus synthesizes probabilistic structure and risk decomposition in a single interactive artifact."
+    ],
+    "ja": [
+      "主要アーティファクトを経営層向けに最短で把握できる形で提示し、全アーカイブにも到達できます。",
+      "Magnum Opus は確率構造とリスク分解を単一のインタラクティブ成果物に統合しています。"
+    ]
+  },
+  "items": [
+    {
+      "id": "dark-viz-1",
+      "tags": ["models","demos","research"],
+      "title": { "en": "Dark Complex Transmutation — Visualization", "ja": "Dark Complex Transmutation — 可視化" },
+      "desc":  { "en": "Phase transition visualization system", "ja": "位相転移の可視化システム" },
+      "url": "https://colonel1223.github.io/transmutation-research/Dark_Complex_Transmutation_Visualization_1.html"
+    },
+    {
+      "id": "magnum-opus",
+      "tags": ["models","papers","research"],
+      "title": { "en": "Magnum Opus — Probabilistic Infographic", "ja": "Magnum Opus — 確率インフォグラフィック" },
+      "desc":  { "en": "Probabilistic synthesis + decomposition (interactive)", "ja": "確率合成＋分解（インタラクティブ）" },
+      "url": "https://colonel1223.github.io/transmutation-research/Magnum_Opus_Probabilistic_Infographic.html"
+    },
+    {
+      "id": "tx-archive",
+      "tags": ["archive"],
+      "title": { "en": "Transmutation Research Archive", "ja": "Transmutation 研究アーカイブ" },
+      "desc":  { "en": "Browse all artifacts, models, and research nodes", "ja": "全アーティファクト／モデル／研究ノードを閲覧" },
+      "url": "https://colonel1223.github.io/transmutation-research/"
+    }
+  ]
+}
