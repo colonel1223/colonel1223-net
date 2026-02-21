@@ -115,10 +115,38 @@
     }
     .icon{width:18px; height:18px; opacity:.92;}
   </style>
+
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  .clockbar{
+    position:fixed;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:9998;
+    padding:8px 14px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(0,0,0,.40);
+    backdrop-filter: blur(10px);
+    font-family:"Share Tech Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size:12px;
+    color:rgba(255,255,255,.80);
+    letter-spacing:.12em;
+    user-select:none;
+    pointer-events:none;
+  }
+  @media(max-width:640px){
+    .clockbar{top:56px;font-size:11px;padding:7px 12px;}
+  }
+</style>
 </head>
 
 <body>
-  <div class="topbar">
+
+  <div class="clockbar" id="clockbar">--/--/---- --:--:-- PST</div>
+
+<div class="topbar">
     <button class="btn" id="langBtn" type="button">日本語</button>
   </div>
 
