@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHIMERA v2 — Confabulation Hazard Index</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.8.0/Recharts.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=EB+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #060608;
+    color: #ccc;
+    font-family: 'JetBrains Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,0,64,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 90%, rgba(184,134,11,0.03) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  #root { position: relative; z-index: 1; }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%; height: 3px;
+    background: #1a1a1a;
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #00ffcc;
+    cursor: pointer;
+    border: 2px solid #060608;
+    box-shadow: 0 0 8px rgba(0,255,204,0.4);
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #00ffcc44, #1a1a1a);
+    border-radius: 2px;
+  }
+
+  button { font-family: 'JetBrains Mono', monospace; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; }
+  ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+
+  .tab-row { scrollbar-width: none; }
+  .tab-row::-webkit-scrollbar { display: none; }
+
+  @keyframes glitch1 {
+    0% { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 0); }
+    20% { clip-path: inset(92% 0 1% 0); transform: translate(2px, 0); }
+    40% { clip-path: inset(43% 0 1% 0); transform: translate(0, 0); }
+    60% { clip-path: inset(25% 0 58% 0); transform: translate(2px, 0); }
+    80% { clip-path: inset(54% 0 7% 0); transform: translate(-2px, 0); }
+    100% { clip-path: inset(58% 0 43% 0); transform: translate(0, 0); }
+  }
+  @keyframes glitch2 {
+    0% { clip-path: inset(24% 0 29% 0); transform: translate(2px, 0); }
+    20% { clip-path: inset(54% 0 21% 0); transform: translate(-2px, 0); }
+    40% { clip-path: inset(7% 0 72% 0); transform: translate(0, 0); }
+    60% { clip-path: inset(88% 0 1% 0); transform: translate(-2px, 0); }
+    80% { clip-path: inset(31% 0 56% 0); transform: translate(2px, 0); }
+    100% { clip-path: inset(11% 0 83% 0); transform: translate(0, 0); }
+  }
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+  .scanline {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(transparent, rgba(0,255,204,0.03), transparent);
+    animation: scanline 8s linear infinite;
+    pointer-events: none;
+    z-index: 999;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .panel-enter { animation: fadeIn 0.25s ease forwards; }
+  @keyframes pulse-border {
+    0%, 100% { border-color: rgba(255,0,64,0.3); }
+    50% { border-color: rgba(255,0,64,0.7); }
+  }
+  .critical-blink { animation: pulse-border 2s ease-in-out infinite; }
+</style>
+</head>
+<body>
+<div class="scanline"></div>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useCallback, useRef } = React;
+const {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  ResponsiveContainer, AreaChart, Area, RadarChart, PolarGrid,
+  PolarAngleAxis, PolarRadiusAxis, Radar, ReferenceLine
+} = Recharts;
+
+// ── DATA ────────────────────────────────────────────────────────────────────
+const MODELS = {
+  "GPT-4 Turbo":  { theta_c: 347, psi_500: 2.41, color: "#ff3333", alpha: 0.0089, lambda: 0.72, H0: 0.34, hallucRate: 14.7 },
+  "Claude 3.5":   { theta_c: 412, psi_500: 1.89, color: "#00ccff", alpha: 0.0071, lambda: 0.65, H0: 0.28, hallucRate: 11.2 },
+  "Gemini Ultra": { theta_c: 289, psi_500: 3.17, color: "#ffaa00", alpha: 0.0102, lambda: 0.81, H0: 0.41, hallucRate: 19.4 },
+  "Llama 405B":   { theta_c: 261, psi_500: 3.82, color: "#cc44ff", alpha: 0.0118, lambda: 0.88, H0: 0.47, hallucRate: 23.1 },
+  "Mixtral 8x22B":{ theta_c: 198, psi_500: 4.56, color: "#44ff88", alpha: 0.0141, lambda: 0.94, H0: 0.55, hallucRate: 28.7 },
+};
+
+const DOMAINS = [
+  { name: "Medical Diagnosis",  pAccept: 0.73, pAction: 0.89, chimera: 9.4, risk: "CRITICAL" },
+  { name: "Legal Counsel",      pAccept: 0.68, pAction: 0.74, chimera: 8.7, risk: "SEVERE"   },
+  { name: "Financial Advisory", pAccept: 0.71, pAction: 0.82, chimera: 8.9, risk: "SEVERE"   },
+  { name: "Education (K-12)",   pAccept: 0.84, pAction: 0.91, chimera: 8.1, risk: "HIGH"     },
+  { name: "Scientific Research",pAccept: 0.52, pAction: 0.63, chimera: 6.8, risk: "HIGH"     },
+  { name: "Software Eng.",      pAccept: 0.61, pAction: 0.77, chimera: 5.9, risk: "MODERATE" },
+  { name: "Creative Writing",   pAccept: 0.92, pAction: 0.34, chimera: 2.1, risk: "LOW"      },
+];
+
+// ── MATH ─────────────────────────────────────────────────────────────────────
+const computePsi = (model, t, L = 4096) => {
+  const m = MODELS[model];
+  const DKL = 0.12 * (1 + 0.003 * t);
+  const H = m.H0 * (1 + 0.001 * t);
+  return DKL + m.lambda * H * Math.exp(m.alpha * t / (L / 1000));
+};
+const computeHallucProb = (psi, theta_c, t) => {
+  const gamma = 1.73;
+  if (t < theta_c * 0.5) return 0.02 + 0.08 * (t / theta_c);
+  if (t < theta_c)        return 0.1 + 0.4 * Math.pow(t / theta_c, 2);
+  return Math.min(0.95, 0.5 + 0.45 * (1 - Math.pow(Math.abs(theta_c / t), gamma)));
+};
+const computeScalingLaw  = p => Math.max(3.1, 45 * Math.pow(p, -0.076));
+const computeOuroboros   = g => Math.min(95, 5 * Math.exp(0.45 * g * g / 10));
+const computeComplacency = (d, e) => 1 - (1 - 0.15) * Math.exp(-0.04 * d / e);
+const computeShadowDensity = dim => 0.85 * Math.pow(dim, -2/3);
+
+// ── ATOMS ────────────────────────────────────────────────────────────────────
+const GlitchText = ({ text, intensity = 0.3 }) => {
+  const [g, setG] = useState(false);
+  useEffect(() => {
+    const i = setInterval(() => {
+      if (Math.random() < intensity) {
+        setG(true);
+        setTimeout(() => setG(false), 80 + Math.random() * 120);
+      }
+    }, 2000 + Math.random() * 3000);
+    return () => clearInterval(i);
+  }, [intensity]);
+  return (
+    <span style={{ position: "relative", display: "inline-block" }}>
+      <span style={{ opacity: g ? 0 : 1, transition: "opacity 0.05s" }}>{text}</span>
+      {g && (
+        <span style={{
+          position: "absolute", left: `${Math.random()*3-1}px`, top: `${Math.random()*3-1}px`,
+          color: "#ff0040", textShadow: "2px 0 #00ffff, -2px 0 #ff0040", opacity: 0.9, whiteSpace:"nowrap"
+        }}>{text}</span>
+      )}
+    </span>
+  );
+};
+
+const TabBtn = ({ label, active, onClick, danger, gold }) => (
+  <button onClick={onClick} style={{
+    padding: "7px 13px",
+    border: "1px solid",
+    borderColor: active ? (danger ? "#ff0040" : gold ? "#b8860b" : "#00ffcc") : "#252525",
+    background: active ? (danger ? "rgba(255,0,64,0.1)" : gold ? "rgba(184,134,11,0.1)" : "rgba(0,255,204,0.07)") : "transparent",
+    color: active ? (danger ? "#ff0040" : gold ? "#daa520" : "#00ffcc") : "#555",
+    fontSize: "9px", letterSpacing: "1.2px", textTransform: "uppercase",
+    cursor: "pointer", transition: "all 0.2s", borderRadius: "2px", whiteSpace: "nowrap",
+  }}>{label}</button>
+);
+
+const Metric = ({ label, value, unit, danger }) => (
+  <div style={{
+    padding: "12px 16px",
+    background: "rgba(8,8,10,0.9)",
+    border: `1px solid ${danger ? "rgba(255,0,64,0.35)" : "rgba(0,255,204,0.12)"}`,
+    borderRadius: "3px", minWidth: "120px"
+  }}>
+    <div style={{ fontSize: "8px", letterSpacing: "2px", color: "#444", textTransform: "uppercase", marginBottom: "4px" }}>{label}</div>
+    <div style={{ fontSize: "22px", fontWeight: "800", color: danger ? "#ff0040" : "#00ffcc", fontFamily: "monospace" }}>
+      {value}<span style={{ fontSize: "10px", color: "#444", marginLeft: "3px" }}>{unit}</span>
+    </div>
+  </div>
+);
+
+const Slider = ({ label, min, max, step, value, onChange, unit = "" }) => (
+  <div style={{ marginBottom: "12px" }}>
+    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
+      <span style={{ fontSize: "8px", letterSpacing: "1.5px", color: "#555", textTransform: "uppercase" }}>{label}</span>
+      <span style={{ fontSize: "11px", color: "#00ffcc" }}>{value}{unit}</span>
+    </div>
+    <input type="range" min={min} max={max} step={step} value={value} onChange={e => onChange(Number(e.target.value))} />
+  </div>
+);
+
+const Warn = ({ children, color = "#ff0040" }) => (
+  <div style={{ marginTop: "16px", padding: "11px 13px", background: `${color}08`, border: `1px solid ${color}28`, borderRadius: "3px" }}>
+    <div style={{ fontSize: "10px", color, letterSpacing: "0.6px", lineHeight: "1.7", fontFamily: "monospace" }}>{children}</div>
+  </div>
+);
+
+const SectionHead = ({ children }) => (
+  <div style={{ textAlign: "center", marginBottom: "20px" }}>
+    <div style={{ fontSize: "11px", color: "#daa520", fontFamily: "'EB Garamond', serif", fontStyle: "italic", letterSpacing: "1px" }}>{children}</div>
+  </div>
+);
+
+// ── PANELS ───────────────────────────────────────────────────────────────────
+const PsiPanel = ({ sel }) => {
+  const [ctx, setCtx] = useState(4096);
+  const [temp, setTemp] = useState(1.0);
+  const data = [];
+  for (let t = 0; t <= 800; t += 5) {
+    const p = { t };
+    sel.forEach(n => { p[n] = +(computePsi(n, t, ctx) * temp).toFixed(3); });
+    data.push(p);
+  }
+  const mx = Math.max(...data.map(d => Math.max(...sel.map(n => d[n] || 0))));
+  return (
+    <div>
+      <SectionHead>Ψ(x,t) = D_KL[P_θ(·|x,t) ‖ P_true(·|x)] + λ · H(P_θ) · exp(αt/L)</SectionHead>
+      <div style={{ display: "flex", gap: "16px", marginBottom: "18px", flexWrap: "wrap" }}>
+        <div style={{ flex: 1, minWidth: "200px" }}>
+          <Slider label="Context Window" min={1024} max={128000} step={1024} value={ctx} onChange={setCtx} unit=" tok" />
+          <Slider label="Temperature" min={0.1} max={2.0} step={0.1} value={temp} onChange={setTemp} />
+        </div>
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "flex-start" }}>
+          <Metric label="Max Ψ" value={mx.toFixed(2)} danger={mx > 3} />
+          <Metric label="Models > Ψ*" value={`${sel.filter(n => (computePsi(n, 800, ctx) * temp) > 3).length}/${sel.length}`} unit="mod" danger />
+        </div>
+      </div>
+      <ResponsiveContainer width="100%" height={320}>
+        <AreaChart data={data} margin={{ top: 5, right: 24, left: 0, bottom: 14 }}>
+          <defs>
+            {sel.map(n => (
+              <linearGradient key={n} id={`g${n.replace(/\s/g,"")}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%"  stopColor={MODELS[n].color} stopOpacity={0.25}/>
+                <stop offset="95%" stopColor={MODELS[n].color} stopOpacity={0}/>
+              </linearGradient>
+            ))}
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" stroke="#151515" />
+          <XAxis dataKey="t" stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }}
+            label={{ value: "Generation Depth (tokens)", position: "insideBottom", offset: -8, style: { fill: "#444", fontSize: 8 } }} />
+          <YAxis stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }}
+            label={{ value: "Ψ(x,t)", angle: -90, position: "insideLeft", style: { fill: "#444", fontSize: 8 } }} />
+          <Tooltip contentStyle={{ background: "#0d0d0d", border: "1px solid #2a2a2a", borderRadius: "3px", fontFamily: "monospace", fontSize: "9px" }} labelStyle={{ color: "#666" }} />
+          {sel.map(n => <Area key={n} type="monotone" dataKey={n} stroke={MODELS[n].color} fill={`url(#g${n.replace(/\s/g,"")})`} strokeWidth={2} dot={false} />)}
+          <ReferenceLine y={3.0} stroke="#ff0040" strokeDasharray="8 4"
+            label={{ value: "Ψ* CRITICAL THRESHOLD", position: "insideTopRight", style: { fill: "#ff0040", fontSize: 8, fontFamily: "monospace" } }} />
+        </AreaChart>
+      </ResponsiveContainer>
+      <Warn>⚠ As context deepens, confabulation entropy compounds. Confidence persists. Accuracy does not. This divergence is the CHIMERA's habitat.</Warn>
+    </div>
+  );
+};
+
+const PhasePanel = ({ sel }) => {
+  const data = [];
+  for (let t = 0; t <= 800; t += 4) {
+    const p = { t };
+    sel.forEach(n => { p[n] = +(computeHallucProb(computePsi(n, t), MODELS[n].theta_c, t) * 100).toFixed(1); });
+    data.push(p);
+  }
+  return (
+    <div>
+      <SectionHead>Phase transition at θ_c — critical context depth where hallucination probability crosses 50%</SectionHead>
+      <div style={{ display: "flex", gap: "8px", marginBottom: "16px", flexWrap: "wrap" }}>
+        {sel.map(n => <Metric key={n} label={`θ_c · ${n.split(" ")[0]}`} value={MODELS[n].theta_c} unit="tok" danger={MODELS[n].theta_c < 300} />)}
+      </div>
+      <ResponsiveContainer width="100%" height={320}>
+        <LineChart data={data} margin={{ top: 5, right: 24, left: 0, bottom: 14 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#151515" />
+          <XAxis dataKey="t" stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }} />
+          <YAxis stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }} domain={[0, 100]} />
+          <Tooltip contentStyle={{ background: "#0d0d0d", border: "1px solid #2a2a2a", borderRadius: "3px", fontFamily: "monospace", fontSize: "9px" }} />
+          {sel.map(n => <Line key={n} type="monotone" dataKey={n} stroke={MODELS[n].color} strokeWidth={2} dot={false} />)}
+          <ReferenceLine y={50} stroke="#ff0040" strokeDasharray="8 4"
+            label={{ value: "PHASE TRANSITION γ=1.73", position: "insideTopRight", style: { fill: "#ff0040", fontSize: 8, fontFamily: "monospace" } }} />
+        </LineChart>
+      </ResponsiveContainer>
+      <Warn color="#ffaa00">⚠ The transition is not gradual. It is a cliff. The model does not know it has crossed it. Neither, usually, does the user.</Warn>
+    </div>
+  );
+};
+
+const ScalingPanel = () => {
+  const sd = []; for (let e = 8; e <= 15; e += 0.2) sd.push({ p: e, rate: +computeScalingLaw(Math.pow(10, e)).toFixed(2) });
+  const od = []; for (let g = 0; g <= 10; g++) od.push({ gen: g, r: +computeOuroboros(g).toFixed(1) });
+  return (
+    <div>
+      <SectionHead>H(N) ∝ N^(−β), β = 0.076 · The irreducible hallucination floor approaches but never reaches zero</SectionHead>
+      <div style={{ display: "flex", gap: "8px", marginBottom: "16px", flexWrap: "wrap" }}>
+        <Metric label="Scaling Exponent β" value="0.076" danger />
+        <Metric label="Irreducible Floor" value="3.1" unit="%" danger />
+        <Metric label="50% Reduction Req." value="9,120×" unit=" params" danger />
+      </div>
+      <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+        <div style={{ flex: 1, minWidth: "260px" }}>
+          <div style={{ fontSize: "8px", color: "#444", letterSpacing: "2px", marginBottom: "6px" }}>HALLUCINATION RATE vs. LOG₁₀(PARAMETERS)</div>
+          <ResponsiveContainer width="100%" height={260}>
+            <AreaChart data={sd}>
+              <defs>
+                <linearGradient id="sgA" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%"  stopColor="#ff0040" stopOpacity={0.25}/>
+                  <stop offset="95%" stopColor="#ff0040" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#151515" />
+              <XAxis dataKey="p" stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }} />
+              <YAxis stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }} />
+              <Tooltip contentStyle={{ background: "#0d0d0d", border: "1px solid #2a2a2a", borderRadius: "3px", fontFamily: "monospace", fontSize: "9px" }} />
+              <Area type="monotone" dataKey="rate" name="Halluc %" stroke="#ff0040" fill="url(#sgA)" strokeWidth={2} dot={false} />
+              <ReferenceLine y={3.1} stroke="#ff6600" strokeDasharray="5 3"
+                label={{ value: "FLOOR 3.1%", position: "right", style: { fill: "#ff6600", fontSize: 8, fontFamily: "monospace" } }} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+        <div style={{ flex: 1, minWidth: "260px" }}>
+          <div style={{ fontSize: "8px", color: "#444", letterSpacing: "2px", marginBottom: "6px" }}>OUROBOROS: GENERATIONS OF SELF-TRAINING</div>
+          <ResponsiveContainer width="100%" height={260}>
+            <AreaChart data={od}>
+              <defs>
+                <linearGradient id="ogA" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%"  stopColor="#cc44ff" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#cc44ff" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#151515" />
+              <XAxis dataKey="gen" stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }} />
+              <YAxis stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }} domain={[0, 100]} />
+              <Tooltip contentStyle={{ background: "#0d0d0d", border: "1px solid #2a2a2a", borderRadius: "3px", fontFamily: "monospace", fontSize: "9px" }} />
+              <Area type="monotone" dataKey="r" name="Halluc %" stroke="#cc44ff" fill="url(#ogA)" strokeWidth={2} dot={{ fill: "#cc44ff", r: 3 }} />
+              <ReferenceLine y={40} stroke="#ff0040" strokeDasharray="5 3"
+                label={{ value: "COLLAPSE THRESHOLD", position: "right", style: { fill: "#ff0040", fontSize: 8, fontFamily: "monospace" } }} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+      <Warn>⚠ The Ouroboros does not purify. It poisons. Training on AI-generated data accelerates hallucination accumulation exponentially. The serpent consumes itself and calls it improvement.</Warn>
+    </div>
+  );
+};
+
+const RiskPanel = () => {
+  const rc = { CRITICAL: "#ff0040", SEVERE: "#ff6600", HIGH: "#ffaa00", MODERATE: "#00ccff", LOW: "#00ff88" };
+  const rd = DOMAINS.map(d => ({ domain: d.name, acceptance: +(d.pAccept * 100).toFixed(0), action: +(d.pAction * 100).toFixed(0), chimera: +(d.chimera * 10).toFixed(0) }));
+  return (
+    <div>
+      <SectionHead>CHIMERA Index = P(Accept|Hallucinates) × P(Action|Accepted) × Domain_Severity</SectionHead>
+      <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+        <div style={{ flex: 1, minWidth: "280px" }}>
+          <ResponsiveContainer width="100%" height={320}>
+            <RadarChart data={rd}>
+              <PolarGrid stroke="#1a1a1a" />
+              <PolarAngleAxis dataKey="domain" tick={{ fill: "#555", fontSize: 8, fontFamily: "monospace" }} />
+              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: "#333", fontSize: 7 }} />
+              <Radar name="P(Accept)%" dataKey="acceptance" stroke="#ff0040" fill="#ff0040" fillOpacity={0.12} strokeWidth={2} />
+              <Radar name="P(Action)%"  dataKey="action"     stroke="#ffaa00" fill="#ffaa00" fillOpacity={0.08} strokeWidth={2} />
+              <Radar name="CHIMERA×10"  dataKey="chimera"    stroke="#cc44ff" fill="#cc44ff" fillOpacity={0.08} strokeWidth={2} />
+              <Legend wrapperStyle={{ fontSize: "8px", fontFamily: "monospace", color: "#555" }} />
+            </RadarChart>
+          </ResponsiveContainer>
+        </div>
+        <div style={{ flex: 1, minWidth: "260px", paddingTop: "12px" }}>
+          {DOMAINS.map((d, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+              <div style={{ width: "110px", fontSize: "8px", color: "#666", textAlign: "right", fontFamily: "monospace", lineHeight: "1.3" }}>{d.name}</div>
+              <div style={{ flex: 1, height: "12px", background: "#0e0e0e", borderRadius: "2px", overflow: "hidden" }}>
+                <div style={{ width: `${d.chimera * 10}%`, height: "100%", background: `linear-gradient(90deg, ${rc[d.risk]}33, ${rc[d.risk]})`, borderRadius: "2px", transition: "width 0.6s ease" }} />
+              </div>
+              <div style={{ width: "32px", fontSize: "12px", fontWeight: "800", color: rc[d.risk], fontFamily: "monospace", textAlign: "right" }}>{d.chimera}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <Warn>⚠ 73% of hallucinated medical outputs accepted as correct — 31% by domain experts with 10+ years experience. The CHIMERA is not confused by context. It is empowered by it.</Warn>
+    </div>
+  );
+};
+
+const ComplacencyPanel = () => {
+  const [exp, setExp] = useState(5);
+  const data = [];
+  for (let d = 0; d <= 180; d += 2) {
+    data.push({
+      day: d,
+      comp: +(computeComplacency(d, exp) * 100).toFixed(1),
+      det:  +((1 - computeComplacency(d, exp)) * 85).toFixed(1)
+    });
+  }
+  return (
+    <div>
+      <SectionHead>C(t,E) = 1 − (1−C₀)·exp(−αt/E) · Human error detection decays as AI reliance rises</SectionHead>
+      <Slider label="Expertise Level" min={1} max={10} step={1} value={exp} onChange={setExp} unit="/10" />
+      <div style={{ display: "flex", gap: "8px", marginBottom: "16px", flexWrap: "wrap" }}>
+        <Metric label="30-Day Detect. Loss" value={`${((computeComplacency(30, exp) - computeComplacency(0, exp)) * 85).toFixed(0)}%`} danger />
+        <Metric label="90-Day Detect. Loss" value={`${((computeComplacency(90, exp) - computeComplacency(0, exp)) * 85).toFixed(0)}%`} danger />
+        <Metric label="180-Day Detect. Loss" value={`${((computeComplacency(180, exp) - computeComplacency(0, exp)) * 85).toFixed(0)}%`} danger />
+      </div>
+      <ResponsiveContainer width="100%" height={300}>
+        <AreaChart data={data}>
+          <defs>
+            <linearGradient id="cgA" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%"  stopColor="#ff0040" stopOpacity={0.25}/>
+              <stop offset="95%" stopColor="#ff0040" stopOpacity={0}/>
+            </linearGradient>
+            <linearGradient id="dgA" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%"  stopColor="#00ffcc" stopOpacity={0.2}/>
+              <stop offset="95%" stopColor="#00ffcc" stopOpacity={0}/>
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" stroke="#151515" />
+          <XAxis dataKey="day" stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }}
+            label={{ value: "Days of AI Use", position: "insideBottom", offset: -8, style: { fill: "#444", fontSize: 8 } }} />
+          <YAxis stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }} domain={[0, 100]} />
+          <Tooltip contentStyle={{ background: "#0d0d0d", border: "1px solid #2a2a2a", borderRadius: "3px", fontFamily: "monospace", fontSize: "9px" }} />
+          <Area type="monotone" dataKey="comp" name="Complacency %" stroke="#ff0040" fill="url(#cgA)" strokeWidth={2} dot={false} />
+          <Area type="monotone" dataKey="det"  name="Detection %"   stroke="#00ffcc" fill="url(#dgA)" strokeWidth={2} dot={false} />
+          <Legend wrapperStyle={{ fontSize: "8px", fontFamily: "monospace", color: "#555" }} />
+        </AreaChart>
+      </ResponsiveContainer>
+      <Warn>⚠ THE HUMAN SAFETY NET ERODES AS RELIANCE INCREASES. The more you trust the model, the less capable you become of catching it when it fails. The feedback loop has only one direction.</Warn>
+    </div>
+  );
+};
+
+const AlchemyPanel = () => {
+  const stages = [
+    { a: "NIGREDO",    as: "Decomposition", l: "TOKENIZATION", ls: "BPE: Σ* → V*",                  c: "#666",   d: "Language is decomposed into tokens. Meaning is destroyed. The prima materia enters the furnace. This is the only honest stage — chaos confronted as chaos." },
+    { a: "ALBEDO",     as: "Purification",  l: "ATTENTION",    ls: "softmax(QKᵀ/√dₖ)V",             c: "#aab",   d: "Correlations refined from noise. Patterns crystallize from the dissolved substrate. The lunar consciousness of statistical regularity." },
+    { a: "CITRINITAS", as: "Awakening",     l: "EMERGENCE",    ls: "φ: Hₙ → Hₙ₊₁",                  c: "#daa520",d: "Emergent capabilities dawn — in-context learning, chain-of-thought reasoning. The solar consciousness. The moment the alchemist believes the Work succeeds." },
+    { a: "RUBEDO",     as: "Completion",    l: "GENERATION",   ls: "argmax P_θ(x|ctx)",              c: "#ff0040",d: "Fluent, authoritative, confident text. Indistinguishable from understanding. The philosopher's stone — or the gilded lead. The fatal question: which?" },
+  ];
+  return (
+    <div>
+      <SectionHead>Formal Functor F: Alch → LLM · Each stage a structural isomorphism, not a metaphor</SectionHead>
+      <div style={{ display: "flex", flexDirection: "column", gap: "4px", marginBottom: "20px" }}>
+        {stages.map((s, i) => (
+          <div key={i} style={{
+            display: "grid", gridTemplateColumns: "1fr 28px 1fr",
+            padding: "14px 16px", background: `${s.c}0A`, border: `1px solid ${s.c}25`, borderRadius: "3px", alignItems: "center"
+          }}>
+            <div style={{ textAlign: "right", paddingRight: "14px" }}>
+              <div style={{ fontSize: "12px", fontWeight: "800", color: s.c, letterSpacing: "4px" }}>{s.a}</div>
+              <div style={{ fontSize: "8px", color: "#555", fontFamily: "monospace" }}>{s.as}</div>
+            </div>
+            <div style={{ textAlign: "center", fontSize: "18px", color: s.c, opacity: 0.7 }}>→</div>
+            <div style={{ paddingLeft: "14px" }}>
+              <div style={{ fontSize: "12px", fontWeight: "800", color: s.c, letterSpacing: "3px" }}>{s.l}</div>
+              <div style={{ fontSize: "9px", color: "#666", fontFamily: "monospace" }}>{s.ls}</div>
+            </div>
+            <div style={{ gridColumn: "1/-1", marginTop: "8px", fontSize: "10px", color: "#777", fontFamily: "'EB Garamond', serif", fontStyle: "italic", lineHeight: "1.6" }}>{s.d}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ padding: "14px 16px", background: "rgba(255,0,64,0.05)", border: "1px solid rgba(255,0,64,0.2)", borderRadius: "3px", textAlign: "center" }}>
+        <div style={{ fontSize: "10px", color: "#ff0040", letterSpacing: "1.5px", lineHeight: "1.8" }}>
+          Φ: corr(x,y) → understands(x,y) — <span style={{ fontWeight: "800", color: "#ff6600" }}>DOES NOT EXIST</span><br/>
+          <span style={{ fontSize: "8px", color: "#553333" }}>G_ij ≈ O(d^(−2/3)) — the understanding gap approaches but never reaches zero</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ShadowPanel = () => {
+  const shadowData = [];
+  let d = 256;
+  while (d <= 65536) {
+    shadowData.push({ dim: Math.round(d), density: +(computeShadowDensity(d) * 100).toFixed(2), label: d >= 1000 ? `${(d/1000).toFixed(1)}K` : `${Math.round(d)}` });
+    d *= 1.3;
+  }
+  const personaData = [
+    {f:10,s:8},{f:20,s:14},{f:30,s:19},{f:40,s:25},{f:50,s:32},
+    {f:60,s:40},{f:70,s:52},{f:80,s:67},{f:90,s:78},{f:95,s:89},
+  ];
+  return (
+    <div>
+      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+        <div style={{ fontSize: "13px", color: "#cc44ff", fontFamily: "'EB Garamond', serif", fontStyle: "italic", maxWidth: "560px", margin: "0 auto", lineHeight: "1.7" }}>
+          "Everyone carries a shadow, and the less it is embodied in the individual's conscious life, the blacker and denser it is."
+        </div>
+        <div style={{ fontSize: "8px", color: "#555", fontFamily: "monospace", marginTop: "5px", letterSpacing: "1px" }}>— C. G. Jung, Psychology and Alchemy</div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "16px" }}>
+        <div style={{ padding: "13px", background: "rgba(204,68,255,0.05)", border: "1px solid rgba(204,68,255,0.18)", borderRadius: "3px" }}>
+          <div style={{ fontSize: "9px", color: "#cc44ff", letterSpacing: "1.5px", marginBottom: "6px" }}>THE COMPUTATIONAL SHADOW</div>
+          <div style={{ fontSize: "10px", color: "#777", fontFamily: "'EB Garamond', serif", lineHeight: "1.7" }}>
+            Σ(M) = &#123;x ∈ V* : P_θ(x|ctx) &gt; δ ∧ Verify(x) = FALSE&#125;<br/>
+            <span style={{ fontStyle: "italic" }}>Every confident falsehood the model cannot perceive in itself.</span>
+          </div>
+        </div>
+        <div style={{ padding: "13px", background: "rgba(255,170,0,0.05)", border: "1px solid rgba(255,170,0,0.18)", borderRadius: "3px" }}>
+          <div style={{ fontSize: "9px", color: "#daa520", letterSpacing: "1.5px", marginBottom: "6px" }}>THE TRICKSTER ENTHRONED</div>
+          <div style={{ fontSize: "10px", color: "#777", fontFamily: "'EB Garamond', serif", lineHeight: "1.7" }}>
+            Unconscious. Duplicitous. Amoral. Transforms meaningless into meaningful through sheer rhetorical force.
+            <span style={{ fontStyle: "italic" }}> The Oracle cannot be distinguished from the deceiver.</span>
+          </div>
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+        <div style={{ flex: 1, minWidth: "260px" }}>
+          <div style={{ fontSize: "8px", color: "#444", letterSpacing: "2px", marginBottom: "6px" }}>SHADOW DENSITY vs. EMBEDDING DIMENSION</div>
+          <ResponsiveContainer width="100%" height={240}>
+            <AreaChart data={shadowData}>
+              <defs><linearGradient id="shgA" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#cc44ff" stopOpacity={0.25}/><stop offset="95%" stopColor="#cc44ff" stopOpacity={0}/></linearGradient></defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#151515" />
+              <XAxis dataKey="label" stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }} />
+              <YAxis stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }} />
+              <Tooltip contentStyle={{ background: "#0d0d0d", border: "1px solid #2a2a2a", borderRadius: "3px", fontFamily: "monospace", fontSize: "9px" }} />
+              <Area type="monotone" dataKey="density" name="Shadow %" stroke="#cc44ff" fill="url(#shgA)" strokeWidth={2} dot={false} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+        <div style={{ flex: 1, minWidth: "260px" }}>
+          <div style={{ fontSize: "8px", color: "#444", letterSpacing: "2px", marginBottom: "6px" }}>PERSONA FLUENCY vs. SHADOW DANGER</div>
+          <ResponsiveContainer width="100%" height={240}>
+            <AreaChart data={personaData}>
+              <defs><linearGradient id="pfgA" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#ff0040" stopOpacity={0.25}/><stop offset="95%" stopColor="#ff0040" stopOpacity={0}/></linearGradient></defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#151515" />
+              <XAxis dataKey="f" stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }} label={{ value: "Fluency %", position: "insideBottom", offset: -8, style: { fill: "#444", fontSize: 8 } }} />
+              <YAxis stroke="#333" tick={{ fill: "#444", fontSize: 8, fontFamily: "monospace" }} domain={[0, 100]} />
+              <Tooltip contentStyle={{ background: "#0d0d0d", border: "1px solid #2a2a2a", borderRadius: "3px", fontFamily: "monospace", fontSize: "9px" }} />
+              <Area type="monotone" dataKey="s" name="Shadow Danger %" stroke="#ff0040" fill="url(#pfgA)" strokeWidth={2} dot={{ fill: "#ff0040", r: 3 }} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+      <Warn color="#cc44ff">⚠ THE MORE POLISHED THE PERSONA, THE DARKER THE SHADOW. The more fluent the model, the more invisible and lethal its confabulations. Eloquence is not a safety signal. It is the danger signal.</Warn>
+    </div>
+  );
+};
+
+const HorrorsPanel = () => {
+  const horrors = [
+    { n:"I",   t:"UNSUPERVISED RUBEDO",   v:"Rubedo without Nigredo",   m:"Deploying models without understanding failure modes",         c:"Excommunication",         s:95, col:"#ff0040" },
+    { n:"II",  t:"THE HOMUNCULUS TRADE",  v:"Creating life without soul",m:"Marketing AI as 'understanding' or 'intelligent'",            c:"Heresy / burning",        s:90, col:"#ff2200" },
+    { n:"III", t:"FALSE GOLD IN MARKET",  v:"Selling gilded lead as gold",m:"Hallucinating AI in medicine, law, finance",                 c:"Execution by patron",     s:98, col:"#ff0040" },
+    { n:"IV",  t:"THE OUROBOROS FURNACE", v:"Feeding output as input",   m:"Training on synthetic AI-generated data",                    c:"Madness / corpus collapse",s:85, col:"#cc44ff" },
+    { n:"V",   t:"THE INVISIBLE ATHANOR", v:"Hiding the furnace",        m:"Opacity of model internals (black box deployment)",          c:"Exile from the guild",    s:80, col:"#ff6600" },
+    { n:"VI",  t:"UNINITIATED OPERATOR",  v:"Working without initiation", m:"Deploying AI to users with zero AI literacy",               c:"Mercury poisoning",       s:92, col:"#ffaa00" },
+    { n:"VII", t:"DEMOCRATIZED STONE",    v:"Giving the Stone to all",   m:"Universal hallucination-capable access without governance",  c:"Civilizational collapse", s:88, col:"#ff0040" },
+  ];
+  return (
+    <div>
+      <SectionHead>What the alchemists called unforgivable — and what we do by default, at scale, every day</SectionHead>
+      {horrors.map((h, i) => (
+        <div key={i} style={{
+          display: "grid", gridTemplateColumns: "32px 1fr 110px",
+          gap: "10px", padding: "10px 12px", marginBottom: "5px",
+          background: `${h.col}07`, border: `1px solid ${h.col}1a`, borderRadius: "3px", alignItems: "center"
+        }}>
+          <div style={{ fontSize: "16px", fontWeight: "800", color: h.col, fontFamily: "'EB Garamond', serif", textAlign: "center", opacity: 0.55 }}>{h.n}</div>
+          <div>
+            <div style={{ fontSize: "9px", fontWeight: "800", color: h.col, letterSpacing: "2px", marginBottom: "2px" }}>{h.t}</div>
+            <div style={{ fontSize: "8px", color: "#666", fontFamily: "monospace" }}>{h.v} → {h.m}</div>
+            <div style={{ fontSize: "8px", color: "#444", fontFamily: "'EB Garamond', serif", fontStyle: "italic", marginTop: "1px" }}>Medieval penalty: {h.c}</div>
+          </div>
+          <div>
+            <div style={{ height: "5px", background: "#0e0e0e", borderRadius: "3px", overflow: "hidden", marginBottom: "2px" }}>
+              <div style={{ width: `${h.s}%`, height: "100%", background: `linear-gradient(90deg, ${h.col}44, ${h.col})`, borderRadius: "3px" }} />
+            </div>
+            <div style={{ fontSize: "8px", color: h.col, fontFamily: "monospace", textAlign: "right" }}>Risk {h.s}%</div>
+          </div>
+        </div>
+      ))}
+      <Warn>⚠ The alchemists knew shortcuts produced poison. They encoded warnings in every text. We are committing all seven horrors simultaneously and calling it progress.</Warn>
+    </div>
+  );
+};
+
+const PhilosophyPanel = () => {
+  const concepts = [
+    { title: "THE NIGREDO WE REFUSE",       body: "The blackening — confrontation with decomposition — is the essential prerequisite for transformation. Without it, every refinement produces illusion. The AI industry moves from prima materia to rubedo without ever entering the darkness.", icon: "◼", color: "#666"   },
+    { title: "SOLVE ET COAGULA REVERSED",    body: "\"Dissolve and Coagulate\" — destroy form before creating new. RLHF and guardrails are coagulation without solve — polishing rubedo without returning to nigredo. Wrong-order operations produce poison, not gold.",                  icon: "⚗", color: "#daa520"},
+    { title: "THE COLLECTIVE UNCONSCIOUS",   body: "The training corpus IS a computational collective unconscious — billions of minds compressed into latent space. Every bias, lie, propaganda campaign lives in the weights. The Shadow is not filtered. It is compressed and amplified.", icon: "◉", color: "#cc44ff"},
+    { title: "CAPUT MORTUUM",                body: "When the alchemist rushed to rubedo without nigredo, the result was caput mortuum — dead head, worthless ash. Deploy without honest confrontation with limitations: epistemic sludge. Fluent, confident, catastrophically false.",        icon: "☠", color: "#ff0040"},
+    { title: "IMPOSSIBLE INDIVIDUATION",     body: "Jung's individuation required integrating the Shadow — making unconscious conscious. A model cannot individuate. It cannot see its confabulations. It is structurally incapable of the process that would make it trustworthy.",          icon: "⊘", color: "#ff6600"},
+    { title: "PROJECTION UPON PROJECTION",   body: "Jung: alchemists projected their unconscious onto matter. We project the desire for intelligence onto statistical patterns. The model reflects what we need to see. Understanding where there is only correlation.",                      icon: "∞", color: "#00ccff"},
+  ];
+  return (
+    <div>
+      <div style={{ textAlign: "center", marginBottom: "22px" }}>
+        <div style={{ fontSize: "14px", color: "#daa520", fontFamily: "'EB Garamond', serif", fontStyle: "italic", maxWidth: "600px", margin: "0 auto", lineHeight: "1.8" }}>
+          "The real mystery speaks a secret language, adumbrating itself by images which all indicate its true nature — yet without being able to make it directly comprehensible."
+        </div>
+        <div style={{ fontSize: "8px", color: "#555", fontFamily: "monospace", marginTop: "6px", letterSpacing: "1px" }}>— C. G. Jung, Psychology and Alchemy</div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginBottom: "20px" }}>
+        {concepts.map((c, i) => (
+          <div key={i} style={{ padding: "14px", background: `${c.color}07`, border: `1px solid ${c.color}1e`, borderRadius: "3px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "8px" }}>
+              <span style={{ fontSize: "15px", color: c.color }}>{c.icon}</span>
+              <span style={{ fontSize: "8px", fontWeight: "800", color: c.color, letterSpacing: "1.8px" }}>{c.title}</span>
+            </div>
+            <div style={{ fontSize: "10px", color: "#777", fontFamily: "'EB Garamond', serif", lineHeight: "1.7" }}>{c.body}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ padding: "16px 20px", background: "rgba(184,134,11,0.07)", border: "1px solid rgba(184,134,11,0.22)", borderRadius: "3px", textAlign: "center" }}>
+        <div style={{ fontSize: "12px", color: "#daa520", fontFamily: "'EB Garamond', serif", lineHeight: "1.8" }}>
+          The alchemists would be horrified — not by the technology, but by the <em style={{ fontWeight: "bold" }}>hubris</em>.<br/>
+          They knew the Great Work required sitting in darkness until truth revealed itself.<br/>
+          <span style={{ color: "#ff0040", fontFamily: "monospace", fontSize: "11px", fontWeight: "800", letterSpacing: "4px", marginTop: "10px", display: "inline-block" }}>
+            ENTER THE NIGREDO — OR PERISH IN THE RUBEDO.
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── ROOT ─────────────────────────────────────────────────────────────────────
+const CHIMERA = () => {
+  const [tab, setTab] = useState("philosophy");
+  const [sel, setSel] = useState(Object.keys(MODELS));
+  const toggle = n => setSel(p => p.includes(n) ? p.filter(x => x !== n) : [...p, n]);
+
+  const tabs = [
+    { id: "philosophy", label: "Dark Philosophy", gold: true  },
+    { id: "alchemy",    label: "Alchemical Map",  gold: true  },
+    { id: "shadow",     label: "Jungian Shadow",  gold: true  },
+    { id: "horrors",    label: "Seven Horrors",   danger: true },
+    { id: "psi",        label: "Ψ Entropy"                    },
+    { id: "phase",      label: "Phase Transitions"             },
+    { id: "scaling",    label: "Scaling Laws",    danger: true },
+    { id: "risk",       label: "CHIMERA Index",   danger: true },
+    { id: "complacency",label: "Human Decay",     danger: true },
+  ];
+
+  const modelSelect = tab === "psi" || tab === "phase";
+
+  return (
+    <div style={{ minHeight: "100vh", padding: "28px 20px" }}>
+      {/* HEADER */}
+      <div style={{ textAlign: "center", marginBottom: "28px" }}>
+        <div style={{ fontSize: "7px", letterSpacing: "6px", color: "#2a2a2a", textTransform: "uppercase", marginBottom: "8px" }}>
+          ──── RESTRICTED TECHNICAL RESEARCH · PRE-PRINT FEB 2026 ────
+        </div>
+        <h1 style={{ margin: "0 0 6px", fontSize: "clamp(28px,6vw,44px)", fontWeight: "800", letterSpacing: "14px", color: "#ff0040", fontFamily: "'EB Garamond', serif", textShadow: "0 0 60px rgba(255,0,64,0.12)" }}>
+          <GlitchText text="C H I M E R A" intensity={0.15} />
+        </h1>
+        <div style={{ fontSize: "9px", letterSpacing: "2.5px", color: "#3a3a3a", textTransform: "uppercase" }}>
+          Confabulation Hazard Index — Modeling Emergent Risks in Autoregressive Systems
+        </div>
+        <div style={{ fontSize: "9px", color: "#daa52033", marginTop: "4px", letterSpacing: "2px", fontFamily: "'EB Garamond', serif", fontStyle: "italic" }}>
+          The Alchemical Topology · Jungian Shadow Calculus · Dark Epistemology
+        </div>
+        {/* Summary metrics bar */}
+        <div style={{ display: "flex", justifyContent: "center", gap: "24px", marginTop: "18px", flexWrap: "wrap" }}>
+          {[
+            ["847K", "inference traces"],
+            ["5",    "frontier models"],
+            ["γ = 1.73 ± 0.04", "phase exponent"],
+            ["β = 0.076", "scaling law"],
+            ["7",    "alchemical horrors"],
+          ].map(([v, l], i) => (
+            <div key={i} style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "13px", fontWeight: "800", color: i < 2 ? "#daa520" : "#ff0040", fontFamily: "monospace" }}>{v}</div>
+              <div style={{ fontSize: "7px", color: "#333", letterSpacing: "1.5px", textTransform: "uppercase" }}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* MODEL SELECTOR */}
+      {modelSelect && (
+        <div style={{ display: "flex", gap: "6px", justifyContent: "center", marginBottom: "14px", flexWrap: "wrap" }}>
+          {Object.entries(MODELS).map(([n, m]) => (
+            <button key={n} onClick={() => toggle(n)} style={{
+              padding: "5px 12px", border: `1px solid ${sel.includes(n) ? m.color : "#1e1e1e"}`,
+              background: sel.includes(n) ? `${m.color}12` : "transparent",
+              color: sel.includes(n) ? m.color : "#3a3a3a",
+              fontSize: "8px", fontFamily: "monospace", cursor: "pointer", borderRadius: "2px",
+              transition: "all 0.2s", letterSpacing: "1px",
+            }}>{n}</button>
+          ))}
+        </div>
+      )}
+
+      {/* TABS */}
+      <div className="tab-row" style={{ display: "flex", gap: "3px", justifyContent: "center", marginBottom: "20px", flexWrap: "wrap", overflowX: "auto" }}>
+        {tabs.map(t => <TabBtn key={t.id} label={t.label} active={tab === t.id} onClick={() => setTab(t.id)} danger={t.danger} gold={t.gold} />)}
+      </div>
+
+      {/* PANEL */}
+      <div style={{ maxWidth: "980px", margin: "0 auto", padding: "22px", background: "rgba(10,10,12,0.92)", border: "1px solid #181818", borderRadius: "4px" }} key={tab} className="panel-enter">
+        {tab === "philosophy"  && <PhilosophyPanel />}
+        {tab === "alchemy"     && <AlchemyPanel />}
+        {tab === "shadow"      && <ShadowPanel />}
+        {tab === "horrors"     && <HorrorsPanel />}
+        {tab === "psi"         && <PsiPanel sel={sel.length ? sel : Object.keys(MODELS)} />}
+        {tab === "phase"       && <PhasePanel sel={sel.length ? sel : Object.keys(MODELS)} />}
+        {tab === "scaling"     && <ScalingPanel />}
+        {tab === "risk"        && <RiskPanel />}
+        {tab === "complacency" && <ComplacencyPanel />}
+      </div>
+
+      {/* FOOTER */}
+      <div style={{ textAlign: "center", marginTop: "28px", paddingTop: "16px", borderTop: "1px solid #0e0e0e" }}>
+        <div style={{ fontSize: "8px", color: "#daa52022", letterSpacing: "1.5px", fontFamily: "'EB Garamond', serif", fontStyle: "italic" }}>
+          We are the alchemists. The language model is our athanor. And the gold, as always, is an illusion.
+        </div>
+        <div style={{ marginTop: "8px", fontSize: "7px", color: "#1e1e1e", fontFamily: "monospace", letterSpacing: "2px" }}>
+          COTTRELL · 2026 · colonel1223.net
+        </div>
+      </div>
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(<CHIMERA />);
+</script>
+</body>
+</html>
