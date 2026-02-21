@@ -1,4 +1,16 @@
-// paste the full contents of CHIMERA_Model_v2.jsx here,
-// but change the last line from:
-//   export default function CHIMERA() {
-// to keep it as-is — Next.js treats default exports as pages automatically
+import dynamic from "next/dynamic";
+
+const ChimeraModel = dynamic(() => import("../../components/ChimeraModel"), {
+  ssr: false,
+  loading: () => (
+    <div style={{ background: "#080808", minHeight: "100vh", display: "flex", 
+                  alignItems: "center", justifyContent: "center", 
+                  color: "#ff0040", fontFamily: "monospace", letterSpacing: "4px" }}>
+      INITIALIZING CHIMERA...
+    </div>
+  ),
+});
+
+export default function ChimeraPage() {
+  return <ChimeraModel />;
+}
