@@ -1,32 +1,42 @@
-name: Deploy Next.js (static export) to GitHub Pages
+name: Deploy static site to GitHub Pages
+
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: "pages"
   cancel-in-progress: true
+
 jobs:
   build:
-    defaults:
-      run:
-        working-directory: 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-      - run: npm ci || npm install
-      - run: npm run build
-      - run: touch out/.nojekyll
+
+      - run: |
+          mkdir -p out
+          rsync -av --delete \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude 'node_modules' \
+            --exclude '.next' \
+            --exclude '_next' \
+            --exclude 'src' \
+            --exclude 'site' \
+            ./ out/
+
+          touch out/.nojekyll
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
+
   deploy:
     environment:
       name: github-pages
