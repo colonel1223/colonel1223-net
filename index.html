@@ -51,8 +51,100 @@ gap:24px;
 .bilingual{grid-template-columns:1fr;}
 }
 </style>
+
+
+<style>
+
+/* ===== ELITE RESET ===== */
+
+body{
+margin:0;
+background:#000;
+color:#fff;
+font-family:-apple-system,BlinkMacSystemFont,"Inter","Noto Sans JP",sans-serif;
+line-height:1.5;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:80px 24px;
+}
+
+.hero{
+text-align:center;
+margin-top:60px;
+}
+
+.hero h1{
+font-size:64px;
+font-weight:600;
+letter-spacing:-.02em;
+margin:0;
+}
+
+.hero p{
+color:rgba(255,255,255,.6);
+margin-top:12px;
+font-size:18px;
+}
+
+.section{
+margin-top:120px;
+border-top:1px solid rgba(255,255,255,.08);
+padding-top:60px;
+}
+
+.section h2{
+font-size:32px;
+margin-bottom:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+}
+
+.card{
+padding:24px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,.12);
+background:rgba(255,255,255,.03);
+text-decoration:none;
+color:white;
+transition:.2s;
+}
+
+.card:hover{
+background:rgba(255,255,255,.06);
+}
+
+.lang-toggle{
+position:fixed;
+top:20px;
+right:20px;
+padding:10px 18px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,.15);
+background:rgba(0,0,0,.5);
+color:white;
+cursor:pointer;
+}
+
+</style>
+
 </head>
 <body>
+
+<button class="lang-toggle">日本語</button>
+
+<div class="container">
+
+<div class="hero">
+<h1>Spencer K. Cottrell</h1>
+<p>AI Systems Research · Machine Intelligence · Infrastructure</p>
+</div>
 
 <section style="max-width:1100px;margin:60px auto 40px;padding:0 24px;">
 <div class="bilingual">
@@ -228,5 +320,5 @@ Spencer K. Cottrell — Machine Intelligence • Systems • Infrastructure<br>
 © <script>document.write(new Date().getFullYear())</script> All Rights Reserved
 </footer>
 
-</body>
+</div></body>
 </html>
