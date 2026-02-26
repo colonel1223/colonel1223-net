@@ -1,48 +1,17 @@
 # colonel1223.net
 
-Research portfolio and interactive project hub.
+Research portfolio and project hub. Live at **[colonel1223.net](https://colonel1223.net)**.
 
-## Live
+## Contents
 
-**[colonel1223.net](https://colonel1223.net)**
+- **10+ interactive demos** — CHIMERA trace explorer, conformal prediction, alignment tax calculator, Markov chains, risk comparison, and more
+- **Research papers** — Including *Lead Into Gold* (2026)
+- **Project documentation** — Technical writeups for all active projects
+- **Philosophy** — Research framework and thesis
 
-## What's here
+## Stack
 
-Full research site built with Next.js, deployed via GitHub Pages. Includes:
-
-- **Interactive demos** — Live versions of CHIMERA, conformal prediction, alignment tax visualization, Markov models, risk comparison tools, and more (`/demos/`)
-- **Papers** — Research writeups including *Lead Into Gold* (2026) (`/papers/`)
-- **Research notes** — Working documentation across all projects (`/research/`)
-- **Philosophy** — Framework and thesis pages (`/philosophy/`)
-- **Infrastructure** — Technical architecture documentation (`/infrastructure/`)
-
-## Structure
-
-```
-├── index.html              # Landing page
-├── demos/                  # 10+ interactive visualizations
-│   ├── chimera/
-│   ├── alignment-tax/
-│   ├── conformal/
-│   ├── matrix/
-│   ├── cosmic-horror/
-│   ├── markov/
-│   ├── risk-comparison/
-│   ├── timeline/
-│   └── ...
-├── papers/
-├── research/
-├── philosophy/
-├── src/                    # Next.js source
-│   ├── app/
-│   ├── components/
-│   ├── content/
-│   └── lib/
-├── assets/
-│   ├── css/core.css
-│   └── js/site.js
-└── package.json
-```
+Next.js, TypeScript, GitHub Pages. Static HTML demos with vanilla JS/WebGL.
 
 ## Run locally
 
