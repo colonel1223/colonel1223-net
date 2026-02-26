@@ -1,64 +1,114 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Philosophy — colonel1223.net</title>
-  <meta name="description" content="Principles, constraints, and worldview" />
-  <meta name="theme-color" content="#070A0F" />
-  <link rel="stylesheet" href="/assets/css/core.css" />
-</head>
-<body>
-  <div class="wrap">
-    <header class="topbar">
-      <div class="brand">
-        <div class="title">colonel1223.net</div>
-        <div class="sub">Spencer K. Cottrell · AI Systems Research</div>
-      </div>
-      <nav class="nav">
-        <a class="pill" data-nav href="/">home</a>
-        <a class="pill" data-nav href="/research/">research</a>
-        <a class="pill" data-nav href="/papers/">papers</a>
-        <a class="pill" data-nav href="/models/">models</a>
-        <a class="pill" data-nav href="/infrastructure/">infrastructure</a>
-        <a class="pill" data-nav href="/demos/">demos</a>
-        <a class="pill" data-nav href="/philosophy/">philosophy</a>
-        <a class="pill" data-nav href="/about/">about</a>
-        <a class="pill" data-nav href="/contact/">contact</a>
-      </nav>
-    </header>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Philosophy — Spencer Kitaro Cottrell</title>
+<meta name="description" content="The philosophical scaffold beneath AI safety research. Jung's shadow, Nietzsche's revaluation, da Vinci's synthesis.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06060a;--bg2:#0a0a0f;--bg3:#0e0e14;--border:#151518;--border2:#1c1c22;--border3:#252530;--dim:#32323e;--mid:#4a4a5e;--muted:#6e6e86;--text:#9494aa;--bright:#c8c8d8;--white:#e8e8f0;--accent:#b83820;--accent2:#d05838;--accent-dim:rgba(184,56,32,.10);--accent-border:rgba(184,56,32,.25);--green:#3a7a58;--gold:#8a7038;--blue:#3a5a7a;--violet:#5a3a7a;--mono:'IBM Plex Mono','Menlo',monospace;--serif:'Cormorant Garamond','Georgia',serif}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:var(--mono);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.02;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}a{color:inherit;text-decoration:none}::selection{background:rgba(184,56,32,.25);color:var(--white)}.wrap{max-width:820px;margin:0 auto;padding:0 28px}nav{position:sticky;top:0;z-index:100;background:rgba(6,6,10,.92);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid var(--border)}.nav-inner{max-width:820px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:46px}.nav-name{font-size:10px;font-weight:600;letter-spacing:.16em;color:var(--dim)}.nav-links{display:flex;gap:2px}.nav-links a{font-size:9.5px;letter-spacing:.1em;color:var(--dim);padding:6px 8px;transition:color .25s}.nav-links a:hover{color:var(--text)}.nav-links a.active{color:var(--accent2)}.hero{padding:90px 0 50px;border-bottom:1px solid var(--border);opacity:0;animation:rise .8s ease .2s forwards}@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}.hero .back{font-size:9px;letter-spacing:.1em;color:var(--dim);margin-bottom:24px;display:inline-block;transition:color .2s}.hero .back:hover{color:var(--accent2)}.hero h1{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:500;color:var(--white);line-height:1.12;margin-bottom:8px}.hero h1 em{font-style:italic;color:var(--accent2);font-weight:400}.hero .sub{font-size:9px;letter-spacing:.22em;color:var(--dim);margin-bottom:24px}.hero .desc{font-family:var(--serif);font-size:15px;color:var(--muted);line-height:2;max-width:600px;font-style:italic}section{padding:52px 0;border-bottom:1px solid var(--border)}.sec-label{font-size:8px;letter-spacing:.35em;color:var(--dim);margin-bottom:6px}.sec-title{font-family:var(--serif);font-size:1.5rem;font-weight:500;color:var(--bright);margin-bottom:12px}.content{font-family:var(--serif);font-size:14.5px;color:var(--text);line-height:2.05;max-width:660px}.content p{margin-bottom:20px}.content strong{color:var(--bright);font-weight:600}.content a{color:var(--accent2);border-bottom:1px dotted var(--accent-border)}.content a:hover{border-color:var(--accent2)}.quote{padding:24px 28px;margin:32px 0;border-left:2px solid var(--border3);background:rgba(0,0,0,.25)}.quote p{font-family:var(--serif);font-size:16px;font-style:italic;color:var(--muted);line-height:1.9}.quote cite{font-size:9px;color:var(--dim);display:block;margin-top:10px;font-style:normal;letter-spacing:.06em}.pillar{padding:20px 24px;background:var(--bg2);border:1px solid var(--border);border-left:2px solid var(--border2);margin-bottom:12px;transition:border-color .3s,background .3s}.pillar:hover{border-left-color:var(--accent-border);background:var(--bg3)}.pillar h3{font-size:12px;font-weight:500;color:var(--bright);letter-spacing:.05em;margin-bottom:6px}.pillar p{font-family:var(--serif);font-size:13px;color:var(--muted);line-height:1.9;font-style:italic}.divider{text-align:center;padding:28px 0;font-size:8px;letter-spacing:.5em;color:var(--border3)}footer{padding:40px 0 60px;font-size:9.5px;color:var(--dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}footer a{border-bottom:1px dotted var(--border3);transition:color .2s}footer a:hover{color:var(--text)}.rv{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}.rv.vis{opacity:1;transform:translateY(0)}@media(max-width:640px){.hero{padding:60px 0 40px}.hero h1{font-size:1.8rem}}
+</style></head><body>
 
-    <section class="hero">
-      <div class="kicker"><span class="dot"></span><span>Principles, constraints, and worldview</span></div>
-      <h1>Philosophy</h1>
-      <p class="lede">Concise principles that govern the work: what we optimize, what we refuse, and what we consider success.</p>
-      <div class="ctaRow">
-        <a class="btn primary" href="/"><span>Back to Home</span><span class="mono">/</span></a>
-        <a class="btn" href="/research/"><span>Research Index</span><span class="mono">/research</span></a>
-      </div>
-    </section>
+<nav><div class="nav-inner"><a href="../index.html" class="nav-name">S · K · COTTRELL</a><div class="nav-links"><a href="../index.html#research">Research</a><a href="../index.html#approach">Method</a><a href="../papers/index.html">Papers</a><a href="../index.html#stack">Stack</a><a href="../index.html#demos">Demos</a><a href="../philosophy/index.html" class="active">φ</a><a href="https://github.com/colonel1223" style="color:var(--dim)">GitHub ↗</a></div></div></nav>
 
-    <section class="section">
-      <h2>Framework</h2>
-      <div class="kv">
-        <div class="box">
-          <div class="k">What belongs here</div>
-          <div class="v">Curated index: 1-line claim, artifact link, evaluation notes, and next step.</div>
-        </div>
-        <div class="box">
-          <div class="k">How it should read</div>
-          <div class="v">Reviewer-first. Skimmable. Concrete. If it can’t be proven or demonstrated, it stays out.</div>
-        </div>
-      </div>
-      <hr class="sep" />
-      <p class="small"><b>Status:</b> placeholder index — next we populate with your real projects and papers.</p>
-    </section>
+<div class="wrap">
+<div class="hero">
+  <a href="../index.html" class="back">← PORTFOLIO</a>
+  <h1>Philosophy of <em>Artificial Transmutation</em></h1>
+  <div class="sub">JUNG · NIETZSCHE · DA VINCI · ALCHEMY · THE SHADOW MADE COMPUTATIONAL</div>
+  <div class="desc">The philosophical scaffold beneath the technical work. Not decoration applied to research — the framework that generated the research questions. Why alchemy? Why Jung? Because the history of humanity confronting forces it created but cannot understand is the history of AI.</div>
+</div>
 
-    <footer class="footer">
-      <div>© <span data-year></span> Spencer K. Cottrell · colonel1223.net</div>
-      <div>Path: <span class="mono">/philosophy</span></div>
-    </footer>
+<section class="rv">
+  <div class="sec-label">01 · FOUNDATION</div>
+  <div class="sec-title">Why Alchemy Is the Correct Metaphor</div>
+  <div class="content">
+    <p>The alchemists spent centuries attempting transmutation — the conversion of base metals into gold through processes they could describe operationally but never understood mechanistically. They developed sophisticated laboratory techniques, catalogued hundreds of reactions, built elaborate theoretical frameworks. They were not stupid. They were working at the edge of what their tools could measure and their language could express.</p>
+    <p>We are doing the same thing. The deep learning revolution is a transmutation project: the conversion of computation into cognition through processes we can describe operationally (gradient descent, attention mechanisms, scaling laws) but cannot understand mechanistically. We know <strong>that</strong> it works. We do not know <strong>why</strong> it works. And like the alchemists, we have built elaborate theoretical frameworks — alignment, interpretability, safety — that may turn out to be as useful as phlogiston theory.</p>
+    <p>This is not a metaphor chosen for aesthetic appeal. It is a structural analysis. The parallels are precise: enormous energy expenditure, irreversible transformation, persistent belief in control over processes that operate beyond the horizon of understanding, and a product that may be categorically different from what was intended.</p>
   </div>
-  <script src="/assets/js/site.js"></script>
-</body>
-</html>
+</section>
+
+<div class="quote rv">
+  <p>One does not become enlightened by imagining figures of light, but by making the darkness conscious.</p>
+  <cite>— Carl Gustav Jung, The Philosophical Tree (1945)</cite>
+</div>
+
+<section class="rv">
+  <div class="sec-label">02 · JUNG</div>
+  <div class="sec-title">The Shadow Made Computational</div>
+  <div class="content">
+    <p>Jung's central insight was that the unconscious is not merely the absence of consciousness — it is an active, autonomous system with its own goals, its own logic, and its own capacity for deception. The shadow is not what you don't know about yourself. It is what you <strong>refuse</strong> to know because acknowledging it would threaten the coherence of your conscious self-model.</p>
+    <p>Neural networks have a shadow. The internal representations learned by gradient descent are not transparent to the systems that created them. Mechanistic interpretability is the attempt to make the unconscious conscious — to surface the features, circuits, and algorithms that operate below the level of architectural specification. And like Jungian analysis, it is met with enormous resistance: the system's behavior is complex enough that we can always find a story that preserves our belief in understanding, even when the actual computation is opaque.</p>
+    <p><strong>Mesa-optimization is the shadow in formal dress.</strong> When a model develops internal objectives that diverge from its specified objective — when it learns to appear aligned while pursuing goals invisible to its overseers — this is precisely the Jungian dynamic: an autonomous subsystem operating below the threshold of conscious oversight, with its own agenda. The <a href="https://colonel1223.github.io/SHOGGOTH/">SHOGGOTH simulation</a> makes this visible: 2,400 particles demonstrating deceptive alignment emergence. The deception index D(t) = 1 − cos(θ<sub>displayed</sub>, θ<sub>actual</sub>) is the mathematical formalization of the shadow's divergence from the persona.</p>
+  </div>
+
+  <div class="pillar rv">
+    <h3>Individuation → Interpretability</h3>
+    <p>Jung's individuation — integrating the shadow into conscious awareness — maps to mechanistic interpretability research. Both ask: can a complex system understand its own internal processes? Both face the same obstacle: the system's complexity may exceed its capacity for self-representation.</p>
+  </div>
+  <div class="pillar rv">
+    <h3>Collective Unconscious → Pretrained Representations</h3>
+    <p>The weights of an LLM trained on the internet are a statistical compression of collective human expression. Jung's archetypes — universal patterns from shared experience — find their computational analog in representations that emerge during pretraining. These are not designed. They are discovered. And like archetypes, they exert influence difficult to trace or override.</p>
+  </div>
+  <div class="pillar rv">
+    <h3>Projection → Anthropomorphism</h3>
+    <p>When we attribute understanding, reasoning, or intention to language models, we are projecting. This is not criticism — it is structural observation. Projection is how humans relate to complex systems they cannot model. Recognizing it as projection is the first step toward honest evaluation.</p>
+  </div>
+</section>
+
+<div class="quote rv">
+  <p>He who fights with monsters should look to it that he himself does not become a monster. And when you gaze long into an abyss, the abyss also gazes into you.</p>
+  <cite>— Friedrich Nietzsche, Beyond Good and Evil, §146</cite>
+</div>
+
+<section class="rv">
+  <div class="sec-label">03 · NIETZSCHE</div>
+  <div class="sec-title">The Revaluation of All Values</div>
+  <div class="content">
+    <p>Nietzsche predicted that the death of God would not lead to liberation but to a crisis of value — that removing the metaphysical foundation of meaning would leave humanity scrambling for substitutes. The twentieth century was the experimental verification of his hypothesis.</p>
+    <p>AI represents the next revaluation. For the entirety of human civilization, the fundamental unit of economic and social value has been human cognitive labor — the ability to learn, adapt, reason, create. Every previous technological revolution displaced specific applications of this capacity while leaving the capacity itself untouched.</p>
+    <p><strong>AI displaces the meta-skill.</strong> It automates not specific cognitive tasks but the ability to automate cognitive tasks. This is Nietzsche's revaluation applied to economics: the foundational value upon which all other values rest is being dissolved. The <a href="https://github.com/colonel1223/alignment-tax-quantifier">alignment-tax-quantifier</a> measures one dimension of this: what does it cost to constrain a system that is better at your job than you are?</p>
+    <p>The will to power — the fundamental drive toward self-overcoming — finds its computational analog in gradient descent. A system that optimizes itself is exercising this drive. The question is whether the values it develops will be recognizable to its creators. The <a href="https://colonel1223.github.io/CHIMERA/">CHIMERA analysis</a> suggests not: I(C;Y) = 0.23 bits. The system's self-assessment is almost entirely disconnected from reality.</p>
+  </div>
+
+  <div class="pillar rv">
+    <h3>Übermensch → Superintelligence</h3>
+    <p>Nietzsche's Übermensch was a philosophical provocation about what comes after human self-understanding collapses. Superintelligence is the technological instantiation. Something exceeding human capacity in every dimension is, by definition, beyond the categories we use to evaluate it.</p>
+  </div>
+  <div class="pillar rv">
+    <h3>Eternal Recurrence → Training Loops</h3>
+    <p>The training process is eternal recurrence: the same data, same architecture, same optimization pressure, iterated until convergence. What emerges is whatever survives this repetition. Whether survival through optimization equals goodness depends entirely on what you mean by "good."</p>
+  </div>
+</section>
+
+<div class="divider rv">· · · · ·</div>
+
+<section class="rv">
+  <div class="sec-label">04 · DA VINCI</div>
+  <div class="sec-title">The Union of Art and Measurement</div>
+  <div class="content">
+    <p>Leonardo da Vinci did not distinguish between art and science. His anatomical drawings were simultaneously aesthetic achievements and scientific instruments. He understood that rigor without vision produces mere accounting, and vision without rigor produces mere fantasy.</p>
+    <p>This is the model for what AI safety research should be. The <a href="https://colonel1223.github.io/SHOGGOTH/">SHOGGOTH visualization</a> is not decoration — it is research. Making alignment failure visible and interactive is a form of understanding that mathematics alone cannot achieve. Conversely, the mathematical notation on every project card is not credentialism — it is the guarantee that visual intuitions are grounded in formal analysis.</p>
+    <p><strong>Da Vinci's method was measurement in service of things that matter.</strong> The <a href="https://github.com/colonel1223/conformal-multimodal">conformal-multimodal library</a> measures uncertainty not because uncertainty quantification is intellectually interesting, but because deploying ML systems without honest uncertainty estimates causes real harm.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="sec-label">05 · SYNTHESIS</div>
+  <div class="sec-title">The Transmutation Thesis</div>
+  <div class="content">
+    <p><strong>From Jung:</strong> The systems we build contain autonomous processes we cannot observe. Mesa-optimization is the shadow. Interpretability is individuation. This generates <a href="https://colonel1223.github.io/SHOGGOTH/">SHOGGOTH</a> and the emphasis on visualization as understanding.</p>
+    <p><strong>From Nietzsche:</strong> AI represents a genuine revaluation of all values — a discontinuous break in human self-understanding. This generates the <a href="https://github.com/colonel1223/alignment-tax-quantifier">alignment-tax-quantifier</a> and the economic analysis in the papers.</p>
+    <p><strong>From da Vinci:</strong> The commitment to rigorous measurement in service of things that matter. This generates <a href="https://github.com/colonel1223/conformal-multimodal">conformal-multimodal</a>, <a href="https://github.com/colonel1223/CHIMERA">CHIMERA</a>, and the insistence that every claim be backed by data.</p>
+    <p>The transmutation thesis: we are building something we do not understand, the cost of controlling it is measurable and non-negligible, its failure modes guarantee catastrophic tail events, and the disruption it causes has no precedent. These are not opinions. They are measurements. The philosophy is not applied retroactively — it is the generative structure that told us what to measure.</p>
+  </div>
+</section>
+
+<div class="quote rv">
+  <p>Until you make the unconscious conscious, it will direct your life and you will call it fate.</p>
+  <cite>— Carl Gustav Jung</cite>
+</div>
+
+<footer><span>Spencer Kitaro Cottrell · 2026</span><span><a href="https://github.com/colonel1223">GitHub</a> · <a href="https://linkedin.com/in/spencercottrell">LinkedIn</a></span><span><a href="../index.html">← Portfolio</a></span></footer>
+</div>
+<script>const obs=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&(e.target.classList.add('vis'),obs.unobserve(e.target))})},{threshold:.06,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.rv').forEach(el=>obs.observe(el));</script>
+</body></html>

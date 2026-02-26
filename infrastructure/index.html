@@ -1,64 +1,60 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Infrastructure — colonel1223.net</title>
-  <meta name="description" content="Pipelines, reproducibility, deployment" />
-  <meta name="theme-color" content="#070A0F" />
-  <link rel="stylesheet" href="/assets/css/core.css" />
-</head>
-<body>
-  <div class="wrap">
-    <header class="topbar">
-      <div class="brand">
-        <div class="title">colonel1223.net</div>
-        <div class="sub">Spencer K. Cottrell · AI Systems Research</div>
-      </div>
-      <nav class="nav">
-        <a class="pill" data-nav href="/">home</a>
-        <a class="pill" data-nav href="/research/">research</a>
-        <a class="pill" data-nav href="/papers/">papers</a>
-        <a class="pill" data-nav href="/models/">models</a>
-        <a class="pill" data-nav href="/infrastructure/">infrastructure</a>
-        <a class="pill" data-nav href="/demos/">demos</a>
-        <a class="pill" data-nav href="/philosophy/">philosophy</a>
-        <a class="pill" data-nav href="/about/">about</a>
-        <a class="pill" data-nav href="/contact/">contact</a>
-      </nav>
-    </header>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infrastructure — Spencer Kitaro Cottrell</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06060a;--bg2:#0a0a0f;--bg3:#0e0e14;--border:#151518;--border2:#1c1c22;--border3:#252530;--dim:#32323e;--mid:#4a4a5e;--muted:#6e6e86;--text:#9494aa;--bright:#c8c8d8;--white:#e8e8f0;--accent:#b83820;--accent2:#d05838;--accent-dim:rgba(184,56,32,.10);--accent-border:rgba(184,56,32,.25);--mono:'IBM Plex Mono','Menlo',monospace;--serif:'Cormorant Garamond','Georgia',serif}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:var(--mono);line-height:1.7;-webkit-font-smoothing:antialiased}body::after{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.02;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}a{color:inherit;text-decoration:none}::selection{background:rgba(184,56,32,.25);color:var(--white)}.wrap{max-width:820px;margin:0 auto;padding:0 28px}nav{position:sticky;top:0;z-index:100;background:rgba(6,6,10,.92);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid var(--border)}.nav-inner{max-width:820px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:46px}.nav-name{font-size:10px;font-weight:600;letter-spacing:.16em;color:var(--dim)}.nav-links{display:flex;gap:2px}.nav-links a{font-size:9.5px;letter-spacing:.1em;color:var(--dim);padding:6px 8px;transition:color .25s}.nav-links a:hover{color:var(--text)}.hero{padding:90px 0 50px;border-bottom:1px solid var(--border);opacity:0;animation:rise .8s ease .2s forwards}@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}.hero .back{font-size:9px;letter-spacing:.1em;color:var(--dim);margin-bottom:24px;display:inline-block;transition:color .2s}.hero .back:hover{color:var(--accent2)}.hero h1{font-family:var(--serif);font-size:clamp(2rem,4vw,2.8rem);font-weight:500;color:var(--white);line-height:1.12;margin-bottom:8px}.hero h1 em{font-style:italic;color:var(--accent2);font-weight:400}.hero .sub{font-size:9px;letter-spacing:.22em;color:var(--dim);margin-bottom:24px}.hero .desc{font-family:var(--serif);font-size:15px;color:var(--muted);line-height:2;max-width:600px;font-style:italic}section{padding:52px 0;border-bottom:1px solid var(--border)}.sec-label{font-size:8px;letter-spacing:.35em;color:var(--dim);margin-bottom:6px}.sec-title{font-family:var(--serif);font-size:1.5rem;font-weight:500;color:var(--bright);margin-bottom:12px}.infra{padding:20px 24px;background:var(--bg2);border:1px solid var(--border);margin-bottom:10px;transition:border-color .3s,background .3s}.infra:hover{border-color:var(--border3);background:var(--bg3)}.infra h3{font-size:12px;font-weight:500;color:var(--bright);letter-spacing:.04em;margin-bottom:6px}.infra p{font-family:var(--serif);font-size:12.5px;color:var(--muted);line-height:1.85}.infra code{font-family:var(--mono);font-size:10px;color:var(--accent2);background:rgba(0,0,0,.3);padding:1px 5px}.content{font-family:var(--serif);font-size:14.5px;color:var(--text);line-height:2.05;max-width:660px}.content p{margin-bottom:20px}.content strong{color:var(--bright);font-weight:600}footer{padding:40px 0 60px;font-size:9.5px;color:var(--dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}footer a{border-bottom:1px dotted var(--border3);transition:color .2s}footer a:hover{color:var(--text)}.rv{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}.rv.vis{opacity:1;transform:translateY(0)}@media(max-width:640px){.hero{padding:60px 0 40px}.hero h1{font-size:1.8rem}}
+</style></head><body>
+<nav><div class="nav-inner"><a href="../index.html" class="nav-name">S · K · COTTRELL</a><div class="nav-links"><a href="../index.html#research">Research</a><a href="../papers/index.html">Papers</a><a href="../index.html#stack">Stack</a><a href="../philosophy/index.html">φ</a><a href="https://github.com/colonel1223" style="color:var(--dim)">GitHub ↗</a></div></div></nav>
+<div class="wrap">
+<div class="hero">
+  <a href="../index.html" class="back">← PORTFOLIO</a>
+  <h1><em>Infrastructure</em></h1>
+  <div class="sub">BUILD SYSTEMS · CI/CD · DEPLOYMENT · ENGINEERING DECISIONS</div>
+  <div class="desc">The boring work that makes the interesting work possible. Every research project in this portfolio follows the same engineering standards: type-safe, tested, continuously integrated, deployable.</div>
+</div>
 
-    <section class="hero">
-      <div class="kicker"><span class="dot"></span><span>Pipelines, reproducibility, deployment</span></div>
-      <h1>Infrastructure</h1>
-      <p class="lede">The systems layer: build, deploy, monitoring, benchmarks, and reproducibility notes.</p>
-      <div class="ctaRow">
-        <a class="btn primary" href="/"><span>Back to Home</span><span class="mono">/</span></a>
-        <a class="btn" href="/research/"><span>Research Index</span><span class="mono">/research</span></a>
-      </div>
-    </section>
+<section class="rv">
+  <div class="sec-label">BUILD SYSTEM</div>
+  <div class="sec-title">Python Research Libraries</div>
 
-    <section class="section">
-      <h2>Framework</h2>
-      <div class="kv">
-        <div class="box">
-          <div class="k">What belongs here</div>
-          <div class="v">Curated index: 1-line claim, artifact link, evaluation notes, and next step.</div>
-        </div>
-        <div class="box">
-          <div class="k">How it should read</div>
-          <div class="v">Reviewer-first. Skimmable. Concrete. If it can’t be proven or demonstrated, it stays out.</div>
-        </div>
-      </div>
-      <hr class="sep" />
-      <p class="small"><b>Status:</b> placeholder index — next we populate with your real projects and papers.</p>
-    </section>
-
-    <footer class="footer">
-      <div>© <span data-year></span> Spencer K. Cottrell · colonel1223.net</div>
-      <div>Path: <span class="mono">/infrastructure</span></div>
-    </footer>
+  <div class="infra rv">
+    <h3>Package Management</h3>
+    <p>All Python projects use <code>pyproject.toml</code> (PEP 621) for package metadata, dependencies, and build configuration. No <code>setup.py</code>, no <code>requirements.txt</code> in production — declarative configuration only. Build backend: <code>setuptools</code> with <code>build-system</code> specification.</p>
   </div>
-  <script src="/assets/js/site.js"></script>
-</body>
-</html>
+  <div class="infra rv">
+    <h3>Type Safety</h3>
+    <p><code>mypy --strict</code> on all research code. <code>py.typed</code> marker files for PEP 561 compliance. Type stubs for external dependencies where needed. Runtime type checking via <code>beartype</code> on critical paths. The goal: if it type-checks, the mathematical invariants hold.</p>
+  </div>
+  <div class="infra rv">
+    <h3>Testing</h3>
+    <p><code>pytest</code> with coverage reporting. Statistical tests use seeded randomness for reproducibility. Coverage target: 90%+ on all libraries (conformal-multimodal: 94%). Property-based testing via <code>hypothesis</code> for coverage guarantees — if the test passes for 1000 random inputs, the guarantee likely holds for all inputs.</p>
+  </div>
+  <div class="infra rv">
+    <h3>CI/CD Pipeline</h3>
+    <p>GitHub Actions workflows on every push and PR. Matrix testing: Python 3.9, 3.10, 3.11, 3.12. Steps: lint (<code>ruff</code>), type-check (<code>mypy --strict</code>), test (<code>pytest --cov</code>), coverage report. Branch protection: PRs require passing CI before merge.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="sec-label">FRONTEND</div>
+  <div class="sec-title">Visualization Infrastructure</div>
+
+  <div class="infra rv">
+    <h3>WebGL Pipeline (SHOGGOTH)</h3>
+    <p>Raw WebGL 2.0 — no Three.js, no abstractions. Custom GLSL vertex and fragment shaders compiled at runtime. Particle state managed in typed arrays for direct GPU upload. RequestAnimationFrame loop with delta-time physics. Zero dependencies means zero supply chain risk and complete control over the render pipeline.</p>
+  </div>
+  <div class="infra rv">
+    <h3>Static Site Deployment</h3>
+    <p>GitHub Pages for all live demos (CHIMERA, SHOGGOTH). Custom domain (<code>colonel1223.net</code>) via CNAME. No build step — static HTML, CSS, JS served directly. This is intentional: research demos should be inspectable. View source is documentation.</p>
+  </div>
+  <div class="infra rv">
+    <h3>Design System</h3>
+    <p>IBM Plex Mono + Cormorant Garamond. CSS custom properties for consistent theming across all pages. Grain overlay via inline SVG filter (no external assets). Scroll-reveal via IntersectionObserver. Responsive: single-column below 640px. Every page shares the same design language — the portfolio is itself a demonstration of engineering consistency.</p>
+  </div>
+</section>
+
+<footer><span>Spencer Kitaro Cottrell · 2026</span><span><a href="https://github.com/colonel1223">GitHub</a> · <a href="https://linkedin.com/in/spencercottrell">LinkedIn</a></span><span><a href="../index.html">← Portfolio</a></span></footer>
+</div>
+<script>const obs=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting&&(e.target.classList.add('vis'),obs.unobserve(e.target))})},{threshold:.06,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.rv').forEach(el=>obs.observe(el));</script>
+</body></html>
