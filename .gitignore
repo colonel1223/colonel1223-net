@@ -1,10 +1,8 @@
-node_modules
-.next
-out
-.env
-.DS_Store
-_next
-.claude/worktrees
+node_modules/
+.next/
+out/
 *.bak
-*.bak*
-colonel1223-net/
+*.save
+*.backup*
+.DS_Store
+claude_source_bundle.txt

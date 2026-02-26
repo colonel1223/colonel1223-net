@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spencer Kitaro Cottrell — Research & Projects</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;600&display=swap');
+:root{--bg:#0a0a0b;--fg:#e8e8e8;--dim:#666;--accent:#a33;--accent2:#3a7;--border:#1a1a1c;--card:#111113;--hover:#161618}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:'IBM Plex Sans',sans-serif;line-height:1.7;min-height:100vh}
+a{color:var(--fg);text-decoration:none;transition:color .2s}
+a:hover{color:var(--accent)}
+
+.container{max-width:900px;margin:0 auto;padding:60px 30px 100px}
+header{margin-bottom:60px}
+header h1{font-size:1.8rem;font-weight:300;letter-spacing:.08rem;margin-bottom:6px}
+header p{color:var(--dim);font-size:.85rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.03rem}
+header nav{margin-top:20px;display:flex;gap:24px;font-size:.75rem;font-family:'IBM Plex Mono',monospace;color:var(--dim)}
+header nav a{color:var(--dim);border-bottom:1px solid transparent}
+header nav a:hover{color:var(--fg);border-color:var(--accent)}
+
+.section{margin-bottom:50px}
+.section h2{font-size:.7rem;text-transform:uppercase;letter-spacing:.25rem;color:var(--dim);margin-bottom:20px;font-weight:400;font-family:'IBM Plex Mono',monospace}
+
+.project{display:block;background:var(--card);border:1px solid var(--border);padding:24px 28px;margin-bottom:12px;transition:all .2s;position:relative}
+.project:hover{background:var(--hover);border-color:#2a2a2c;transform:translateX(4px)}
+.project h3{font-size:1.05rem;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.project h3 .tag{font-size:.55rem;font-family:'IBM Plex Mono',monospace;padding:2px 8px;border:1px solid var(--border);color:var(--dim);font-weight:400;letter-spacing:.05rem}
+.project h3 .live{border-color:var(--accent2);color:var(--accent2)}
+.project p{color:var(--dim);font-size:.85rem;line-height:1.6}
+.project .stack{margin-top:8px;font-size:.65rem;font-family:'IBM Plex Mono',monospace;color:#444}
+.project .links{margin-top:10px;display:flex;gap:16px;font-size:.7rem;font-family:'IBM Plex Mono',monospace}
+.project .links a{color:var(--dim);border-bottom:1px dotted #333}
+.project .links a:hover{color:var(--accent);border-color:var(--accent)}
+
+.paper{display:block;padding:14px 0;border-bottom:1px solid var(--border)}
+.paper:last-child{border:none}
+.paper h3{font-size:.9rem;font-weight:400}
+.paper p{color:var(--dim);font-size:.78rem;margin-top:3px}
+
+footer{margin-top:80px;padding-top:30px;border-top:1px solid var(--border);font-size:.7rem;font-family:'IBM Plex Mono',monospace;color:#333;display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Spencer Kitaro Cottrell</h1>
+    <p>AI is the great transmutation — intelligence becoming substrate-independent. I study what breaks.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="projects.html" style="color:var(--fg)">Projects</a>
+      <a href="https://github.com/colonel1223">GitHub</a>
+      <a href="https://linkedin.com/in/spencercottrell">LinkedIn</a>
+    </nav>
+  </header>
+
+  <div class="section">
+    <h2>Research Software</h2>
+
+    <a class="project" href="https://github.com/colonel1223/conformal-multimodal">
+      <h3>conformal-multimodal <span class="tag">PYTHON LIBRARY</span></h3>
+      <p>Distribution-free uncertainty quantification for multimodal ML. Split conformal prediction, CQR, RAPS, Mondrian conditional coverage, online ACI under distribution shift, conformal risk control. Finite-sample coverage guarantees verified under 4 distributions with binomial hypothesis testing.</p>
+      <div class="stack">Python · NumPy · SciPy · pyproject.toml · GitHub Actions CI · py.typed</div>
+      <div class="links">
+        <a href="https://github.com/colonel1223/conformal-multimodal">Source ↗</a>
+      </div>
+    </a>
+
+    <a class="project" href="https://github.com/colonel1223/alignment-tax-quantifier">
+      <h3>alignment-tax-quantifier <span class="tag">FRAMEWORK</span></h3>
+      <p>What does safety cost? Benchmarking alignment overhead: RLHF, Constitutional AI, DPO, filtering, activation steering, ROME across model scales 125M–70B. Scaling law extrapolation and Pareto frontier computation for method selection.</p>
+      <div class="stack">Python · NumPy · 6 methods with citations · JSON export</div>
+      <div class="links">
+        <a href="https://github.com/colonel1223/alignment-tax-quantifier">Source ↗</a>
+      </div>
+    </a>
+
+    <a class="project" href="https://colonel1223.github.io/CHIMERA/" target="_blank">
+      <h3>CHIMERA <span class="tag live">LIVE</span> <span class="tag">RESEARCH</span></h3>
+      <p>847K LLM inference trace analysis. Heavy-tailed hallucination distributions (Hill estimator with bootstrap KS), information-theoretic impossibility bounds, entropy/MI calibration diagnostics. Hallucination is a theorem, not a bug.</p>
+      <div class="stack">Python · JavaScript · React · Statistical Analysis</div>
+      <div class="links">
+        <a href="https://colonel1223.github.io/CHIMERA/">Live Demo ↗</a>
+        <a href="https://github.com/colonel1223/CHIMERA">Source ↗</a>
+      </div>
+    </a>
+  </div>
+
+  <div class="section">
+    <h2>Interactive Visualizations</h2>
+
+    <a class="project" href="https://colonel1223.github.io/SHOGGOTH/" target="_blank">
+      <h3>SHOGGOTH <span class="tag live">LIVE</span> <span class="tag">WebGL</span></h3>
+      <p>Alignment failure, rendered. 2,400 WebGL particles model cooperative alignment degrading into chaotic mesa-objective emergence. Click to inject misalignment. Watch the system reorganize around objectives you never specified.</p>
+      <div class="stack">WebGL · Vanilla JS · 0 dependencies · GPU-rendered</div>
+      <div class="links">
+        <a href="https://colonel1223.github.io/SHOGGOTH/">Live Demo ↗</a>
+        <a href="https://github.com/colonel1223/SHOGGOTH">Source ↗</a>
+      </div>
+    </a>
+  </div>
+
+  <div class="section">
+    <h2>Research Papers</h2>
+
+    <a class="paper" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+      <h3>AI as Modern Alchemy — Research Program</h3>
+      <p>Intelligence transmutation · Economic disruption · Governance collapse · 日本語版あり</p>
+    </a>
+    <a class="paper" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+      <h3>The Stone's Shadow (v0.1)</h3>
+      <p>On the relationship between optimization and understanding</p>
+    </a>
+    <a class="paper" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+      <h3>Digital Philosopher's Stone (v0.1)</h3>
+      <p>Phase transitions in capability emergence</p>
+    </a>
+    <a class="paper" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+      <h3>Economic Transmutation (v0.1)</h3>
+      <p>Why AI labor displacement has no historical precedent</p>
+    </a>
+  </div>
+
+  <div class="section">
+    <h2>Demos on This Site</h2>
+
+    <a class="project" href="demos/chimera/index.html">
+      <h3>CHIMERA Explorer <span class="tag">DEMO</span></h3>
+      <p>Interactive hallucination trace analysis</p>
+    </a>
+    <a class="project" href="demos/alignment-tax/index.html">
+      <h3>Alignment Tax Visualizer <span class="tag">DEMO</span></h3>
+      <p>Compare safety method overhead across scales</p>
+    </a>
+    <a class="project" href="demos/conformal/index.html">
+      <h3>Conformal Prediction <span class="tag">DEMO</span></h3>
+      <p>Coverage guarantees in action</p>
+    </a>
+    <a class="project" href="demos/cosmic-horror/index.html">
+      <h3>Cosmic Horror <span class="tag">DEMO</span></h3>
+      <p>Lovecraftian AI visualization</p>
+    </a>
+    <a class="project" href="demos/markov/index.html">
+      <h3>Markov Models <span class="tag">DEMO</span></h3>
+      <p>State transition visualization</p>
+    </a>
+    <a class="project" href="demos/risk-comparison/index.html">
+      <h3>Risk Comparison <span class="tag">DEMO</span></h3>
+      <p>AI risk framework analysis tool</p>
+    </a>
+    <a class="project" href="demos/matrix/index.html">
+      <h3>Matrix <span class="tag">DEMO</span></h3>
+      <p>Simulation aesthetics</p>
+    </a>
+    <a class="project" href="demos/timeline/index.html">
+      <h3>Timeline <span class="tag">DEMO</span></h3>
+      <p>AI development timeline</p>
+    </a>
+  </div>
+
+  <footer>
+    <span>Spencer Kitaro Cottrell · 2026</span>
+    <span>Python · C · TypeScript · PyTorch · WebGL</span>
+  </footer>
+</div>
+</body>
+</html>
