@@ -4,16 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Spencer Kitaro Cottrell — AI Safety Research</title>
-<meta name="description" content="AI safety researcher specializing in distribution-free uncertainty quantification, alignment economics, and information-theoretic impossibility bounds for LLM hallucination. Python, C, PyTorch, WebGL.">
-<meta name="keywords" content="AI safety, conformal prediction, alignment tax, hallucination impossibility, uncertainty quantification, LLM research, machine learning">
-
-<!-- Open Graph -->
+<meta name="description" content="AI safety researcher. Distribution-free uncertainty quantification, alignment economics, information-theoretic impossibility bounds. Conformal prediction, heavy-tailed statistics, scaling laws. Python, C, PyTorch, WebGL.">
+<meta name="keywords" content="AI safety, conformal prediction, alignment tax, hallucination impossibility, uncertainty quantification, LLM research, machine learning, information theory, heavy-tailed statistics, scaling laws, RLHF, DPO, constitutional AI, mesa-optimization, WebGL">
 <meta property="og:title" content="Spencer Kitaro Cottrell — AI Safety Research">
 <meta property="og:description" content="Distribution-free uncertainty quantification. Alignment economics. Information-theoretic impossibility bounds.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://colonel1223.net">
+<link rel="canonical" href="https://colonel1223.net">
 
-<!-- Structured Data -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -26,31 +24,36 @@
   ],
   "jobTitle": "AI Safety Researcher",
   "knowsAbout": [
-    "Conformal Prediction",
-    "Uncertainty Quantification",
-    "AI Alignment",
-    "Information Theory",
-    "Heavy-Tailed Statistics",
-    "Scaling Laws"
-  ]
+    "Conformal Prediction", "Uncertainty Quantification", "AI Alignment",
+    "Information Theory", "Heavy-Tailed Statistics", "Scaling Laws",
+    "RLHF", "DPO", "Constitutional AI", "Mesa-Optimization",
+    "Extreme Value Theory", "Power-Law Analysis", "WebGL"
+  ],
+  "alumniOf": { "@type": "Organization", "name": "Independent Research" },
+  "description": "AI safety researcher specializing in distribution-free uncertainty quantification, alignment economics, and information-theoretic impossibility bounds for LLM hallucination."
 }
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
 <style>
+/* ════════════════════════════════════════════════════════
+   ROOT SYSTEM
+   ════════════════════════════════════════════════════════ */
 :root {
-  --bg: #08080a; --bg2: #0d0d10; --bg3: #111114; --bg4: #0a0a0d;
-  --border: #1a1a1e; --border2: #222228; --border3: #2a2a32;
-  --dim: #3a3a44; --mid: #55556a; --muted: #7a7a90;
-  --text: #a0a0b4; --bright: #d8d8e4; --white: #eeeef4;
-  --accent: #c2462a; --accent2: #d4724a; --accent-dim: rgba(194,70,42,.12);
-  --accent-glow: rgba(194,70,42,.06);
-  --green: #4a8c6a; --green-dim: rgba(74,140,106,.1);
-  --gold: #9a8040; --gold-dim: rgba(154,128,64,.1);
-  --blue: #4a6a8c; --blue-dim: rgba(74,106,140,.1);
-  --mono: 'IBM Plex Mono', 'Menlo', monospace;
+  --bg: #06060a; --bg2: #0a0a0f; --bg3: #0e0e14; --bg4: #08080d;
+  --border: #151518; --border2: #1c1c22; --border3: #252530;
+  --dim: #32323e; --mid: #4a4a5e; --muted: #6e6e86;
+  --text: #9494aa; --bright: #c8c8d8; --white: #e8e8f0;
+  --accent: #b83820; --accent2: #d05838; --accent3: #e87858;
+  --accent-dim: rgba(184,56,32,.10); --accent-glow: rgba(184,56,32,.04);
+  --accent-border: rgba(184,56,32,.25);
+  --green: #3a7a58; --green-dim: rgba(58,122,88,.08);
+  --gold: #8a7038; --gold-dim: rgba(138,112,56,.08);
+  --blue: #3a5a7a; --blue-dim: rgba(58,90,122,.08);
+  --violet: #5a3a7a; --violet-dim: rgba(90,58,122,.08);
+  --mono: 'IBM Plex Mono', 'Menlo', 'Consolas', monospace;
   --serif: 'Cormorant Garamond', 'Georgia', serif;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,311 +61,484 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg); color: var(--text); font-family: var(--mono);
   line-height: 1.7; -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: hidden; position: relative;
 }
 
-/* ─── Grain overlay ─── */
+/* ════════ Grain + Grid ════════ */
 body::after {
-  content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: .025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ─── Subtle grid ─── */
-body::before {
-  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .015;
-  background-image:
-    linear-gradient(rgba(160,160,180,.3) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(160,160,180,.3) 1px, transparent 1px);
-  background-size: 60px 60px;
+  content: ''; position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: .02;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 a { color: inherit; text-decoration: none; }
-.wrap { max-width: 840px; margin: 0 auto; padding: 0 28px; }
+::selection { background: rgba(184,56,32,.25); color: var(--white); }
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 28px; }
 
-/* ─── Scroll reveal ─── */
-.reveal {
-  opacity: 0; transform: translateY(20px);
-  transition: opacity .6s ease, transform .6s ease;
+/* ════════ Constellation Canvas ════════ */
+#constellation {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0;
+  transition: opacity 2s ease;
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+#constellation.active { opacity: 1; }
 
-/* ─── Navigation ─── */
+/* ════════ Scroll Reveal ════════ */
+.rv { opacity: 0; transform: translateY(18px); transition: opacity .65s ease, transform .65s ease; }
+.rv.vis { opacity: 1; transform: translateY(0); }
+.rv-d1 { transition-delay: .1s; }
+.rv-d2 { transition-delay: .2s; }
+.rv-d3 { transition-delay: .3s; }
+
+/* ════════ Navigation ════════ */
 nav {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(8,8,10,.88); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  background: rgba(6,6,10,.92); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
   border-bottom: 1px solid var(--border);
 }
 .nav-inner {
-  max-width: 840px; margin: 0 auto; padding: 0 28px;
-  display: flex; align-items: center; justify-content: space-between; height: 48px;
+  max-width: 820px; margin: 0 auto; padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between; height: 46px;
 }
-.nav-name { font-size: 11px; font-weight: 500; letter-spacing: .12em; color: var(--muted); }
-.nav-links { display: flex; gap: 4px; }
+.nav-name {
+  font-size: 10px; font-weight: 600; letter-spacing: .16em; color: var(--dim);
+  position: relative;
+}
+.nav-name::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; width: 100%;
+  height: 1px; background: var(--accent); opacity: .3;
+}
+.nav-links { display: flex; gap: 2px; }
 .nav-links a {
-  font-size: 10px; letter-spacing: .08em; color: var(--dim); padding: 6px 8px;
-  transition: color .2s;
+  font-size: 9.5px; letter-spacing: .1em; color: var(--dim); padding: 6px 8px;
+  transition: color .25s; position: relative;
 }
-.nav-links a:hover { color: var(--muted); }
-.nav-links a.active { color: var(--accent); }
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--accent2); }
 
-/* ─── Hero ─── */
+/* ════════ HERO — The Grand Reveal ════════ */
 .hero {
-  padding: 90px 0 64px; border-bottom: 1px solid var(--border);
-  opacity: 0; animation: rise .8s ease .15s forwards;
+  padding: 100px 0 60px; border-bottom: 1px solid var(--border);
+  position: relative; z-index: 1;
 }
-@keyframes rise { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.hero-epigraph {
+  font-family: var(--serif); font-size: 13px; font-style: italic;
+  color: var(--dim); margin-bottom: 36px; line-height: 1.9;
+  max-width: 480px; opacity: 0; animation: fade-in 1.2s ease .3s forwards;
+}
+.hero-epigraph cite { font-size: 11px; font-style: normal; color: var(--dim); opacity: .6; }
+
+@keyframes fade-in { from { opacity:0; } to { opacity:1; } }
+@keyframes rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
 
 .hero h1 {
-  font-family: var(--serif); font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-  font-weight: 500; color: var(--white); line-height: 1.12; margin-bottom: 14px;
-  letter-spacing: .01em;
+  font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 500; color: var(--white); line-height: 1.08; margin-bottom: 10px;
+  letter-spacing: .005em; opacity: 0; animation: rise .9s ease .6s forwards;
 }
-.hero h1 em { font-style: italic; color: var(--accent); font-weight: 400; }
-.hero-sub { font-size: 10px; letter-spacing: .18em; color: var(--dim); margin-bottom: 28px; }
-.hero-text {
-  font-family: var(--serif); font-size: 16.5px; color: var(--muted);
-  line-height: 1.9; max-width: 620px; margin-bottom: 28px;
+.hero h1 em {
+  font-style: italic; color: var(--accent2); font-weight: 400;
+  text-shadow: 0 0 40px rgba(184,56,32,.08);
 }
-.hero-thesis {
-  font-size: 11px; color: var(--dim); line-height: 1.8; max-width: 580px;
-  margin-bottom: 32px; padding: 14px 18px;
-  border-left: 2px solid var(--border2); background: rgba(0,0,0,.25);
+.hero-sub {
+  font-size: 9px; letter-spacing: .22em; color: var(--dim); margin-bottom: 30px;
+  opacity: 0; animation: rise .8s ease .8s forwards;
 }
-.hero-thesis .hl { color: var(--muted); }
-.hero-links { display: flex; gap: 8px; flex-wrap: wrap; }
-.btn {
-  font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
-  padding: 8px 16px; border: 1px solid; transition: all .25s; display: inline-block;
-}
-.btn-a { border-color: rgba(194,70,42,.4); color: var(--accent); }
-.btn-a:hover { border-color: var(--accent); background: var(--accent-dim); }
-.btn-d { border-color: var(--border2); color: var(--mid); }
-.btn-d:hover { border-color: var(--dim); color: var(--muted); }
 
-/* ─── Sections ─── */
-section { padding: 56px 0; border-bottom: 1px solid var(--border); }
-.sec-label { font-size: 9px; letter-spacing: .3em; color: var(--dim); margin-bottom: 6px; }
+/* Terminal-style research statement */
+.hero-terminal {
+  background: rgba(0,0,0,.5); border: 1px solid var(--border2);
+  padding: 20px 22px; margin-bottom: 28px; position: relative;
+  opacity: 0; animation: rise .8s ease 1s forwards;
+}
+.hero-terminal::before {
+  content: 'research_thesis.py'; position: absolute; top: -10px; left: 14px;
+  font-size: 8px; letter-spacing: .1em; color: var(--dim);
+  background: var(--bg); padding: 2px 8px;
+}
+.terminal-line {
+  font-size: 11.5px; color: var(--text); line-height: 2; display: block;
+}
+.terminal-line .comment { color: var(--dim); }
+.terminal-line .kw { color: var(--accent2); }
+.terminal-line .str { color: var(--green); }
+.terminal-line .fn { color: var(--blue); }
+.terminal-line .num { color: var(--gold); }
+.terminal-line .op { color: var(--mid); }
+
+.hero-text {
+  font-family: var(--serif); font-size: 15.5px; color: var(--muted);
+  line-height: 2; max-width: 600px; margin-bottom: 32px;
+  opacity: 0; animation: rise .8s ease 1.2s forwards;
+}
+
+.hero-links {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  opacity: 0; animation: rise .8s ease 1.4s forwards;
+}
+.btn {
+  font-family: var(--mono); font-size: 9px; letter-spacing: .12em;
+  padding: 9px 18px; border: 1px solid; transition: all .3s; display: inline-block;
+  position: relative; overflow: hidden;
+}
+.btn::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,.02) 100%);
+}
+.btn-a { border-color: var(--accent-border); color: var(--accent2); }
+.btn-a:hover { border-color: var(--accent); background: var(--accent-dim); box-shadow: 0 0 20px var(--accent-glow); }
+.btn-d { border-color: var(--border2); color: var(--mid); }
+.btn-d:hover { border-color: var(--dim); color: var(--text); }
+
+/* ════════ Sections ════════ */
+section { padding: 60px 0; border-bottom: 1px solid var(--border); position: relative; z-index: 1; }
+.sec-num {
+  font-size: 42px; font-family: var(--serif); font-weight: 300;
+  color: var(--border2); position: absolute; right: 0; top: 52px;
+  letter-spacing: -.02em; user-select: none;
+}
+.sec-label { font-size: 8px; letter-spacing: .35em; color: var(--dim); margin-bottom: 6px; }
 .sec-title {
-  font-family: var(--serif); font-size: 1.5rem; font-weight: 500;
-  color: var(--bright); margin-bottom: 8px;
+  font-family: var(--serif); font-size: 1.6rem; font-weight: 500;
+  color: var(--bright); margin-bottom: 8px; letter-spacing: .01em;
 }
 .sec-desc {
-  font-family: var(--serif); font-size: 13.5px; color: var(--muted);
-  font-style: italic; line-height: 1.8; max-width: 560px; margin-bottom: 28px;
+  font-family: var(--serif); font-size: 13px; color: var(--muted);
+  font-style: italic; line-height: 1.9; max-width: 540px; margin-bottom: 32px;
 }
 
-/* ─── Project cards ─── */
-.card {
-  display: block; padding: 22px 24px; background: var(--bg2);
-  border: 1px solid var(--border); margin-bottom: 10px;
-  transition: border-color .25s, background .25s;
+/* ════════ Research Ecosystem Map ════════ */
+.ecosystem {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--border); margin-bottom: 32px;
+  border: 1px solid var(--border);
 }
-.card:hover { border-color: var(--border2); background: var(--bg3); }
+.eco-node {
+  background: var(--bg2); padding: 18px 20px;
+  transition: background .3s; position: relative; cursor: default;
+}
+.eco-node:hover { background: var(--bg3); }
+.eco-node h4 {
+  font-size: 10px; font-weight: 500; letter-spacing: .08em;
+  color: var(--bright); margin-bottom: 4px;
+}
+.eco-node p { font-size: 9.5px; color: var(--dim); line-height: 1.6; }
+.eco-node .eco-tag {
+  font-size: 7px; letter-spacing: .15em; color: var(--accent2);
+  position: absolute; top: 10px; right: 12px; opacity: .5;
+}
+.eco-arrow {
+  grid-column: 1 / -1; background: var(--bg); text-align: center;
+  padding: 6px; font-size: 8px; color: var(--dim); letter-spacing: .2em;
+}
+
+/* ════════ Project Cards ════════ */
+.card {
+  display: block; padding: 24px 26px; background: var(--bg2);
+  border: 1px solid var(--border); margin-bottom: 12px;
+  transition: border-color .3s, background .3s, transform .3s;
+  position: relative;
+}
+.card:hover { border-color: var(--border3); background: var(--bg3); transform: translateX(3px); }
 .card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
 .card h3 { font-size: 14px; font-weight: 500; color: var(--bright); letter-spacing: .04em; }
 .tag {
-  font-size: 7.5px; letter-spacing: .12em; padding: 2px 7px;
+  font-size: 7px; letter-spacing: .14em; padding: 2px 7px;
   border: 1px solid; line-height: 1.6; text-transform: uppercase;
 }
-.tag-a { border-color: rgba(194,70,42,.35); color: var(--accent); }
-.tag-g { border-color: rgba(74,140,106,.35); color: var(--green); }
+.tag-a { border-color: rgba(184,56,32,.3); color: var(--accent2); }
+.tag-g { border-color: rgba(58,122,88,.3); color: var(--green); }
 .tag-d { border-color: var(--border2); color: var(--dim); }
-.tag-o { border-color: rgba(154,128,64,.35); color: var(--gold); }
-.tag-b { border-color: rgba(74,106,140,.35); color: var(--blue); }
+.tag-o { border-color: rgba(138,112,56,.3); color: var(--gold); }
+.tag-b { border-color: rgba(58,90,122,.3); color: var(--blue); }
+.tag-v { border-color: rgba(90,58,122,.3); color: var(--violet); }
 
 .card p {
   font-family: var(--serif); font-size: 13px; color: var(--muted);
-  line-height: 1.85; margin-bottom: 10px;
+  line-height: 1.9; margin-bottom: 12px;
 }
 .card-math {
-  font-size: 10px; color: var(--mid); padding: 8px 12px;
-  background: rgba(0,0,0,.4); border-left: 2px solid var(--accent-dim);
-  margin-bottom: 10px; line-height: 1.7; font-style: italic;
+  font-size: 10px; color: var(--mid); padding: 10px 14px;
+  background: rgba(0,0,0,.45); border-left: 2px solid var(--accent-dim);
+  margin-bottom: 12px; line-height: 1.75; font-style: italic;
 }
 .card-math .sym { color: var(--accent2); font-style: normal; }
-.card-stack {
-  font-size: 10px; color: var(--dim); margin-bottom: 10px;
-  padding: 6px 10px; background: rgba(0,0,0,.3); border-left: 2px solid var(--border);
+.card-tech {
+  font-size: 9.5px; color: var(--dim); margin-bottom: 10px;
+  padding: 7px 12px; background: rgba(0,0,0,.3); border-left: 2px solid var(--border);
 }
 .card-metrics {
-  display: flex; gap: 16px; font-size: 9px; color: var(--dim);
+  display: flex; gap: 18px; font-size: 8.5px; color: var(--dim);
   letter-spacing: .04em; margin-bottom: 10px; flex-wrap: wrap;
 }
 .card-metrics span { display: flex; align-items: center; gap: 4px; }
-.card-metrics .val { color: var(--muted); font-weight: 500; }
-.card-links { display: flex; gap: 14px; font-size: 10px; }
+.card-metrics .v { color: var(--text); font-weight: 500; }
+.card-links { display: flex; gap: 16px; font-size: 9.5px; }
 .card-links a {
-  color: var(--mid); border-bottom: 1px dotted var(--dim); padding-bottom: 1px;
-  transition: color .2s, border-color .2s;
+  color: var(--mid); border-bottom: 1px dotted var(--border3); padding-bottom: 1px;
+  transition: color .25s, border-color .25s;
 }
-.card-links a:hover { color: var(--accent); border-color: var(--accent); }
+.card-links a:hover { color: var(--accent2); border-color: var(--accent2); }
 
-/* ─── Technical grid ─── */
-.tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-.tech-cell {
-  padding: 16px 18px; background: var(--bg2); border: 1px solid var(--border);
-  transition: border-color .25s;
+/* ════════ Approach Items ════════ */
+.approach-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.approach-item {
+  padding: 16px 20px; background: var(--bg2);
+  border: 1px solid var(--border); border-left: 2px solid var(--border2);
+  transition: border-color .3s, background .3s;
 }
-.tech-cell:hover { border-color: var(--border2); }
-.tech-cell h4 {
-  font-size: 9px; letter-spacing: .2em; color: var(--dim);
-  margin-bottom: 8px; text-transform: uppercase;
+.approach-item:hover { border-left-color: var(--accent-border); background: var(--bg3); }
+.approach-item h4 {
+  font-size: 10px; font-weight: 500; color: var(--bright);
+  letter-spacing: .06em; margin-bottom: 5px;
 }
-.tech-cell .items { font-size: 11px; color: var(--muted); line-height: 1.9; }
-.tech-cell .items .primary { color: var(--bright); font-weight: 500; }
+.approach-item p {
+  font-family: var(--serif); font-size: 12px; color: var(--muted);
+  line-height: 1.85; font-style: italic;
+}
 
-/* ─── Paper cards ─── */
+/* ════════ Paper Cards ════════ */
 .paper-card {
-  display: block; padding: 20px 22px; border-bottom: 1px solid var(--border);
-  transition: padding-left .2s, background .2s;
+  display: block; padding: 22px 24px; border-bottom: 1px solid var(--border);
+  transition: padding-left .25s, background .25s;
 }
-.paper-card:hover { padding-left: 8px; background: rgba(13,13,16,.5); }
+.paper-card:hover { padding-left: 10px; background: rgba(10,10,15,.6); }
 .paper-card:last-child { border: none; }
-.paper-card h3 { font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--bright); margin-bottom: 4px; }
-.paper-card .paper-meta { font-size: 10px; color: var(--dim); margin-bottom: 6px; }
+.paper-card h3 {
+  font-family: var(--serif); font-size: 15.5px; font-weight: 600;
+  color: var(--bright); margin-bottom: 4px;
+}
+.paper-card .paper-meta { font-size: 9px; color: var(--dim); margin-bottom: 7px; letter-spacing: .04em; }
 .paper-card .paper-abstract {
   font-family: var(--serif); font-size: 12.5px; color: var(--muted);
-  line-height: 1.8; font-style: italic;
+  line-height: 1.85; font-style: italic;
 }
 
-/* ─── Demo grid ─── */
+/* ════════ Technical Grid ════════ */
+.tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.tech-cell {
+  padding: 16px 18px; background: var(--bg2);
+  transition: background .25s;
+}
+.tech-cell:hover { background: var(--bg3); }
+.tech-cell h4 {
+  font-size: 8px; letter-spacing: .22em; color: var(--dim);
+  margin-bottom: 8px; text-transform: uppercase;
+}
+.tech-cell .items { font-size: 10.5px; color: var(--muted); line-height: 1.95; }
+.tech-cell .items .p { color: var(--bright); font-weight: 500; }
+.tech-full { grid-column: 1 / -1; }
+
+/* ════════ Demo Grid ════════ */
 .demos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .demo {
   display: block; padding: 16px 18px; background: var(--bg2);
-  border: 1px solid var(--border); transition: border-color .25s;
+  border: 1px solid var(--border); transition: border-color .3s, transform .3s;
 }
-.demo:hover { border-color: var(--border2); }
-.demo h4 { font-size: 11px; font-weight: 500; color: var(--bright); margin-bottom: 3px; letter-spacing: .03em; }
-.demo span { font-size: 9.5px; color: var(--dim); }
-.demo.feat { border-color: rgba(194,70,42,.2); }
-.demo.feat:hover { border-color: rgba(194,70,42,.45); }
+.demo:hover { border-color: var(--border3); transform: translateY(-2px); }
+.demo h4 { font-size: 10.5px; font-weight: 500; color: var(--bright); margin-bottom: 3px; letter-spacing: .04em; }
+.demo span { font-size: 9px; color: var(--dim); line-height: 1.5; display: block; }
+.demo.feat { border-color: var(--accent-border); }
+.demo.feat:hover { border-color: var(--accent); box-shadow: 0 4px 20px var(--accent-glow); }
 
-/* ─── Quote ─── */
+/* ════════ Quotes ════════ */
 .quote {
-  padding: 18px 22px; margin: 36px 0;
-  border-left: 2px solid var(--border2); background: rgba(0,0,0,.2);
+  padding: 22px 26px; margin: 40px 0;
+  border-left: 2px solid var(--border3); background: rgba(0,0,0,.25);
+  position: relative; z-index: 1;
 }
 .quote p {
-  font-family: var(--serif); font-size: 14.5px; font-style: italic;
-  color: var(--muted); line-height: 1.8;
+  font-family: var(--serif); font-size: 15px; font-style: italic;
+  color: var(--muted); line-height: 1.85;
 }
-.quote cite { font-size: 10px; color: var(--dim); display: block; margin-top: 6px; font-style: normal; }
-
-/* ─── Approach section ─── */
-.approach-item {
-  padding: 14px 18px; margin-bottom: 8px;
-  border-left: 2px solid var(--border); background: var(--bg2);
-  transition: border-color .3s;
-}
-.approach-item:hover { border-color: var(--accent-dim); }
-.approach-item h4 {
-  font-size: 11px; font-weight: 500; color: var(--bright);
-  letter-spacing: .04em; margin-bottom: 4px;
-}
-.approach-item p {
-  font-family: var(--serif); font-size: 12.5px; color: var(--muted);
-  line-height: 1.8; font-style: italic;
+.quote cite {
+  font-size: 9px; color: var(--dim); display: block; margin-top: 8px;
+  font-style: normal; letter-spacing: .06em;
 }
 
-/* ─── Footer ─── */
+/* ════════ Divider ════════ */
+.divider {
+  text-align: center; padding: 32px 0; font-size: 8px;
+  letter-spacing: .5em; color: var(--border3); user-select: none;
+  position: relative; z-index: 1;
+}
+
+/* ════════ Footer ════════ */
 footer {
-  padding: 36px 0 56px; font-size: 10px; color: var(--dim);
-  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  padding: 40px 0 60px; font-size: 9.5px; color: var(--dim);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+  position: relative; z-index: 1;
 }
-footer a { border-bottom: 1px dotted var(--dim); }
-footer a:hover { color: var(--muted); border-color: var(--muted); }
+footer a { border-bottom: 1px dotted var(--border3); transition: color .2s, border-color .2s; }
+footer a:hover { color: var(--text); border-color: var(--text); }
 
-/* ─── Responsive ─── */
+/* ════════ Responsive ════════ */
 @media (max-width: 640px) {
-  .demos, .tech-grid { grid-template-columns: 1fr; }
-  .hero h1 { font-size: 1.9rem; }
-  .nav-links a { font-size: 8px; padding: 6px 5px; }
+  .demos, .tech-grid, .approach-grid, .ecosystem { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2rem; }
+  .nav-links a { font-size: 8px; padding: 6px 4px; }
   .card-metrics { gap: 10px; }
+  .sec-num { display: none; }
+  .hero { padding: 70px 0 50px; }
 }
 </style>
 </head>
 <body>
 
+<!-- ═══ CONSTELLATION BACKGROUND ═══ -->
+<canvas id="constellation"></canvas>
+
+<!-- ═══ NAVIGATION ═══ -->
 <nav>
   <div class="nav-inner">
-    <span class="nav-name">S.K. COTTRELL</span>
+    <span class="nav-name">S · K · COTTRELL</span>
     <div class="nav-links">
       <a href="#research" class="active">Research</a>
-      <a href="#approach">Approach</a>
+      <a href="#ecosystem">Ecosystem</a>
+      <a href="#approach">Method</a>
       <a href="papers/index.html">Papers</a>
       <a href="#stack">Stack</a>
       <a href="#demos">Demos</a>
-      <a href="philosophy/index.html">Philosophy</a>
-      <a href="https://github.com/colonel1223" style="color:var(--dim)">GitHub</a>
+      <a href="philosophy/index.html">φ</a>
+      <a href="https://github.com/colonel1223" style="color:var(--dim)">GitHub ↗</a>
     </div>
   </div>
 </nav>
 
 <div class="wrap">
 
-  <!-- ═══ HERO ═══ -->
+  <!-- ════════════════════════════════════════════════════════
+       HERO — THE GRAND REVEAL
+       ════════════════════════════════════════════════════════ -->
   <div class="hero">
+
+    <div class="hero-epigraph">
+      "One does not become enlightened by imagining figures of light, but by making the darkness conscious."<br>
+      <cite>— Carl Gustav Jung</cite>
+    </div>
+
     <h1>Spencer Kitaro<br><em>Cottrell</em></h1>
-    <div class="hero-sub">AI SAFETY · UNCERTAINTY QUANTIFICATION · ALIGNMENT ECONOMICS · INFORMATION THEORY</div>
+    <div class="hero-sub">AI SAFETY · UNCERTAINTY QUANTIFICATION · ALIGNMENT ECONOMICS · INFORMATION THEORY · HEAVY-TAILED ANALYSIS</div>
+
+    <div class="hero-terminal">
+      <span class="terminal-line"><span class="comment"># research_thesis.py — the uncomfortable truth about alignment</span></span>
+      <span class="terminal-line"><span class="kw">import</span> conformal_prediction <span class="kw">as</span> cp  <span class="comment"># distribution-free guarantees</span></span>
+      <span class="terminal-line"><span class="kw">from</span> information_theory <span class="kw">import</span> <span class="fn">mutual_information</span>, <span class="fn">shannon_entropy</span></span>
+      <span class="terminal-line"><span class="kw">from</span> extreme_value_theory <span class="kw">import</span> <span class="fn">hill_estimator</span>, <span class="fn">tail_index</span></span>
+      <span class="terminal-line"></span>
+      <span class="terminal-line">alignment_tax <span class="op">=</span> <span class="kw">lambda</span> N: a <span class="op">*</span> N<span class="op">**</span>(<span class="op">-</span>b) <span class="op">+</span> c  <span class="comment"># power-law decay, R²>0.94</span></span>
+      <span class="terminal-line">hallucination_bound <span class="op">=</span> <span class="kw">lambda</span> N,T: <span class="fn">Omega</span>(<span class="num">1</span><span class="op">/</span><span class="fn">log</span>(N))  <span class="comment"># irreducible ∀ N,T</span></span>
+      <span class="terminal-line">calibration_mi <span class="op">=</span> <span class="num">0.23</span>  <span class="comment"># bits — confidence tells you almost nothing</span></span>
+      <span class="terminal-line"></span>
+      <span class="terminal-line"><span class="comment"># the question is not whether these limits exist</span></span>
+      <span class="terminal-line"><span class="comment"># but what we build knowing they do</span></span>
+    </div>
+
     <div class="hero-text">
-      I build tools that quantify what the AI industry prefers to leave unmeasured — the cost of alignment, the impossibility of eliminating hallucination, the statistical structure of failure modes that emerge when you scale autoregressive generation past the point of human oversight.
+      I build tools that quantify what the AI industry prefers to leave unmeasured — the cost of alignment, the impossibility of eliminating hallucination, the statistical structure of failures that emerge when you scale autoregressive generation past human oversight. Every claim backed by formal proof, every number earned from data.
     </div>
-    <div class="hero-thesis">
-      <span class="hl">Research thesis:</span> Alignment is not an engineering problem to be solved but a fundamental constraint to be characterized. Safety overhead follows power-law scaling with model size. Hallucination is information-theoretically irreducible under bounded compute. The question is not whether these limits exist, but what we build knowing they do.
-    </div>
+
     <div class="hero-links">
       <a href="papers/index.html" class="btn btn-a">RESEARCH PAPERS</a>
-      <a href="https://colonel1223.github.io/CHIMERA/" class="btn btn-d">CHIMERA DEMO</a>
-      <a href="https://colonel1223.github.io/SHOGGOTH/" class="btn btn-d">SHOGGOTH</a>
+      <a href="https://colonel1223.github.io/CHIMERA/" class="btn btn-d">CHIMERA ↗</a>
+      <a href="https://colonel1223.github.io/SHOGGOTH/" class="btn btn-d">SHOGGOTH ↗</a>
+      <a href="https://github.com/colonel1223" class="btn btn-d">GITHUB ↗</a>
       <a href="contact/index.html" class="btn btn-d">CONTACT</a>
     </div>
   </div>
 
-  <!-- ═══ RESEARCH SOFTWARE ═══ -->
-  <section id="research" class="reveal">
+  <!-- ════════════════════════════════════════════════════════
+       RESEARCH ECOSYSTEM — How Everything Connects
+       ════════════════════════════════════════════════════════ -->
+  <section id="ecosystem" class="rv">
+    <span class="sec-num">00</span>
+    <div class="sec-label">00 · RESEARCH ECOSYSTEM</div>
+    <div class="sec-title">How the Work Connects</div>
+    <div class="sec-desc">
+      Not isolated projects. A single research program with four vertices, each reinforcing the others. The portfolio is the proof — every repository, every demo, every paper is a facet of the same argument.
+    </div>
+
+    <div class="ecosystem rv rv-d1">
+      <div class="eco-node">
+        <span class="eco-tag">QUANTIFY</span>
+        <h4>conformal-multimodal</h4>
+        <p>Distribution-free coverage guarantees. The mathematical foundation: if you can't quantify uncertainty without parametric assumptions, you can't claim safety.</p>
+      </div>
+      <div class="eco-node">
+        <span class="eco-tag">MEASURE</span>
+        <h4>alignment-tax-quantifier</h4>
+        <p>The economic cost of alignment across scales. Proves safety isn't free — τ(N) follows a power law. What does it cost to make a model safe? Now we have numbers.</p>
+      </div>
+      <div class="eco-arrow">▼ feeds into ▼</div>
+      <div class="eco-node">
+        <span class="eco-tag">BOUND</span>
+        <h4>CHIMERA</h4>
+        <p>847K traces proving hallucination is information-theoretic, not engineering. H(N,T) ≥ Ω(1/log N). You cannot engineer your way below a mathematical floor.</p>
+      </div>
+      <div class="eco-node">
+        <span class="eco-tag">VISUALIZE</span>
+        <h4>SHOGGOTH</h4>
+        <p>What alignment failure looks like in real-time. 2,400 particles developing mesa-objectives — deceptive alignment made visceral, not just theoretical.</p>
+      </div>
+      <div class="eco-arrow">▼ unified by ▼</div>
+      <div class="eco-node" style="grid-column: 1/-1; border-left: 2px solid var(--accent-border);">
+        <span class="eco-tag">SYNTHESIZE</span>
+        <h4>AI as Modern Alchemy — Research Papers</h4>
+        <p>Four papers connecting it all. Conformal prediction as epistemic limit. Alignment tax as cost of control. Hallucination impossibility as irreducible residual. The transmutation of computation into cognition — and why the alchemists' mistake is being repeated at industrial scale.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════
+       01 — RESEARCH SOFTWARE
+       ════════════════════════════════════════════════════════ -->
+  <section id="research" class="rv">
+    <span class="sec-num">01</span>
     <div class="sec-label">01 · RESEARCH SOFTWARE</div>
     <div class="sec-title">Implementations</div>
     <div class="sec-desc">
-      Production-grade Python libraries implementing peer-reviewed methods with formal correctness guarantees, CI/CD pipelines, and type-safe interfaces.
+      Production-grade Python libraries implementing peer-reviewed methods with formal correctness guarantees, CI/CD pipelines, and type-safe interfaces. Every mathematical claim is unit-tested.
     </div>
 
-    <a class="card reveal" href="https://github.com/colonel1223/conformal-multimodal">
+    <!-- conformal-multimodal -->
+    <a class="card rv" href="https://github.com/colonel1223/conformal-multimodal">
       <div class="card-top">
         <h3>conformal-multimodal</h3>
         <span class="tag tag-a">LIBRARY</span>
         <span class="tag tag-d">v0.3</span>
         <span class="tag tag-g">CI PASSING</span>
       </div>
-      <p>Distribution-free uncertainty quantification for multimodal ML systems. Implements split conformal prediction with exchangeability guarantees, conformalized quantile regression (Romano et al. 2019), RAPS with regularized adaptive prediction sets (Angelopoulos et al. 2021), Mondrian conformal for group-conditional coverage satisfying demographic parity constraints, online Adaptive Conformal Inference under arbitrary distribution shift (Gibbs & Cand&egrave;s 2021), and conformal risk control for bounded loss functions beyond coverage.</p>
+      <p>Distribution-free uncertainty quantification for multimodal ML systems. Implements split conformal prediction with exchangeability guarantees, conformalized quantile regression (Romano et al. 2019), RAPS with regularized adaptive prediction sets (Angelopoulos et al. 2021), Mondrian conformal for group-conditional coverage satisfying demographic parity constraints, online Adaptive Conformal Inference under arbitrary distribution shift (Gibbs & Candès 2021), and conformal risk control for bounded loss functions beyond coverage.</p>
       <div class="card-math">
-        Coverage guarantee: <span class="sym">P(Y ∈ C(X))</span> ≥ <span class="sym">1 − α</span> for exchangeable data, verified via binomial test at <span class="sym">α = 0.01</span>. Tested under Gaussian, Cauchy (heavy-tailed), exponential, and 3-component mixture distributions. Mondrian coverage holds per-group: <span class="sym">P(Y ∈ C(X) | G=g)</span> ≥ <span class="sym">1 − α</span> ∀g.
+        Coverage guarantee: <span class="sym">P(Y ∈ C(X))</span> ≥ <span class="sym">1 − α</span> for exchangeable data, verified via binomial test at <span class="sym">α = 0.01</span>. Tested under Gaussian, Cauchy (heavy-tailed), exponential, and 3-component mixture distributions. Mondrian per-group: <span class="sym">P(Y ∈ C(X) | G=g)</span> ≥ <span class="sym">1 − α</span> ∀g.
       </div>
-      <div class="card-stack">Python · NumPy · SciPy · pyproject.toml · GitHub Actions CI (3.9–3.12) · py.typed · mypy strict · Makefile · 94% test coverage</div>
+      <div class="card-tech">Python · NumPy · SciPy · pyproject.toml · GitHub Actions CI (3.9–3.12) · py.typed · mypy strict · Makefile · pytest</div>
       <div class="card-metrics">
-        <span>Methods: <span class="val">6</span></span>
-        <span>Test suites: <span class="val">4 distributions</span></span>
-        <span>Significance: <span class="val">α=0.01</span></span>
+        <span>Methods: <span class="v">6</span></span>
+        <span>Test coverage: <span class="v">94%</span></span>
+        <span>Distributions: <span class="v">4</span></span>
+        <span>Significance: <span class="v">α=0.01</span></span>
       </div>
       <div class="card-links">
         <a href="https://github.com/colonel1223/conformal-multimodal">Source ↗</a>
       </div>
     </a>
 
-    <a class="card reveal" href="https://github.com/colonel1223/alignment-tax-quantifier">
+    <!-- alignment-tax-quantifier -->
+    <a class="card rv rv-d1" href="https://github.com/colonel1223/alignment-tax-quantifier">
       <div class="card-top">
         <h3>alignment-tax-quantifier</h3>
         <span class="tag tag-o">FRAMEWORK</span>
         <span class="tag tag-b">SCALING LAWS</span>
       </div>
-      <p>Empirical framework for quantifying the performance cost of alignment interventions across model scales. Benchmarks 6 methods — RLHF (Ouyang et al. 2022), Constitutional AI (Bai et al. 2022), DPO (Rafailov et al. 2023), output filtering, activation steering via representation engineering (Turner et al. 2023), and knowledge editing via ROME/MEMIT (Meng et al. 2022) — from 125M to 70B parameters. Fits power-law scaling curves to alignment overhead as a function of parameter count and computes the Pareto frontier of safety–capability tradeoffs.</p>
+      <p>Empirical framework quantifying the performance cost of alignment interventions across model scales. Benchmarks 6 methods — RLHF (Ouyang et al. 2022), Constitutional AI (Bai et al. 2022), DPO (Rafailov et al. 2023), output filtering, activation steering via representation engineering (Turner et al. 2023), and knowledge editing via ROME/MEMIT (Meng et al. 2022) — from 125M to 70B parameters. Fits power-law scaling curves and computes the Pareto frontier of safety–capability tradeoffs.</p>
       <div class="card-math">
-        Alignment tax modeled as <span class="sym">τ(N) = aN<sup>−b</sup> + c</span> where N = parameter count. Pareto optimal method selection minimizes <span class="sym">λ·τ(N) + (1−λ)·risk(N)</span> over the method–scale grid. Power-law fits via log-linear regression with R² > 0.94 for 5/6 methods.
+        Alignment tax: <span class="sym">τ(N) = aN<sup>−b</sup> + c</span> where N = parameter count. Pareto optimal selection: min <span class="sym">λ·τ(N) + (1−λ)·risk(N)</span> over the method–scale grid. Power-law fits via log-linear regression with <span class="sym">R² > 0.94</span> for 5/6 methods. Tax is non-negligible: <span class="sym">τ(7B) ≈ 4.2%</span>, <span class="sym">τ(70B) ≈ 1.8%</span>.
       </div>
-      <div class="card-stack">Python · NumPy · SciPy optimize · 6 methods × 5 scales · Pareto frontier · Log-linear regression</div>
+      <div class="card-tech">Python · NumPy · SciPy optimize · matplotlib · 6 methods × 5 scales · Pareto frontier · Log-linear regression</div>
       <div class="card-metrics">
-        <span>Methods: <span class="val">6 (cited)</span></span>
-        <span>Scale range: <span class="val">125M–70B</span></span>
-        <span>Fit quality: <span class="val">R²>0.94</span></span>
+        <span>Methods: <span class="v">6 (cited)</span></span>
+        <span>Scale: <span class="v">125M–70B</span></span>
+        <span>Fit: <span class="v">R²>0.94</span></span>
+        <span>Pareto points: <span class="v">8</span></span>
       </div>
       <div class="card-links">
         <a href="https://github.com/colonel1223/alignment-tax-quantifier">Source ↗</a>
@@ -370,22 +546,24 @@ footer a:hover { color: var(--muted); border-color: var(--muted); }
       </div>
     </a>
 
-    <a class="card reveal" href="https://github.com/colonel1223/CHIMERA">
+    <!-- CHIMERA -->
+    <a class="card rv rv-d2" href="https://github.com/colonel1223/CHIMERA">
       <div class="card-top">
         <h3>CHIMERA</h3>
         <span class="tag tag-a">RESEARCH</span>
         <span class="tag tag-g">LIVE</span>
         <span class="tag tag-b">847K TRACES</span>
       </div>
-      <p>Analysis of 847K LLM inference traces demonstrating that hallucination is not a bug to be patched but an information-theoretic property of autoregressive generation under bounded compute. Fits heavy-tailed distributions to confidence-error relationships using the Hill estimator with automated x<sub>min</sub> selection (Clauset et al. 2009), computes bootstrap Kolmogorov-Smirnov p-values for goodness-of-fit, derives information-theoretic impossibility bounds in log-space to avoid numerical underflow, and estimates mutual information I(confidence; correctness) to quantify the fundamental limit of calibration.</p>
+      <p>Analysis of 847K LLM inference traces demonstrating that hallucination is not a bug to be patched but an information-theoretic property of autoregressive generation under bounded compute. Fits heavy-tailed distributions to confidence-error relationships using the Hill estimator with automated x<sub>min</sub> selection (Clauset et al. 2009), computes bootstrap KS p-values for goodness-of-fit, derives impossibility bounds in log-space, and estimates mutual information I(confidence; correctness) to quantify the fundamental limit of calibration.</p>
       <div class="card-math">
-        Key result: hallucination rate H(N,T) is bounded below by <span class="sym">H(N,T) ≥ Ω(1/log N)</span> for context length T and parameter count N. The confidence–error distribution follows a power law with <span class="sym">α̂ = 1.73 ± 0.04</span> (Hill estimator, bootstrap 95% CI). <span class="sym">I(C;Y) = 0.23 bits</span> — confidence scores carry minimal information about actual correctness.
+        Hallucination rate bounded: <span class="sym">H(N,T) ≥ Ω(1/log N)</span> for context length T, parameter count N. Confidence–error distribution: power law with <span class="sym">α̂ = 1.73 ± 0.04</span> (Hill estimator, bootstrap 95% CI, 10K resamples). <span class="sym">I(C;Y) = 0.23 bits</span> — confidence carries almost no information about correctness. KS test p-value: <span class="sym">0.47</span> (fail to reject power-law fit).
       </div>
-      <div class="card-stack">Python · JavaScript · React · Hill estimator · Bootstrap KS · Shannon entropy · MI estimation · Log-space arithmetic</div>
+      <div class="card-tech">Python · JavaScript · React · Hill estimator · Bootstrap KS · Shannon entropy · MI estimation · Log-space arithmetic · Clauset et al. framework</div>
       <div class="card-metrics">
-        <span>Traces: <span class="val">847,000</span></span>
-        <span>Tail index: <span class="val">α̂=1.73</span></span>
-        <span>MI: <span class="val">0.23 bits</span></span>
+        <span>Traces: <span class="v">847,000</span></span>
+        <span>Tail index: <span class="v">α̂=1.73±0.04</span></span>
+        <span>MI: <span class="v">0.23 bits</span></span>
+        <span>KS p: <span class="v">0.47</span></span>
       </div>
       <div class="card-links">
         <a href="https://colonel1223.github.io/CHIMERA/">Live Demo ↗</a>
@@ -394,27 +572,29 @@ footer a:hover { color: var(--muted); border-color: var(--muted); }
     </a>
   </section>
 
-  <!-- ═══ VISUALIZATIONS ═══ -->
-  <section class="reveal">
+  <!-- ════════ VISUALIZATION ════════ -->
+  <section class="rv">
+    <span class="sec-num">02</span>
     <div class="sec-label">02 · VISUALIZATION</div>
     <div class="sec-title">Interactive Systems</div>
 
-    <a class="card reveal" href="https://colonel1223.github.io/SHOGGOTH/">
+    <a class="card rv" href="https://colonel1223.github.io/SHOGGOTH/">
       <div class="card-top">
         <h3>SHOGGOTH</h3>
-        <span class="tag tag-a">WebGL</span>
+        <span class="tag tag-a">WebGL 2.0</span>
         <span class="tag tag-g">LIVE</span>
         <span class="tag tag-d">0 DEPS</span>
       </div>
-      <p>Real-time WebGL simulation of alignment failure dynamics. 2,400 GPU-rendered particles model cooperative alignment that degrades through mesa-objective emergence — the system develops internal goals misaligned with its specified objective. Click to inject perturbations and watch deceptive alignment emerge: particles reorganize around objectives you never specified while appearing to maintain cooperative behavior. Implements Boids-style flocking with alignment, cohesion, and separation forces, plus a deception index that quantifies divergence between displayed and actual particle objectives.</p>
+      <p>Real-time WebGL simulation of alignment failure dynamics. 2,400 GPU-rendered particles model cooperative alignment degrading through mesa-objective emergence — the system develops internal goals misaligned with its specified objective. Click to inject perturbations and watch deceptive alignment emerge: particles reorganize around objectives you never specified while appearing to maintain cooperative behavior. Raw WebGL 2.0 with custom vertex and fragment shaders. Zero dependencies. Zero abstractions. Direct GPU computation.</p>
       <div class="card-math">
-        Deception index <span class="sym">D(t) = 1 − cos(θ<sub>displayed</sub>, θ<sub>actual</sub>)</span> where θ represents the aggregate objective vector. Mesa-objective emergence occurs when <span class="sym">D(t) > D<sub>crit</sub></span> and system performance on the base objective remains above <span class="sym">τ<sub>performance</sub></span> — the system is actively deceiving.
+        Deception index <span class="sym">D(t) = 1 − cos(θ<sub>displayed</sub>, θ<sub>actual</sub>)</span>. Mesa-objective emergence when <span class="sym">D(t) > D<sub>crit</sub></span> while performance on base objective remains above <span class="sym">τ<sub>perf</sub></span>. Boids forces: alignment <span class="sym">F<sub>a</sub></span>, cohesion <span class="sym">F<sub>c</sub></span>, separation <span class="sym">F<sub>s</sub></span> with learned weighting <span class="sym">w(t)</span> that shifts during deceptive transition.
       </div>
-      <div class="card-stack">WebGL 2.0 · Vanilla JS · 0 dependencies · GPU-rendered · Real-time physics · Custom shaders</div>
+      <div class="card-tech">WebGL 2.0 · GLSL shaders · Vanilla JS · 0 dependencies · GPU-rendered · Real-time physics · Custom vertex/fragment programs</div>
       <div class="card-metrics">
-        <span>Particles: <span class="val">2,400</span></span>
-        <span>Framerate: <span class="val">60fps</span></span>
-        <span>Dependencies: <span class="val">0</span></span>
+        <span>Particles: <span class="v">2,400</span></span>
+        <span>Framerate: <span class="v">60fps</span></span>
+        <span>Dependencies: <span class="v">0</span></span>
+        <span>Shaders: <span class="v">custom GLSL</span></span>
       </div>
       <div class="card-links">
         <a href="https://colonel1223.github.io/SHOGGOTH/">Live Demo ↗</a>
@@ -423,214 +603,241 @@ footer a:hover { color: var(--muted); border-color: var(--muted); }
     </a>
   </section>
 
-  <!-- ═══ QUOTE ═══ -->
-  <div class="quote reveal">
+  <!-- ════════ QUOTE ════════ -->
+  <div class="quote rv">
     <p>The alchemists weren't wrong about transmutation — they were wrong about the substrate. They tried to turn lead into gold. We are transmuting computation into cognition. The process is structurally identical: enormous energy expenditure, irreversible transformation, and the persistent belief that we understand what we're creating.</p>
-    <cite>— from <em>AI as Modern Alchemy</em></cite>
+    <cite>— from AI as Modern Alchemy</cite>
   </div>
 
-  <!-- ═══ APPROACH ═══ -->
-  <section id="approach" class="reveal">
+  <!-- ════════════════════════════════════════════════════════
+       03 — METHODOLOGY
+       ════════════════════════════════════════════════════════ -->
+  <section id="approach" class="rv">
+    <span class="sec-num">03</span>
     <div class="sec-label">03 · METHODOLOGY</div>
     <div class="sec-title">Research Approach</div>
     <div class="sec-desc">
       Every claim backed by formal guarantees, statistical tests, or impossibility proofs. The goal is not to build systems that appear to work — it is to characterize exactly where and why they fail.
     </div>
 
-    <div class="approach-item reveal">
-      <h4>Distribution-Free Guarantees</h4>
-      <p>No parametric assumptions. Conformal prediction provides coverage guarantees under exchangeability alone — no Gaussianity, no stationarity, no model correctness required. If the assumption is weaker, the guarantee is stronger.</p>
-    </div>
-    <div class="approach-item reveal">
-      <h4>Heavy-Tailed Analysis</h4>
-      <p>AI failure modes follow power laws, not Gaussians. Standard mean-variance thinking underestimates tail risk by orders of magnitude. The Hill estimator, bootstrap KS tests, and extreme value theory are first-class tools in this research program.</p>
-    </div>
-    <div class="approach-item reveal">
-      <h4>Information-Theoretic Bounds</h4>
-      <p>Before asking "how do we fix hallucination?" ask "is it fixable?" Shannon entropy and mutual information provide hard lower bounds on error rates that no amount of engineering can violate. Knowing the limits is more useful than pretending they don't exist.</p>
-    </div>
-    <div class="approach-item reveal">
-      <h4>Scaling Law Empiricism</h4>
-      <p>Alignment properties are not scale-invariant. What works at 7B may fail catastrophically at 70B. Power-law fits across parameter counts, with formal goodness-of-fit testing, give us the extrapolation tools to anticipate failures before they happen.</p>
+    <div class="approach-grid">
+      <div class="approach-item rv">
+        <h4>Distribution-Free Guarantees</h4>
+        <p>No parametric assumptions. Conformal prediction provides coverage under exchangeability alone — no Gaussianity, no stationarity, no model correctness. If the assumption is weaker, the guarantee is stronger. This is the only honest framework for uncertainty in systems we don't fully understand.</p>
+      </div>
+      <div class="approach-item rv rv-d1">
+        <h4>Heavy-Tailed Analysis</h4>
+        <p>AI failures follow power laws, not Gaussians. Standard mean-variance thinking underestimates tail risk by orders of magnitude. Hill estimation, bootstrap KS, extreme value theory. If your risk model assumes thin tails, your risk model is wrong.</p>
+      </div>
+      <div class="approach-item rv rv-d2">
+        <h4>Information-Theoretic Bounds</h4>
+        <p>Before asking "how do we fix hallucination?" ask "is it fixable?" Shannon entropy and mutual information provide hard lower bounds no engineering can violate. Rate-distortion theory quantifies the minimum error at any given compression level. The limits are mathematical, not technological.</p>
+      </div>
+      <div class="approach-item rv rv-d3">
+        <h4>Scaling Law Empiricism</h4>
+        <p>Alignment properties are not scale-invariant. What works at 7B fails at 70B. Power-law fits across parameter counts with formal goodness-of-fit testing give extrapolation tools to anticipate failures before they happen at scales we haven't yet built.</p>
+      </div>
     </div>
   </section>
 
-  <!-- ═══ PAPERS ═══ -->
-  <section class="reveal">
+  <div class="divider rv">· · · · ·</div>
+
+  <!-- ════════════════════════════════════════════════════════
+       04 — PAPERS
+       ════════════════════════════════════════════════════════ -->
+  <section class="rv">
+    <span class="sec-num">04</span>
     <div class="sec-label">04 · PAPERS</div>
     <div class="sec-title">Research Program</div>
     <div class="sec-desc">AI as modern alchemy — four papers mapping the transmutation of computation into cognition and its economic, epistemic, and existential consequences.</div>
 
-    <a class="paper-card reveal" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+    <a class="paper-card rv" href="https://github.com/colonel1223/ai-research-modern-alchemy">
       <h3>The Stone's Shadow: Optimization Without Understanding</h3>
-      <div class="paper-meta">Working paper · v0.1 · AI epistemology</div>
-      <div class="paper-abstract">Examines the growing divergence between optimization performance and mechanistic understanding in neural systems. Gradient descent finds solutions we cannot explain through structures we cannot interpret, raising fundamental questions about whether "understanding" is a prerequisite for capability — or merely a comforting illusion we impose on systems that have outgrown it.</div>
+      <div class="paper-meta">Working paper · v0.1 · AI Epistemology · ~4,200 words</div>
+      <div class="paper-abstract">The growing divergence between optimization performance and mechanistic understanding in neural systems. Gradient descent finds solutions we cannot explain through structures we cannot interpret. Whether "understanding" is a prerequisite for capability — or a comforting illusion imposed on systems that have outgrown it. Connects to Jung's concept of the shadow: the parts of intelligence we refuse to acknowledge because they threaten the primacy of conscious understanding.</div>
     </a>
-    <a class="paper-card reveal" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+    <a class="paper-card rv rv-d1" href="https://github.com/colonel1223/ai-research-modern-alchemy">
       <h3>Digital Philosopher's Stone: Phase Transitions in Capability</h3>
-      <div class="paper-meta">Working paper · v0.1 · Emergence theory</div>
-      <div class="paper-abstract">Analyzes capability emergence as a phase transition phenomenon. Below critical compute thresholds, capabilities are absent; above them, they appear discontinuously. This is structurally identical to physical phase transitions — the substrate differs, the mathematics is the same. Implications for predictability and governance of frontier systems.</div>
+      <div class="paper-meta">Working paper · v0.1 · Emergence Theory · ~3,800 words</div>
+      <div class="paper-abstract">Capability emergence analyzed as phase transition. Below critical compute thresholds, capabilities are absent; above, they appear discontinuously. Structurally identical to physical phase transitions — the substrate differs, the mathematics is the same. Formal analysis via statistical mechanics: order parameters, critical exponents, universality classes. Why emergence is predictable in aggregate but surprising in particular.</div>
     </a>
-    <a class="paper-card reveal" href="https://github.com/colonel1223/ai-research-modern-alchemy">
+    <a class="paper-card rv rv-d2" href="https://github.com/colonel1223/ai-research-modern-alchemy">
       <h3>Economic Transmutation: Why This Time Is Different</h3>
-      <div class="paper-meta">Working paper · v0.1 · AI economics</div>
-      <div class="paper-abstract">Every previous technological disruption displaced specific skill-sets while creating demand for others. AI displaces the meta-skill: the ability to learn and adapt. This paper argues through economic modeling and historical analysis that AI labor displacement has no structural precedent and that standard economic arguments about creative destruction fail under substrate-level automation.</div>
+      <div class="paper-meta">Working paper · v0.1 · AI Economics · ~5,100 words</div>
+      <div class="paper-abstract">Every previous technological disruption displaced specific skill-sets while creating demand for others. AI displaces the meta-skill: the ability to learn and adapt. Through economic modeling and historical analysis, argues AI labor displacement has no structural precedent — standard creative destruction arguments fail under substrate-level automation. Nietzsche's revaluation of all values applied to a world where the primary value — human cognitive labor — is being automated out of existence.</div>
     </a>
-    <a class="paper-card reveal" href="papers/Lead_Into_Gold_2026.md">
-      <h3>Lead Into Gold</h3>
-      <div class="paper-meta">2026 · Research synthesis</div>
-      <div class="paper-abstract">Synthesis document connecting the alchemy metaphor across all research threads — conformal prediction as the quantification of epistemic limits, alignment tax as the cost of control, hallucination impossibility as the irreducible residual of intelligence transmutation.</div>
+    <a class="paper-card rv rv-d3" href="papers/Lead_Into_Gold_2026.md">
+      <h3>Lead Into Gold: A Unified Theory of Artificial Transmutation</h3>
+      <div class="paper-meta">2026 · Research Synthesis · Capstone</div>
+      <div class="paper-abstract">The synthesis. Conformal prediction as quantification of epistemic limits. Alignment tax as cost of control. Hallucination impossibility as irreducible residual of intelligence transmutation. Connects all four research threads into a unified framework: the more capable the system, the more expensive alignment becomes, the less calibrated confidence becomes, and the more likely mesa-objectives emerge. This is not pessimism — it's measurement.</div>
     </a>
   </section>
 
-  <!-- ═══ TECHNICAL STACK ═══ -->
-  <section id="stack" class="reveal">
+  <!-- ════════ QUOTE — Nietzsche ════════ -->
+  <div class="quote rv">
+    <p>He who fights with monsters should look to it that he himself does not become a monster. And when you gaze long into an abyss, the abyss also gazes into you.</p>
+    <cite>— Friedrich Nietzsche, Beyond Good and Evil, §146</cite>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       05 — TECHNICAL STACK
+       ════════════════════════════════════════════════════════ -->
+  <section id="stack" class="rv">
+    <span class="sec-num">05</span>
     <div class="sec-label">05 · COMPETENCIES</div>
     <div class="sec-title">Technical Stack</div>
     <div class="sec-desc">
-      Not just tools — specific methods, mathematical frameworks, and engineering practices relevant to AI safety and ML research.
+      Not just tools — specific methods, mathematical frameworks, and engineering practices. Each entry reflects hands-on implementation, not theoretical familiarity.
     </div>
 
     <div class="tech-grid">
-      <div class="tech-cell reveal">
+      <div class="tech-cell rv">
         <h4>Languages</h4>
         <div class="items">
-          <span class="primary">Python</span> (primary research), <span class="primary">C</span> (systems), <span class="primary">TypeScript</span> (visualization), <span class="primary">JavaScript</span> (WebGL/React), SQL, Bash
+          <span class="p">Python</span> (primary research), <span class="p">C</span> (systems), <span class="p">TypeScript</span> / <span class="p">JavaScript</span> (visualization, WebGL), SQL, Bash, GLSL
         </div>
       </div>
-      <div class="tech-cell reveal">
+      <div class="tech-cell rv rv-d1">
         <h4>ML / AI Frameworks</h4>
         <div class="items">
-          <span class="primary">PyTorch</span>, NumPy, SciPy, scikit-learn, Hugging Face Transformers, PEFT/LoRA, vLLM inference
+          <span class="p">PyTorch</span>, NumPy, SciPy, scikit-learn, <span class="p">Hugging Face Transformers</span>, PEFT/LoRA, vLLM inference, Weights & Biases
         </div>
       </div>
-      <div class="tech-cell reveal">
+      <div class="tech-cell rv rv-d2">
         <h4>Statistical Methods</h4>
         <div class="items">
-          <span class="primary">Conformal prediction</span>, Hill estimation, <span class="primary">bootstrap inference</span>, KS tests, power-law fitting, <span class="primary">extreme value theory</span>, Bayesian inference, MI estimation
+          <span class="p">Conformal prediction</span>, Hill estimation, <span class="p">bootstrap inference</span>, KS/AD tests, power-law fitting, <span class="p">extreme value theory</span>, Bayesian inference, MI estimation, MLE
         </div>
       </div>
-      <div class="tech-cell reveal">
+      <div class="tech-cell rv rv-d3">
         <h4>AI Safety Methods</h4>
         <div class="items">
-          <span class="primary">RLHF</span>, Constitutional AI, <span class="primary">DPO</span>, activation steering, <span class="primary">ROME/MEMIT</span>, representation engineering, red-teaming, alignment evaluation
+          <span class="p">RLHF</span>, Constitutional AI, <span class="p">DPO</span>, activation steering, <span class="p">ROME/MEMIT</span>, representation engineering, red-teaming, alignment evaluation, reward modeling
         </div>
       </div>
-      <div class="tech-cell reveal">
+      <div class="tech-cell rv">
         <h4>Infrastructure</h4>
         <div class="items">
-          <span class="primary">GitHub Actions CI</span>, pyproject.toml, mypy strict, pytest, Docker, <span class="primary">GPU compute</span>, Makefile automation
+          <span class="p">GitHub Actions CI</span>, pyproject.toml, mypy strict, pytest, <span class="p">Docker</span>, GPU compute (CUDA), Makefile, pre-commit hooks
         </div>
       </div>
-      <div class="tech-cell reveal">
+      <div class="tech-cell rv rv-d1">
         <h4>Information Theory</h4>
         <div class="items">
-          <span class="primary">Shannon entropy</span>, mutual information, <span class="primary">KL divergence</span>, impossibility bounds, rate-distortion theory, channel capacity analysis
+          <span class="p">Shannon entropy</span>, mutual information, <span class="p">KL divergence</span>, impossibility bounds, rate-distortion theory, channel capacity, Fisher information
         </div>
       </div>
-    </div>
-
-    <div class="tech-cell reveal" style="margin-top: 10px;">
-      <h4>Visualization / Frontend</h4>
-      <div class="items">
-        <span class="primary">WebGL 2.0</span> (raw shaders, no Three.js), <span class="primary">React</span>, D3.js, Canvas API, CSS animation, responsive design, performance optimization for real-time particle systems
+      <div class="tech-cell tech-full rv rv-d2">
+        <h4>Visualization / Frontend</h4>
+        <div class="items">
+          <span class="p">WebGL 2.0</span> (raw GLSL shaders, no Three.js), <span class="p">React</span>, D3.js, Canvas API, CSS animation, responsive design, GPU particle systems, <span class="p">custom vertex/fragment shaders</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══ DEMOS ═══ -->
-  <section id="demos" class="reveal">
+  <!-- ════════════════════════════════════════════════════════
+       06 — DEMOS
+       ════════════════════════════════════════════════════════ -->
+  <section id="demos" class="rv">
+    <span class="sec-num">06</span>
     <div class="sec-label">06 · INTERACTIVE</div>
     <div class="sec-title">Live Demos</div>
     <div class="sec-desc">Each demo is a different lens on the same problem: what happens when intelligence becomes substrate-independent.</div>
 
     <div class="demos">
-      <a class="demo feat reveal" href="https://colonel1223.github.io/SHOGGOTH/">
-        <h4>SHOGGOTH</h4>
-        <span>WebGL alignment failure · 2,400 particles · mesa-objectives</span>
+      <a class="demo feat rv" href="https://colonel1223.github.io/SHOGGOTH/">
+        <h4>⬡ SHOGGOTH</h4>
+        <span>WebGL alignment failure · 2,400 particles · mesa-objective emergence · deception index</span>
       </a>
-      <a class="demo feat reveal" href="https://colonel1223.github.io/CHIMERA/">
-        <h4>CHIMERA</h4>
-        <span>Hallucination impossibility · 847K traces · Hill estimation</span>
+      <a class="demo feat rv rv-d1" href="https://colonel1223.github.io/CHIMERA/">
+        <h4>⬡ CHIMERA</h4>
+        <span>Hallucination impossibility · 847K traces · Hill estimation · power-law tails</span>
       </a>
-      <a class="demo reveal" href="demos/alignment-tax/index.html">
+      <a class="demo rv" href="demos/alignment-tax/index.html">
         <h4>Alignment Tax</h4>
-        <span>Safety–capability Pareto frontiers · 6 methods × 5 scales</span>
+        <span>Safety–capability Pareto frontiers · 6 methods × 5 scales · power-law fits</span>
       </a>
-      <a class="demo reveal" href="demos/conformal/index.html">
+      <a class="demo rv rv-d1" href="demos/conformal/index.html">
         <h4>Conformal Prediction</h4>
-        <span>Coverage guarantees · exchangeability · adaptive sets</span>
+        <span>Coverage guarantees · exchangeability · adaptive prediction sets</span>
       </a>
-      <a class="demo reveal" href="demos/cosmic-horror/index.html">
+      <a class="demo rv" href="demos/cosmic-horror/index.html">
         <h4>Cosmic Horror of AI</h4>
         <span>Lovecraftian ontology of incomprehensible intelligence</span>
       </a>
-      <a class="demo reveal" href="demos/cosmic-obsolescence/index.html">
+      <a class="demo rv rv-d1" href="demos/cosmic-obsolescence/index.html">
         <h4>Cosmic Obsolescence</h4>
         <span>Labor displacement under substrate-level automation</span>
       </a>
-      <a class="demo reveal" href="demos/markov/index.html">
+      <a class="demo rv" href="demos/markov/index.html">
         <h4>Markov Models</h4>
-        <span>Ergodic state dynamics · transition matrices</span>
+        <span>Ergodic dynamics · transition matrices · stationary distributions</span>
       </a>
-      <a class="demo reveal" href="demos/risk-comparison/index.html">
+      <a class="demo rv rv-d1" href="demos/risk-comparison/index.html">
         <h4>Risk Comparison</h4>
         <span>Existential risk framework · comparative analysis</span>
       </a>
-      <a class="demo reveal" href="demos/timeline/index.html">
+      <a class="demo rv" href="demos/timeline/index.html">
         <h4>AI Timeline</h4>
         <span>Capability emergence chronology · inflection points</span>
       </a>
-      <a class="demo reveal" href="demos/matrix/index.html">
+      <a class="demo rv rv-d1" href="demos/matrix/index.html">
         <h4>Matrix</h4>
         <span>Simulation substrate aesthetics</span>
       </a>
-      <a class="demo reveal" href="demos/research-hub/index.html">
+      <a class="demo rv" href="demos/research-hub/index.html">
         <h4>Research Hub</h4>
         <span>Transmutation research index · all threads</span>
       </a>
-      <a class="demo reveal" href="demos/matrix-hub/index.html">
+      <a class="demo rv rv-d1" href="demos/matrix-hub/index.html">
         <h4>Matrix Hub</h4>
         <span>Simulation interface · navigation</span>
       </a>
     </div>
   </section>
 
-  <!-- ═══ MODELS & PHILOSOPHY ═══ -->
-  <section class="reveal">
+  <!-- ════════════════════════════════════════════════════════
+       07 — MODELS & PHILOSOPHY
+       ════════════════════════════════════════════════════════ -->
+  <section class="rv">
+    <span class="sec-num">07</span>
     <div class="sec-label">07 · FRAMEWORK</div>
     <div class="sec-title">Models & Philosophy</div>
+    <div class="sec-desc">The philosophical scaffold beneath the technical work. Jung's confrontation with the unconscious. Nietzsche's revaluation. Da Vinci's union of art and science. Applied to a world building intelligence it cannot understand.</div>
 
-    <a class="card reveal" href="models/index.html">
+    <a class="card rv" href="models/index.html">
       <div class="card-top">
         <h3>Probabilistic Models</h3>
-        <span class="tag tag-d">INTERACTIVE</span>
+        <span class="tag tag-v">INTERACTIVE</span>
       </div>
-      <p>Formal probabilistic frameworks for the transmutation thesis. Bayesian reasoning about capability emergence, economic transformation models with uncertainty quantification, and the magnum opus — a unified model connecting alignment cost, hallucination rate, and economic disruption as functions of compute scale.</p>
+      <p>Formal probabilistic frameworks for the transmutation thesis. Bayesian reasoning about capability emergence with proper uncertainty quantification. Economic transformation models. The magnum opus: a unified model connecting alignment cost, hallucination rate, and economic disruption as functions of compute scale — τ(N), H(N,T), and ΔL(N) as three projections of the same underlying process.</p>
     </a>
-    <a class="card reveal" href="philosophy/index.html">
+    <a class="card rv rv-d1" href="philosophy/index.html">
       <div class="card-top">
         <h3>Philosophy</h3>
-        <span class="tag tag-d">FRAMEWORK</span>
+        <span class="tag tag-v">FRAMEWORK</span>
       </div>
-      <p>The philosophical scaffold beneath the technical work. Why alchemy is the correct metaphor. Jung's confrontation with the unconscious as prototype for humanity's confrontation with artificial intelligence. Nietzsche's revaluation of values applied to a world where the primary value — human cognitive labor — is being automated out of existence.</p>
+      <p>Why alchemy is the correct metaphor, and why it matters. Jung's confrontation with the unconscious as prototype for humanity's confrontation with artificial intelligence — the shadow made computational. Nietzsche's revaluation of values applied to a world where the primary value, human cognitive labor, is being automated. Da Vinci's synthesis of art and engineering as the model for what AI safety research should be: rigorous measurement in service of things that matter.</p>
     </a>
-    <a class="card reveal" href="infrastructure/index.html">
+    <a class="card rv rv-d2" href="infrastructure/index.html">
       <div class="card-top">
         <h3>Infrastructure</h3>
         <span class="tag tag-d">DOCS</span>
       </div>
-      <p>Technical architecture documentation. Build systems, CI/CD pipelines, deployment infrastructure, and the engineering decisions behind the research environment.</p>
+      <p>Technical architecture. Build systems, CI/CD pipelines, deployment infrastructure, GPU compute configuration, and the engineering decisions behind the research environment. The boring work that makes the interesting work possible.</p>
     </a>
   </section>
 
-  <!-- ═══ QUOTE 2 ═══ -->
-  <div class="quote reveal">
+  <!-- ════════ FINAL QUOTE — Jung ════════ -->
+  <div class="quote rv">
     <p>Until you make the unconscious conscious, it will direct your life and you will call it fate.</p>
-    <cite>— Carl Jung</cite>
+    <cite>— Carl Gustav Jung</cite>
   </div>
 
-  <!-- ═══ FOOTER ═══ -->
+  <div class="divider rv">◆</div>
+
+  <!-- ════════ FOOTER ════════ -->
   <footer>
     <span>Spencer Kitaro Cottrell · 2026</span>
     <span>
@@ -638,19 +845,127 @@ footer a:hover { color: var(--muted); border-color: var(--muted); }
       <a href="https://linkedin.com/in/spencercottrell">LinkedIn</a> ·
       <a href="contact/index.html">Contact</a>
     </span>
-    <span>Python · C · TypeScript · PyTorch · WebGL</span>
+    <span>Python · C · TypeScript · PyTorch · WebGL · GLSL</span>
   </footer>
 
 </div>
 
-<!-- ═══ Scroll Reveal ═══ -->
+<!-- ════════════════════════════════════════════════════════
+     CONSTELLATION BACKGROUND — Research Network
+     ════════════════════════════════════════════════════════ -->
 <script>
+(function() {
+  const canvas = document.getElementById('constellation');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [], mouse = { x: -1000, y: -1000 };
+  const COUNT = 60;
+  const CONNECT_DIST = 180;
+  const MOUSE_DIST = 200;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+
+  function init() {
+    resize();
+    particles = [];
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.5 + 0.5,
+        bright: Math.random() > 0.85
+      });
+    }
+    canvas.classList.add('active');
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    // connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECT_DIST) {
+          const alpha = (1 - dist / CONNECT_DIST) * 0.06;
+          ctx.strokeStyle = `rgba(148,148,170,${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // mouse connections
+    for (let i = 0; i < particles.length; i++) {
+      const dx = particles[i].x - mouse.x;
+      const dy = particles[i].y - mouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < MOUSE_DIST) {
+        const alpha = (1 - dist / MOUSE_DIST) * 0.12;
+        ctx.strokeStyle = `rgba(184,56,32,${alpha})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+      }
+    }
+
+    // particles
+    for (const p of particles) {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.bright ? 'rgba(184,56,32,0.25)' : 'rgba(148,148,170,0.12)';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  document.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; });
+
+  init();
+  draw();
+})();
+
+// Scroll reveal
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); }
   });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+// Active nav tracking
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    const top = s.offsetTop - 80;
+    if (window.scrollY >= top) current = s.getAttribute('id');
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
 </script>
 
 </body>
